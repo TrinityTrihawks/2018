@@ -102,6 +102,11 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+		
+		SmartDashboard.putNumber("Magnitude", OI.r);
+		SmartDashboard.putNumber("Direction", OI.theta);
+		SmartDashboard.putNumber("Rotation", OI.rotation);
+
 	}
 
 	/**
