@@ -112,10 +112,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
+/*
+ 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Magnitude", OI.r);
 		SmartDashboard.putNumber("Direction", OI.theta);
 		SmartDashboard.putNumber("Rotation", OI.rotation);
+ */
 	}
 
 	/**
@@ -123,5 +125,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
+		SmartDashboard.putNumber("Direction", m_oi.getTheta());
+		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
+		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 	}
 }

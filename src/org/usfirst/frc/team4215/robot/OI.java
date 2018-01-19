@@ -42,12 +42,16 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	static Joystick joystick = new Joystick(RobotMap.driveStick);
+//	Joystick joystick = new Joystick(RobotMap.driveStick);
+	Joystick joystick;
 	
-	public static double r = joystick.getMagnitude();
-	public static double theta = joystick.getDirectionRadians();
-	public static double rotation = joystick.getTwist();
+	public double getMagnitude() {  return joystick.getMagnitude(); }
+	public double getTheta() { return joystick.getDirectionRadians(); }
+	public double getRotation() { return joystick.getTwist(); }
 	
-	
+	public OI() {
+		super();
+		this.joystick = new Joystick(RobotMap.driveStick);
+	}
 
 }
