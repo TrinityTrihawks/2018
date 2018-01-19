@@ -45,9 +45,15 @@ public class OI {
 //	Joystick joystick = new Joystick(RobotMap.driveStick);
 	Joystick joystick;
 	
-	public double getMagnitude() {  return joystick.getMagnitude(); }
-	public double getTheta() { return joystick.getDirectionRadians(); }
-	public double getRotation() { return joystick.getTwist(); }
+	public double getMagnitude() {  
+		return joystick.getMagnitude(); 
+		}
+	public double getTheta() { 
+		return joystick.getDirectionRadians(); 
+		}
+	public double getRotation() { 
+		return joystick.getTwist(); 
+		}
 	
 	public OI() {
 		super();
