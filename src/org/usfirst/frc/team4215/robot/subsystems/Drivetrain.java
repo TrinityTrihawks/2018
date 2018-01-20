@@ -15,24 +15,32 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Drivetrain extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
+	private enum wheelIndex {
+		backrightwheel(0),
+		frontrightwheel(1),
+		backleftwheel(2),
+		frontleftwheel(3); 
+		
+		private int wheel;
+		private wheelIndex (int value) {
+			this.wheel = value;
+		}
+		public int getValue() {
+			return wheel;
+		}
+	}
 	
 	
+	int numberWheels = RobotMap.numberOfWheels;
 	
-	TalonSRX backrightwheel = new TalonSRX(RobotMap.talonWheel_backright);
-	TalonSRX frontrightwheel = new TalonSRX(RobotMap.talonWheel_frontright);
-	TalonSRX backleftwheel = new TalonSRX(RobotMap.talonWheel_backleft);
-	TalonSRX frontleftwheel = new TalonSRX(RobotMap.talonWheel_frontleft);
-	
-	int numberWheels = 
-	
-	
-	CANTalon[] wheels = new CANTalon[]
+	TalonSRX[] wheels = new TalonSRX[numberWheels];
 	
 	private Drivetrain() {
-		this.wheels[backrightwheel] = Wheel.Create()
-		this.wheels[frontrightwheel] = Wheel.Create()
-		this.wheels[backleftwheel] = Wheel.Create()
-		this.wheels[frontleftwheel] = Wheel.Create()
+		
+		this.wheels[wheelIndex.backrightwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backright);
+		this.wheels[wheelIndex.frontrightwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontright);
+		this.wheels[wheelIndex.backleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backleft);
+		this.wheels[wheelIndex.frontleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontleft);
 	}
 	
 	
