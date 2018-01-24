@@ -33,4 +33,7 @@ public class RobotMap {
 	public final static int talonWheel_frontleft = 3;
 	
 	public final static int numberOfWheels = 4;
+	
+	//18.875
+	public final static double wheelCircumference = 18.875; // Essentially 6*pi, however the C is a little larger in reality
 }

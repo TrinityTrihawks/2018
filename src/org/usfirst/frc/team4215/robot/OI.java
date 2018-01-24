@@ -43,7 +43,7 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 //	Joystick joystick = new Joystick(RobotMap.driveStick);
-	Joystick joystick;
+	public Joystick joystick;
 	
 	public double getMagnitude() {  
 		return joystick.getMagnitude(); 

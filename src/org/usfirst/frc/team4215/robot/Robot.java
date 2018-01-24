@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team4215.robot.commands.ExampleCommand;
+
+import org.usfirst.frc.team4215.robot.commands.teleopDrive;
 import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
 
 /**
@@ -22,8 +23,11 @@ import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
+
 public class Robot extends TimedRobot {
 	public static final Drivetrain drivetrain = new Drivetrain();
+	
+	
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
@@ -36,9 +40,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		m_chooser.addDefault("Default Auto", new ExampleCommand());
+		m_chooser.addDefault("Default Teleop", new teleopDrive());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		//SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
 	/**
@@ -48,12 +52,17 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		Scheduler.getInstance().disable();
+		drivetrain.Stop();
+		System.out.println("Disabled Init");
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		drivetrain.Stop();
+		//System.out.println("Disabled Periodic");
+
 	}
 
 	/**
@@ -103,6 +112,11 @@ public class Robot extends TimedRobot {
 		}
 		
 		
+		Scheduler.getInstance().disable();
+		drivetrain.Stop();
+		System.out.println("Teleop Init");
+
+
 
 	}
 
@@ -124,9 +138,16 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		System.out.println("Test Periodic");
+
+ 		Scheduler.getInstance().run();
+
 		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
 		SmartDashboard.putNumber("Direction", m_oi.getTheta());
 		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
+		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
 	}
+	
+	
 }
