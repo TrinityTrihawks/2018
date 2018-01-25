@@ -52,15 +52,16 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		Scheduler.getInstance().disable();
+	/*	Scheduler.getInstance().disable();
 		drivetrain.Stop();
+	*/
 		System.out.println("Disabled Init");
 	}
 
 	@Override
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
-		drivetrain.Stop();
+		//Scheduler.getInstance().run();
+		//drivetrain.Stop();
 		//System.out.println("Disabled Periodic");
 
 	}
@@ -112,8 +113,8 @@ public class Robot extends TimedRobot {
 		}
 		
 		
-		Scheduler.getInstance().disable();
-		drivetrain.Stop();
+		//Scheduler.getInstance().disable();
+		//drivetrain.Stop();
 		System.out.println("Teleop Init");
 
 
@@ -131,6 +132,16 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Direction", OI.theta);
 		SmartDashboard.putNumber("Rotation", OI.rotation);
  */
+		
+		Scheduler.getInstance().run();
+		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
+
+
+		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
+		SmartDashboard.putNumber("Direction", m_oi.getTheta());
+		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
+		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
+		System.out.println(drivetrain.power[2]);
 	}
 
 	/**

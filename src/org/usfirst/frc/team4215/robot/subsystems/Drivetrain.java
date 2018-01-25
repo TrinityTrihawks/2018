@@ -17,10 +17,10 @@ public class Drivetrain extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	private enum wheelIndex {
-		backrightwheel(0),
-		frontrightwheel(1),
-		backleftwheel(2),
-		frontleftwheel(3); 
+		backrightwheel(RobotMap.talonWheel_backright),
+		frontrightwheel(RobotMap.talonWheel_frontright),
+		backleftwheel(RobotMap.talonWheel_backleft),
+		frontleftwheel(RobotMap.talonWheel_frontleft); 
 		
 		private int wheel;
 		private wheelIndex (int value) {
@@ -50,23 +50,28 @@ public class Drivetrain extends Subsystem {
 	
 	public void Drive(double magnitude, double theta, double rotation) {
 		
+		System.out.println("Enter Drive Train");
 		
 		magnitude = magnitude * (4096/RobotMap.wheelCircumference);
 		
 		double xPower = magnitude * Math.cos(theta - (Math.PI / 4));
 		double yPower = magnitude * Math.sin(theta + (Math.PI / 4));
 		
+		//double xPower = 0.5;
+		//double yPower = 0.5;
+		
 		// TODO: We need to reevaluate rotation. It shouldnt be directly from the joystick
+		rotation = 0;
 		
-		power[wheelIndex.backrightwheel.getValue()] = xPower - rotation;
-		power[wheelIndex.frontrightwheel.getValue()] = yPower - rotation;
-		power[wheelIndex.backleftwheel.getValue()] = yPower + rotation;
-		power[wheelIndex.frontleftwheel.getValue()] = xPower + rotation;
+		power[wheelIndex.backrightwheel.getValue()] = (xPower - rotation)/175;
+		power[wheelIndex.frontrightwheel.getValue()] = (xPower - rotation)/175;
+		power[wheelIndex.backleftwheel.getValue()] = -1*(yPower + rotation)/175;
+		power[wheelIndex.frontleftwheel.getValue()] = -1*(yPower + rotation)/175;
 		
-		this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.Position, power[wheelIndex.backrightwheel.getValue()]);
-		this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.Position, power[wheelIndex.frontrightwheel.getValue()]);
-		this.wheels[wheelIndex.backleftwheel.getValue()].set(ControlMode.Position, power[wheelIndex.backleftwheel.getValue()]);
-		this.wheels[wheelIndex.frontleftwheel.getValue()].set(ControlMode.Position, power[wheelIndex.frontleftwheel.getValue()]);
+		this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backrightwheel.getValue()]);
+		this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontrightwheel.getValue()]);
+		this.wheels[wheelIndex.backleftwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backleftwheel.getValue()]);
+		this.wheels[wheelIndex.frontleftwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontleftwheel.getValue()]);
 		
 		
 		

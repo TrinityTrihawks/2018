@@ -27,10 +27,10 @@ public class RobotMap {
 	
 	public final static int driveStick = 0; // This may not be the actual value, just a framework
 	
-	public final static int talonWheel_backright = 0;
-	public final static int talonWheel_frontright = 1;
-	public final static int talonWheel_backleft = 2;
-	public final static int talonWheel_frontleft = 3;
+	public final static int talonWheel_backright = 1;
+	public final static int talonWheel_frontright = 0;
+	public final static int talonWheel_backleft = 3;
+	public final static int talonWheel_frontleft = 2;
 	
 	public final static int numberOfWheels = 4;
 	
