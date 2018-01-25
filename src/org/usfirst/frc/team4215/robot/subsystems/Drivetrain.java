@@ -48,10 +48,15 @@ public class Drivetrain extends Subsystem {
 		
 	}
 	
+	public void mecanumDrive_Polar(double magnitude, double theta, double rotation) {
+	}
+	
 	public void Drive(double magnitude, double theta, double rotation) {
 		
 		System.out.println("Enter Drive Train");
 		
+		
+		/*
 		magnitude = magnitude * (4096/RobotMap.wheelCircumference);
 		
 		double xPower = magnitude * Math.cos(theta - (Math.PI / 4));
@@ -72,7 +77,7 @@ public class Drivetrain extends Subsystem {
 		this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontrightwheel.getValue()]);
 		this.wheels[wheelIndex.backleftwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backleftwheel.getValue()]);
 		this.wheels[wheelIndex.frontleftwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontleftwheel.getValue()]);
-		
+		*/
 		
 		
 	}
