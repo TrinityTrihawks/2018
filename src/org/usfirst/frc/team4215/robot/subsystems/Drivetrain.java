@@ -64,9 +64,9 @@ public class Drivetrain extends Subsystem {
 		rotation = 0;
 		
 		power[wheelIndex.backrightwheel.getValue()] = (xPower - rotation)/175;
-		power[wheelIndex.frontrightwheel.getValue()] = (xPower - rotation)/175;
+		power[wheelIndex.frontrightwheel.getValue()] = (yPower - rotation)/175;
 		power[wheelIndex.backleftwheel.getValue()] = -1*(yPower + rotation)/175;
-		power[wheelIndex.frontleftwheel.getValue()] = -1*(yPower + rotation)/175;
+		power[wheelIndex.frontleftwheel.getValue()] = -1*(xPower + rotation)/175;
 		
 		this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backrightwheel.getValue()]);
 		this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontrightwheel.getValue()]);
