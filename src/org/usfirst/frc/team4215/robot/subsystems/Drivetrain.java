@@ -54,19 +54,19 @@ public class Drivetrain extends Subsystem {
 		
 		magnitude = magnitude * (4096/RobotMap.wheelCircumference);
 		
-		double xPower = magnitude * Math.cos(theta - (Math.PI / 4));
-		double yPower = magnitude * Math.sin(theta + (Math.PI / 4));
+		double xPower = magnitude * Math.cos(theta + (3*Math.PI / 4));
+		double yPower = magnitude * Math.sin(theta - (Math.PI / 4));
 		
 		//double xPower = 0.5;
 		//double yPower = 0.5;
 		
-		// TODO: We need to reevaluate rotation. It shouldnt be directly from the joystick
+		// TODO: We need to reevaluate rotation. It shouldn't be directly from the joystick
 		rotation = 0;
 		
-		power[wheelIndex.backrightwheel.getValue()] = (xPower - rotation)/175;
-		power[wheelIndex.frontrightwheel.getValue()] = (yPower - rotation)/175;
-		power[wheelIndex.backleftwheel.getValue()] = -1*(yPower + rotation)/175;
-		power[wheelIndex.frontleftwheel.getValue()] = -1*(xPower + rotation)/175;
+		power[wheelIndex.backrightwheel.getValue()] = -1*(xPower - rotation)/200;
+		power[wheelIndex.frontrightwheel.getValue()] = -1*(yPower - rotation)/200;
+		power[wheelIndex.backleftwheel.getValue()] = (yPower + rotation)/200;
+		power[wheelIndex.frontleftwheel.getValue()] = (xPower + rotation)/200;
 		
 		this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backrightwheel.getValue()]);
 		this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontrightwheel.getValue()]);

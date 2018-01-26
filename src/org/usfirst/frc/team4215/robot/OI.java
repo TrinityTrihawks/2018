@@ -54,6 +54,9 @@ public class OI {
 	public double getRotation() { 
 		return joystick.getTwist(); 
 		}
+	public double getSlider() {
+		return joystick.getRawAxis(3);
+	}
 	
 	public OI() {
 		super();

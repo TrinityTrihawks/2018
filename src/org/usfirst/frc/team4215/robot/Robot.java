@@ -140,6 +140,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
 		SmartDashboard.putNumber("Direction", m_oi.getTheta());
 		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
+		SmartDashboard.putNumber("Slider", m_oi.getSlider());
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		System.out.println(drivetrain.power[2]);
 	}
