@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team4215.robot;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -31,6 +33,9 @@ public class RobotMap {
 	public final static int talonWheel_frontright = 0;
 	public final static int talonWheel_backleft = 3;
 	public final static int talonWheel_frontleft = 2;
+	
+	//Gyro
+	public final static AnalogInput gyroChannel = 0;
 	
 	public final static int numberOfWheels = 4;
 	

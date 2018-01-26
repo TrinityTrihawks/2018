@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4215.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -44,6 +45,7 @@ public class OI {
 	
 //	Joystick joystick = new Joystick(RobotMap.driveStick);
 	public Joystick joystick;
+	public AnalogGyro gyro;
 	
 	public double getMagnitude() {  
 		return joystick.getMagnitude(); 
@@ -51,16 +53,24 @@ public class OI {
 	public double getTheta() { 
 		return joystick.getDirectionRadians(); 
 		}
-	public double getRotation() { 
+	public double getRotation() {
 		return joystick.getTwist(); 
 		}
 	public double getSlider() {
 		return joystick.getRawAxis(3);
 	}
 	
+	public double getGyroAngle(){
+		return gyro.getAngle() ;	
+	}
+	
 	public OI() {
 		super();
 		this.joystick = new Joystick(RobotMap.driveStick);
+	
+	   this.gyro = new AnalogGyro(RobotMap.gyroChannel); 
+	   gyro.initGyro();
+	   
 	}
 
 }

@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4215.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -25,13 +26,16 @@ import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
  */
 
 public class Robot extends TimedRobot {
-	public static final Drivetrain drivetrain = new Drivetrain();
 	
+	public static final Drivetrain drivetrain = new Drivetrain();
 	
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	
+	
+
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -43,6 +47,8 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Default Teleop", new teleopDrive());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
+		
+	
 	}
 
 	/**
@@ -157,6 +163,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
 		SmartDashboard.putNumber("Direction", m_oi.getTheta());
 		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
+		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
+		
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
 	}
