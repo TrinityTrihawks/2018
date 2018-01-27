@@ -7,7 +7,10 @@
 
 package org.usfirst.frc.team4215.robot;
 
+import org.usfirst.frc.team4215.robot.commands.NotDefaultCommand;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -44,6 +47,7 @@ public class OI {
 	
 //	Joystick joystick = new Joystick(RobotMap.driveStick);
 	public Joystick joystick;
+	public JoystickButton sampleButton;
 	
 	public double getMagnitude() {  
 		return joystick.getMagnitude(); 
@@ -62,6 +66,9 @@ public class OI {
 	public OI() {
 		super();
 		this.joystick = new Joystick(RobotMap.driveStick);
+		this.sampleButton = new JoystickButton(joystick, 1);
+		
+		sampleButton.whenPressed(new NotDefaultCommand());
 	}
 
 }
