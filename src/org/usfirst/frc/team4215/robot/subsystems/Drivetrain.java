@@ -48,7 +48,7 @@ public class Drivetrain extends Subsystem {
 		
 	}
 	
-	public void Drive(double magnitude, double theta, double rotation) {
+	public void Drive(double magnitude, double theta, double rotation, double slider_power) {
 		
 		System.out.println("Enter Drive Train");
 		
@@ -63,10 +63,10 @@ public class Drivetrain extends Subsystem {
 		// TODO: We need to reevaluate rotation. It shouldn't be directly from the joystick
 		rotation = 0;
 		
-		power[wheelIndex.backrightwheel.getValue()] = -1*(xPower - rotation)/200;
-		power[wheelIndex.frontrightwheel.getValue()] = -1*((yPower - rotation)*.66)/200;
-		power[wheelIndex.backleftwheel.getValue()] = (yPower + rotation)/200;
-		power[wheelIndex.frontleftwheel.getValue()] = ((xPower + rotation)*.66)/200;
+		power[wheelIndex.backrightwheel.getValue()] = slider_power*(-1*(xPower - rotation))/100;
+		power[wheelIndex.frontrightwheel.getValue()] = slider_power*(-1*((yPower - rotation))*.66)/100;
+		power[wheelIndex.backleftwheel.getValue()] = slider_power*(yPower + rotation)/100;
+		power[wheelIndex.frontleftwheel.getValue()] = slider_power*((xPower + rotation)*.66)/100;
 		
 		this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backrightwheel.getValue()]);
 		this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontrightwheel.getValue()]);
@@ -78,7 +78,7 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void Stop() {
-		Drive(0,0,0);
+		Drive(0,0,0,0);
 	}
 	
 	

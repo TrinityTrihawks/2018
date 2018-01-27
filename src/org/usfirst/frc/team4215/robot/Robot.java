@@ -126,12 +126,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-/*
- 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("Magnitude", OI.r);
-		SmartDashboard.putNumber("Direction", OI.theta);
-		SmartDashboard.putNumber("Rotation", OI.rotation);
- */
 		
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
