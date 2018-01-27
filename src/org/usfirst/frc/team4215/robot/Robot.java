@@ -40,7 +40,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		m_chooser.addDefault("Default Teleop", new teleopDrive());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
 	}
@@ -55,6 +54,8 @@ public class Robot extends TimedRobot {
 	/*	Scheduler.getInstance().disable();
 		drivetrain.Stop();
 	*/
+		
+		Scheduler.getInstance().removeAll();
 		System.out.println("Disabled Init");
 	}
 
@@ -111,7 +112,8 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
-		
+		m_chooser.addDefault("Default Teleop", new teleopDrive());
+
 		
 		//Scheduler.getInstance().disable();
 		//drivetrain.Stop();
