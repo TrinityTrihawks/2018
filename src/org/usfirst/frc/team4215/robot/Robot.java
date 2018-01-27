@@ -50,7 +50,16 @@ public class Robot extends TimedRobot {
 		
 	
 	}
-
+	@Override
+	public void robotPeriodic() {
+		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
+		SmartDashboard.putNumber("Direction", m_oi.getTheta());
+		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
+		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
+		
+		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
+		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
+	}
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
@@ -140,6 +149,8 @@ public class Robot extends TimedRobot {
  */
 		
 		Scheduler.getInstance().run();
+		
+		/*
 		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
 
 
@@ -147,8 +158,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Direction", m_oi.getTheta());
 		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
 		SmartDashboard.putNumber("Slider", m_oi.getSlider());
+		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
+
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		System.out.println(drivetrain.power[2]);
+		*/
 	}
 
 	/**
@@ -158,7 +172,8 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 		System.out.println("Test Periodic");
 
- 		Scheduler.getInstance().run();
+ 		//Scheduler.getInstance().run();
+ 		/*
 
 		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
 		SmartDashboard.putNumber("Direction", m_oi.getTheta());
@@ -167,6 +182,7 @@ public class Robot extends TimedRobot {
 		
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
+		*/
 	}
 	
 	
