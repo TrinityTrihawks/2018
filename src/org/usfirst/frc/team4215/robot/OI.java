@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team4215.robot;
 
+import org.usfirst.frc.team4215.robot.subsystems.UltrasonicReader;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -44,6 +46,7 @@ public class OI {
 	
 //	Joystick joystick = new Joystick(RobotMap.driveStick);
 	public Joystick joystick;
+	public UltrasonicReader ultrasonic;
 	
 	public double getMagnitude() {  
 		return joystick.getMagnitude(); 
@@ -59,9 +62,14 @@ public class OI {
 		return SliderVal;
 	}
 	
+	public double getUltrasonicDistance() {
+		return ultrasonic.getDistance();
+	}
+	
 	public OI() {
 		super();
 		this.joystick = new Joystick(RobotMap.driveStick);
+		this.ultrasonic = UltrasonicReader.Create(RobotMap.ultrasonicPortName);
 	}
 
 }

@@ -159,6 +159,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
+		
+		SmartDashboard.putNumber("Ultrasonic Value", m_oi.getUltrasonicDistance());
 	}
 	
 	
