@@ -55,7 +55,8 @@ public class OI {
 		return joystick.getTwist(); 
 		}
 	public double getSlider() {
-		return joystick.getRawAxis(3);
+		double SliderVal = (joystick.getRawAxis(3)+1)/2;
+		return SliderVal;
 	}
 	
 	public OI() {
