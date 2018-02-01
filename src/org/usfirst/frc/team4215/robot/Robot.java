@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4215.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -25,13 +26,16 @@ import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
  */
 
 public class Robot extends TimedRobot {
-	public static final Drivetrain drivetrain = new Drivetrain();
 	
+	public static final Drivetrain drivetrain = new Drivetrain();
 	
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	
+	
+
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -42,8 +46,19 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
+		
+	
 	}
-
+	@Override
+	public void robotPeriodic() {
+		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
+		SmartDashboard.putNumber("Direction", m_oi.getTheta());
+		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
+		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
+		
+		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
+		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
+	}
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
@@ -130,6 +145,8 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		
 		Scheduler.getInstance().run();
+		
+		/*
 		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
 
 
@@ -137,8 +154,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Direction", m_oi.getTheta());
 		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
 		SmartDashboard.putNumber("Slider", m_oi.getSlider());
+		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
+
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		System.out.println(drivetrain.power[2]);
+		*/
 	}
 
 	/**
@@ -148,13 +168,17 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 		System.out.println("Test Periodic");
 
- 		Scheduler.getInstance().run();
+ 		//Scheduler.getInstance().run();
+ 		/*
 
 		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
 		SmartDashboard.putNumber("Direction", m_oi.getTheta());
 		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
+		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
+		
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
+		*/
 	}
 	
 	
