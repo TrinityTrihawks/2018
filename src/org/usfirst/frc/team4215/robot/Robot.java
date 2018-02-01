@@ -55,23 +55,29 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Direction", m_oi.getTheta());
 		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
 		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
+		SmartDashboard.putNumber("Slider", m_oi.getSlider());
 		
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
-		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
+		//SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
 	}
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
 	 */
+	int k = 0;
 	@Override
 	public void disabledInit() {
 	/*	Scheduler.getInstance().disable();
 		drivetrain.Stop();
 	*/
 		
-		Scheduler.getInstance().removeAll();
+		//Scheduler.getInstance().removeAll();
 		System.out.println("Disabled Init");
+		k ++;
+		if(k == 2) {
+			Scheduler.getInstance().disable();
+		}
 	}
 
 	@Override
@@ -134,8 +140,6 @@ public class Robot extends TimedRobot {
 		//drivetrain.Stop();
 		System.out.println("Teleop Init");
 
-
-
 	}
 
 	/**
@@ -146,19 +150,7 @@ public class Robot extends TimedRobot {
 		
 		Scheduler.getInstance().run();
 		
-		/*
-		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
-
-
-		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
-		SmartDashboard.putNumber("Direction", m_oi.getTheta());
-		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
-		SmartDashboard.putNumber("Slider", m_oi.getSlider());
-		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
-
-		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
-		System.out.println(drivetrain.power[2]);
-		*/
+		
 	}
 
 	/**
@@ -168,17 +160,6 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 		System.out.println("Test Periodic");
 
- 		//Scheduler.getInstance().run();
- 		/*
-
-		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
-		SmartDashboard.putNumber("Direction", m_oi.getTheta());
-		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
-		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
-		
-		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
-		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
-		*/
 	}
 	
 	
