@@ -46,6 +46,10 @@ public class Drivetrain extends Subsystem {
 		this.wheels[wheelIndex.backleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backleft);
 		this.wheels[wheelIndex.frontleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontleft);
 		
+		this.wheels[wheelIndex.backleftwheel.getValue()].setInverted(true);
+		this.wheels[wheelIndex.frontleftwheel.getValue()].setInverted(true);
+		
+		
 	}
 	
 	public void Drive(double magnitude, double theta, double rotation, double slider_power) {
@@ -54,19 +58,19 @@ public class Drivetrain extends Subsystem {
 		
 		magnitude = magnitude * (4096/RobotMap.wheelCircumference);
 		
-		double xPower = magnitude * Math.cos(theta + (3*Math.PI / 4));
-		double yPower = magnitude * Math.sin(theta - (Math.PI / 4));
+		double xPower = magnitude * Math.cos(theta + (3*Math.PI / 4))/100;
+		double yPower = magnitude * Math.sin(theta - (Math.PI / 4))/100;
 		
 		//double xPower = 0.5;
 		//double yPower = 0.5;
 		
 		// TODO: We need to reevaluate rotation. It shouldn't be directly from the joystick
-		rotation = 0;
 		
-		power[wheelIndex.backrightwheel.getValue()] = slider_power*(-1*(xPower - rotation))/100;
-		power[wheelIndex.frontrightwheel.getValue()] = slider_power*(-1*((yPower - rotation))*.66)/100;
-		power[wheelIndex.backleftwheel.getValue()] = slider_power*(yPower + rotation)/100;
-		power[wheelIndex.frontleftwheel.getValue()] = slider_power*((xPower + rotation)*.66)/100;
+		
+		power[wheelIndex.backrightwheel.getValue()] = slider_power*(xPower + rotation);
+		power[wheelIndex.frontrightwheel.getValue()] = slider_power*((yPower + rotation)*.66);
+		power[wheelIndex.backleftwheel.getValue()] = slider_power*(yPower - rotation);
+		power[wheelIndex.frontleftwheel.getValue()] = slider_power*((xPower - rotation)*.66);
 		
 		this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backrightwheel.getValue()]);
 		this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontrightwheel.getValue()]);
