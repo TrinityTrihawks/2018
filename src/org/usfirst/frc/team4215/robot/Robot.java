@@ -8,6 +8,11 @@
 package org.usfirst.frc.team4215.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.cscore.AxisCamera;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -27,7 +32,18 @@ import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
 
 public class Robot extends TimedRobot {
 	
+
+	NetworkTableEntry entry;
+	
 	public static final Drivetrain drivetrain = new Drivetrain();
+	
+	/*
+	AxisCamera cameraBack ;
+	AxisCamera cameraFront ;
+	*/
+	
+	final int IMG_WIDTH = 320;
+	final int IMG_HEIGHT = 240;
 	
 	public static OI m_oi;
 
@@ -48,6 +64,23 @@ public class Robot extends TimedRobot {
 		//SmartDashboard.putData("Auto mode", m_chooser);
 		
 	
+		
+		NetworkTableInstance inst = NetworkTableInstance.getDefault();
+		NetworkTable table = inst.getTable("datatable");
+		entry = table.getEntry("X");
+		System.out.println("Created Network Table entry 'X'");
+		
+		cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
+		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		 System.out.println("Back camera initialized properly");
+		 // Creates the interface to the back camera
+
+		 
+		 			 
+		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
+		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		 System.out.println("Front camera initialized properly");
+		 
 	}
 	@Override
 	public void robotPeriodic() {
@@ -151,6 +184,21 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		
 		
+		/*
+		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
+
+
+		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
+		SmartDashboard.putNumber("Direction", m_oi.getTheta());
+		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
+		SmartDashboard.putNumber("Slider", m_oi.getSlider());
+		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
+
+		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
+		System.out.println(drivetrain.power[2]);
+		*/
+		
+		SmartDashboard.putNumber("X", entry.getDouble(0));
 	}
 
 	/**
