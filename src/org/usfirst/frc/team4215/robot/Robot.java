@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
 	
 	public static OI m_oi;
 
+	//for choosing autonomous mode (right, left, middle)
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	
@@ -66,7 +67,7 @@ public class Robot extends TimedRobot {
 		//SmartDashboard.putData("Auto mode", m_chooser);
 		
 	
-		
+		//sets up NetworkTable on robot side
 		NetworkTableInstance inst = NetworkTableInstance.getDefault();
 		NetworkTable table = inst.getTable("datatable");
 		entry = table.getEntry("X");
@@ -186,24 +187,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		
 		Scheduler.getInstance().run();
-		
-		
-		
-		
-		/*
-		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
-
-
-		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
-		SmartDashboard.putNumber("Direction", m_oi.getTheta());
-		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
-		SmartDashboard.putNumber("Slider", m_oi.getSlider());
-		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
-
-		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
-		System.out.println(drivetrain.power[2]);
-		*/
-		
 	}
 
 	/**

@@ -10,12 +10,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- * An example subsystem.  You can replace me with your own Subsystem.
- */
+
 public class Drivetrain extends Subsystem {
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
+	
+	//the port numbers of each of the wheels
+	//also used as the index for the wheels array
 	private enum wheelIndex {
 		backrightwheel(RobotMap.talonWheel_backright),
 		frontrightwheel(RobotMap.talonWheel_frontright),
@@ -34,20 +33,21 @@ public class Drivetrain extends Subsystem {
 	
 	int numberWheels = RobotMap.numberOfWheels;
 	
+	//stores all the TalonSRX wheel objects
 	TalonSRX[] wheels = new TalonSRX[numberWheels];
 	
+	//power values for each wheel
 	public double [] power = new double [4];
 	
 	public Drivetrain() {
 		
-		
+		//instantiates TalonSRX objects 
 		this.wheels[wheelIndex.backrightwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backright);
 		this.wheels[wheelIndex.frontrightwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontright);
 		this.wheels[wheelIndex.backleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backleft);
 		this.wheels[wheelIndex.frontleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontleft);
 		
-		//this.wheels[wheelIndex.backleftwheel.getValue()].setInverted(true);
-		//this.wheels[wheelIndex.frontleftwheel.getValue()].setInverted(true);
+		//inverts back right and front right wheels
 		this.wheels[wheelIndex.backrightwheel.getValue()].setInverted(true);
 		this.wheels[wheelIndex.frontrightwheel.getValue()].setInverted(true);
 		
@@ -62,18 +62,14 @@ public class Drivetrain extends Subsystem {
 		
 		double xPower = magnitude * Math.cos(theta + (3*Math.PI / 4))/100;
 		double yPower = magnitude * Math.sin(theta - (Math.PI / 4))/100;
-		
-		//double xPower = 0.5;
-		//double yPower = 0.5;
-		
-		// TODO: We need to reevaluate rotation. It shouldn't be directly from the joystick
-		
-		
+				
+		//takes values from above doubles and corresponds them with each wheel 
 		power[wheelIndex.backrightwheel.getValue()] = slider_power*(xPower - rotation);
 		power[wheelIndex.frontrightwheel.getValue()] = slider_power*((yPower - rotation)*.66);
 		power[wheelIndex.backleftwheel.getValue()] = slider_power*(yPower + rotation);
 		power[wheelIndex.frontleftwheel.getValue()] = slider_power*((xPower + rotation)*.66);
 		
+		//sets power to all the wheels
 		this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backrightwheel.getValue()]);
 		this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontrightwheel.getValue()]);
 		this.wheels[wheelIndex.backleftwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backleftwheel.getValue()]);

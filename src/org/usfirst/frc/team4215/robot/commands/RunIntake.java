@@ -30,6 +30,7 @@ public class RunIntake extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	
+    	//as soon as button is released i.e. false value, then end command
     	if (Robot.m_oi.getIntakeButtonValue() == false) {
     		return true;
     	} else {

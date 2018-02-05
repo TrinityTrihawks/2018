@@ -47,7 +47,6 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-//	Joystick joystick = new Joystick(RobotMap.driveStick);
 	public Joystick joystick;
 	public AnalogGyro gyro;
 	public JoystickButton sampleButton;
@@ -77,14 +76,18 @@ public class OI {
 	
 	public OI() {
 		super();
+		//instantiates joystick and intake button
 		this.joystick = new Joystick(RobotMap.driveStick);
 		this.intakeButton = new JoystickButton(joystick, RobotMap.intakeButton);
 	
+		//instantiates the gyro
 	   this.gyro = new AnalogGyro(RobotMap.gyroChannel); 
 	   gyro.initGyro();
 	   
-		this.sampleButton = new JoystickButton(joystick, 2);
+		//instantiates the sample button 
+	   this.sampleButton = new JoystickButton(joystick, 2);
 		
+	    //starts a new command based on input 
 		sampleButton.whenPressed(new NotDefaultCommand());
 		intakeButton.whileHeld(new RunIntake());
 	}
