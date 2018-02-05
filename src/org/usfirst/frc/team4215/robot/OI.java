@@ -9,6 +9,7 @@ package org.usfirst.frc.team4215.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import org.usfirst.frc.team4215.robot.commands.NotDefaultCommand;
+import org.usfirst.frc.team4215.robot.commands.RunIntake;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -50,6 +51,7 @@ public class OI {
 	public Joystick joystick;
 	public AnalogGyro gyro;
 	public JoystickButton sampleButton;
+	public JoystickButton intakeButton;
 	
 	public double getMagnitude() {  
 		return joystick.getMagnitude(); 
@@ -69,16 +71,22 @@ public class OI {
 		return gyro.getAngle() ;	
 	}
 	
+	public boolean getIntakeButtonValue() {
+		return joystick.getRawButton(RobotMap.intakeButton);
+	}
+	
 	public OI() {
 		super();
 		this.joystick = new Joystick(RobotMap.driveStick);
+		this.intakeButton = new JoystickButton(joystick, RobotMap.intakeButton);
 	
 	   this.gyro = new AnalogGyro(RobotMap.gyroChannel); 
 	   gyro.initGyro();
 	   
-		this.sampleButton = new JoystickButton(joystick, 1);
+		this.sampleButton = new JoystickButton(joystick, 2);
 		
 		sampleButton.whenPressed(new NotDefaultCommand());
+		intakeButton.whileHeld(new RunIntake());
 	}
 
 }

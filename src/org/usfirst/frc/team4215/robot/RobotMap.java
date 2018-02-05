@@ -34,6 +34,9 @@ public class RobotMap {
 	public final static int talonWheel_backleft = 3;
 	public final static int talonWheel_frontleft = 2;
 	
+	public final static int intakeVictor = 1; //This may not be the actual value
+	public final static int intakeButton = 1;
+	
 	//Gyro
 	public final static int gyroChannel = 0;
 	

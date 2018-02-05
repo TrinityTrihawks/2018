@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4215.robot.commands.teleopDrive;
 import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team4215.robot.subsystems.Intake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,11 +37,12 @@ public class Robot extends TimedRobot {
 	NetworkTableEntry entry;
 	
 	public static final Drivetrain drivetrain = new Drivetrain();
+	public static final Intake intake = new Intake();
 	
-	/*
+	
 	AxisCamera cameraBack ;
 	AxisCamera cameraFront ;
-	*/
+	
 	
 	final int IMG_WIDTH = 320;
 	final int IMG_HEIGHT = 240;
@@ -92,6 +94,8 @@ public class Robot extends TimedRobot {
 		
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		//SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
+		SmartDashboard.putNumber("X", entry.getDouble(0));
+
 	}
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
@@ -184,6 +188,8 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		
 		
+		
+		
 		/*
 		SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
 
@@ -198,7 +204,6 @@ public class Robot extends TimedRobot {
 		System.out.println(drivetrain.power[2]);
 		*/
 		
-		SmartDashboard.putNumber("X", entry.getDouble(0));
 	}
 
 	/**
