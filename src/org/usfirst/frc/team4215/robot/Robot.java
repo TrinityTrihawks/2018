@@ -13,6 +13,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -151,6 +152,19 @@ public class Robot extends TimedRobot {
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
+			String gameData;
+			gameData = DriverStation.getInstance().getGameSpecificMessage();
+			for(int i = 0;i < 3; i++) {
+			if(gameData.charAt(i) == 'L')
+			{
+					System.out.println("Left Detected");
+			} 
+			else if(gameData.charAt(i) == 'R') {
+					System.out.print("Right Detected");
+			} else {
+					System.out.println("No FMS input detected");
+			}
+		}
 		}
 	}
 
