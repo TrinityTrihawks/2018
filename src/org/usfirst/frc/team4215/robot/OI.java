@@ -48,16 +48,30 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	public Joystick joystick;
+	public Joystick adjutantJoystick;
 	public AnalogGyro gyro;
 	public JoystickButton sampleButton;
 	public JoystickButton intakeButton;
 	
+	/**
+	 * Magnitude from the drive Joystick
+	 * @return Magnitude
+	 */
 	public double getMagnitude() {  
 		return joystick.getMagnitude(); 
 		}
+	/**
+	 * Theta value from the drive Joystick
+	 * @return Theta
+	 */
 	public double getTheta() { 
 		return joystick.getDirectionRadians(); 
 		}
+	/**
+	 * Rotation value from the drive Joystick
+	 * @return Rotations
+	 * {-1 to 1}
+	 */
 	public double getRotation() {
 		return joystick.getTwist(); 
 		}
@@ -74,11 +88,18 @@ public class OI {
 		return joystick.getRawButton(RobotMap.intakeButton);
 	}
 	
+	public double getliftPower() {
+		return adjutantJoystick.getMagnitude();
+	}
+	
 	public OI() {
 		super();
 		//instantiates joystick and intake button
 		this.joystick = new Joystick(RobotMap.driveStick);
 		this.intakeButton = new JoystickButton(joystick, RobotMap.intakeButton);
+		
+		this.adjutantJoystick = new Joystick(RobotMap.adjutantJoystick);
+
 	
 		//instantiates the gyro
 	   this.gyro = new AnalogGyro(RobotMap.gyroChannel); 

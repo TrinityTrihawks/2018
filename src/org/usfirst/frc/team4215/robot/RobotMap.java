@@ -37,6 +37,11 @@ public class RobotMap {
 	public final static int intakeVictor = 1; //This may not be the actual value
 	public final static int intakeButton = 1;
 	
+	public final static int adjutantJoystick = 1;
+	
+	public final static int liftvictorOne = 2; //Probably not real
+	public final static int liftvictorTwo = 3;
+	
 	//Gyro
 	public final static int gyroChannel = 0;
 	

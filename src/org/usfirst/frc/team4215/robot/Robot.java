@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4215.robot.commands.teleopDrive;
 import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4215.robot.subsystems.Intake;
+import org.usfirst.frc.team4215.robot.subsystems.Lift;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
 	
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final Intake intake = new Intake();
+	public static final Lift lift = new Lift();
 	
 	
 	AxisCamera cameraBack ;
