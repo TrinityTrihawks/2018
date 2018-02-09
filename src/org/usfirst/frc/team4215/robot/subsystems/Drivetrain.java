@@ -78,7 +78,30 @@ public class Drivetrain extends Subsystem {
 		
 		
 	}
-	
+	public void DriveAutonomous(double magnitude, double theta, double rotation) {
+			
+			System.out.println("Entering Drive Autonomous");
+			
+			magnitude = magnitude * (4096/RobotMap.wheelCircumference);
+			
+			double xPower = magnitude * Math.cos(theta + (3*Math.PI / 4));
+			double yPower = magnitude * Math.sin(theta - (Math.PI / 4));
+					
+			//takes values from above doubles and corresponds them with each wheel 
+			power[wheelIndex.backrightwheel.getValue()] = (xPower - rotation);
+			power[wheelIndex.frontrightwheel.getValue()] = ((yPower - rotation)*.66);
+			power[wheelIndex.backleftwheel.getValue()] = (yPower + rotation);
+			power[wheelIndex.frontleftwheel.getValue()] = ((xPower + rotation)*.66);
+			
+			//sets power to all the wheels
+			this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.Position, power[wheelIndex.backrightwheel.getValue()]);
+			this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.Position, power[wheelIndex.frontrightwheel.getValue()]);
+			this.wheels[wheelIndex.backleftwheel.getValue()].set(ControlMode.Position, power[wheelIndex.backleftwheel.getValue()]);
+			this.wheels[wheelIndex.frontleftwheel.getValue()].set(ControlMode.Position, power[wheelIndex.frontleftwheel.getValue()]);
+			
+		
+		
+	}
 	public void Stop() {
 		Drive(0,0,0,0);
 	}
