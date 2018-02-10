@@ -86,6 +86,8 @@ public class Robot extends TimedRobot {
 		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		 System.out.println("Front camera initialized properly");
 		 
+		 SmartDashboard.getKeys(2);
+		 
 	}
 	@Override
 	public void robotPeriodic() {
