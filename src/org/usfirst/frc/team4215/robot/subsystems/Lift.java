@@ -21,8 +21,8 @@ public class Lift extends Subsystem {
 	public Lift() {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	victor1 = new Victor(RobotMap.liftvictorOne); 
-	victor2 = new Victor(RobotMap.liftvictorTwo); 
+	victor1 = new Victor(RobotMap.liftvictorOne);
+	victor2 = new Victor(RobotMap.liftvictorTwo);
 	}
 	/**
 	 * 
