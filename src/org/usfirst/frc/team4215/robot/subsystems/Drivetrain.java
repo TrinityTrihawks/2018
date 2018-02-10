@@ -53,7 +53,13 @@ public class Drivetrain extends Subsystem {
 		
 		
 	}
-	
+	/**
+	 * Dives the robot
+	 * @param magnitude
+	 * @param theta
+	 * @param rotation
+	 * @param slider_power
+	 */
 	public void Drive(double magnitude, double theta, double rotation, double slider_power) {
 		
 		System.out.println("Enter Drive Train");

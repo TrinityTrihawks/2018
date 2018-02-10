@@ -11,6 +11,9 @@ public class Intake extends Subsystem {
 	
 	private double intakePower = .5;
 	
+	/**
+	 * 
+	 */
 	public Intake() {
 		intake = new Victor(RobotMap.intakeVictor);
 	}

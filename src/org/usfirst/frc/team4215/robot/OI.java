@@ -75,19 +75,33 @@ public class OI {
 	public double getRotation() {
 		return joystick.getTwist(); 
 		}
+	/**
+	 * Slider value from the drive Joystick
+	 * @return Slider
+	 * {0 to 1}
+	 */
 	public double getSlider() {
 		double SliderVal = (joystick.getRawAxis(3)+1)/2;
 		return SliderVal;
 	}
-	
+	/**
+	 *  Gyro value from the gyro
+	 * @return Gyro Angle
+	 */
 	public double getGyroAngle(){
 		return gyro.getAngle() ;	
 	}
-	
+	/**
+	 * intakeButton value from the drive Joystick
+	 * @return True or False
+	 */
 	public boolean getIntakeButtonValue() {
 		return joystick.getRawButton(RobotMap.intakeButton);
 	}
-	
+	/**
+	 * Magnitude value from adjutant Joystick
+	 * @return adjutant Magnitude
+	 */
 	public double getliftPower() {
 		return adjutantJoystick.getMagnitude();
 	}
