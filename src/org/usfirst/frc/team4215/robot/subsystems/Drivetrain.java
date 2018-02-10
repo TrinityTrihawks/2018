@@ -55,6 +55,13 @@ public class Drivetrain extends Subsystem {
 		
 		
 	}
+	/**
+	 * Driving in Teleop
+	 * @param magnitude
+	 * @param theta
+	 * @param rotation
+	 * @param slider_power
+	 */
 	
 	public void Drive(double magnitude, double theta, double rotation, double slider_power) {
 		
@@ -84,6 +91,12 @@ public class Drivetrain extends Subsystem {
 		}
 		
 	}
+	/**
+	 * Driving in Autonomous
+	 * @param distance
+	 * @param theta
+	 * @param rotation
+	 */
 	public void DriveAutonomous(double distance, double theta, double rotation) {
 			
 		System.out.println("Entering Drive Autonomous");
