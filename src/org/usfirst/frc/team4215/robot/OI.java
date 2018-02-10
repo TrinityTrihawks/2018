@@ -105,6 +105,10 @@ public class OI {
 	public double getliftPower() {
 		return adjutantJoystick.getMagnitude();
 	}
+	public boolean getLiftButtonValue() {
+		return adjutantJoystick.getRawButton(RobotMap.lifttoggleButton);
+	}
+	
 	
 	public OI() {
 		super();

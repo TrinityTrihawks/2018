@@ -49,4 +49,6 @@ public class RobotMap {
 	
 	//18.875
 	public final static double wheelCircumference = 18.875; // Essentially 6*pi, however the C is a little larger in reality
+
+	public final static int lifttoggleButton = 1;
 }

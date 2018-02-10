@@ -1,8 +1,8 @@
 package org.usfirst.frc.team4215.robot.subsystems;
 
+import org.usfirst.frc.team4215.robot.Robot;
 import org.usfirst.frc.team4215.robot.RobotMap;
-
-import com.sun.glass.ui.Robot;
+import org.usfirst.frc.team4215.robot.commands.runLift;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -15,9 +15,10 @@ public class Lift extends Subsystem {
 	Victor victor1;
 	Victor victor2;
 	
+	int reverse;
 	
 	
-	public Lift( ) {
+	public Lift() {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	victor1 = new Victor(RobotMap.liftvictorOne); 
@@ -26,16 +27,22 @@ public class Lift extends Subsystem {
 	/**
 	 * 
 	 */
-	public setLiftOn(){
-		victor1.set(Robot.m_oi.getLiftPower);
-	}
-	public setLiftOff() {
-		victor2.set();
+	public void lift(double magnitude, boolean toggle){
+		if (toggle == true){
+			reverse = -1;
+		} else{
+			reverse = 1;
+		}
+		
+		magnitude = magnitude/5;
+		
+		victor1.set(reverse*magnitude);
+		victor2.set(reverse*magnitude);
 	}
 	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        
+        setDefaultCommand(new runLift());
     }
 }
 
