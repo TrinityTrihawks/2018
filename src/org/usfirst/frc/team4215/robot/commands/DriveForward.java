@@ -14,18 +14,23 @@ public class DriveForward extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+    	Robot.drivetrain.DriveAutonomous(1, 90, 0); //Magic Numbers
+    	System.out.println("Initializing Drive Forward Command");
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.DriveAutonomous(1, 90, 0); //Magic Numbers
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return false;
-   
+    	  if (Robot.drivetrain.voltageSum == 0) {
+    		  System.out.println("DriveForward Command is finished");
+    		  return true;
+    	  } else {
+    		 return false; 
+    	  }
     }
 
     // Called once after isFinished returns true

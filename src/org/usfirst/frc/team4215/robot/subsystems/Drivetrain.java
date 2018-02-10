@@ -39,6 +39,8 @@ public class Drivetrain extends Subsystem {
 	//power values for each wheel
 	public double [] power = new double [4];
 	
+	public double voltageSum;
+	
 	public Drivetrain() {
 		
 		//instantiates TalonSRX objects 
@@ -75,37 +77,44 @@ public class Drivetrain extends Subsystem {
 		this.wheels[wheelIndex.backleftwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backleftwheel.getValue()]);
 		this.wheels[wheelIndex.frontleftwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontleftwheel.getValue()]);
 		
-		
-		
-	}
-	public void DriveAutonomous(double magnitude, double theta, double rotation) {
+		voltageSum = 0;
+		for(int i=0; i < numberWheels; i++) {
+			voltageSum += Math.abs(wheels[i].getBusVoltage());
 			
-			System.out.println("Entering Drive Autonomous");
-			
-			magnitude = magnitude * (4096/RobotMap.wheelCircumference);
-			
-			double xPower = magnitude * Math.cos(theta + (3*Math.PI / 4));
-			double yPower = magnitude * Math.sin(theta - (Math.PI / 4));
-					
-			//takes values from above doubles and corresponds them with each wheel 
-			power[wheelIndex.backrightwheel.getValue()] = (xPower - rotation);
-			power[wheelIndex.frontrightwheel.getValue()] = ((yPower - rotation)*.66);
-			power[wheelIndex.backleftwheel.getValue()] = (yPower + rotation);
-			power[wheelIndex.frontleftwheel.getValue()] = ((xPower + rotation)*.66);
-			
-			//sets power to all the wheels
-			this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.Position, power[wheelIndex.backrightwheel.getValue()]);
-			this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.Position, power[wheelIndex.frontrightwheel.getValue()]);
-			this.wheels[wheelIndex.backleftwheel.getValue()].set(ControlMode.Position, power[wheelIndex.backleftwheel.getValue()]);
-			this.wheels[wheelIndex.frontleftwheel.getValue()].set(ControlMode.Position, power[wheelIndex.frontleftwheel.getValue()]);
-			
-		
+		}
 		
 	}
+	public void DriveAutonomous(double distance, double theta, double rotation) {
+			
+		System.out.println("Entering Drive Autonomous");
+		
+		distance = distance * 4096;
+		
+		double xPower = distance * Math.cos(theta + (3*Math.PI / 4));
+		double yPower = distance * Math.sin(theta - (Math.PI / 4));
+				
+		//takes values from above doubles and corresponds them with each wheel 
+		power[wheelIndex.backrightwheel.getValue()] = (xPower - rotation);
+		power[wheelIndex.frontrightwheel.getValue()] = ((yPower - rotation)*.66);
+		power[wheelIndex.backleftwheel.getValue()] = (yPower + rotation);
+		power[wheelIndex.frontleftwheel.getValue()] = ((xPower + rotation)*.66);
+		
+		//sets power to all the wheels
+		this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.Position, power[wheelIndex.backrightwheel.getValue()]);
+		this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.Position, power[wheelIndex.frontrightwheel.getValue()]);
+		this.wheels[wheelIndex.backleftwheel.getValue()].set(ControlMode.Position, power[wheelIndex.backleftwheel.getValue()]);
+		this.wheels[wheelIndex.frontleftwheel.getValue()].set(ControlMode.Position, power[wheelIndex.frontleftwheel.getValue()]);
+		
+		voltageSum = 0;
+		for(int i=0; i < numberWheels; i++) {
+			voltageSum += Math.abs(wheels[i].getBusVoltage());	
+		}
+		
+	}
+	
 	public void Stop() {
 		Drive(0,0,0,0);
 	}
-	
 	
 
 	public void initDefaultCommand() {
