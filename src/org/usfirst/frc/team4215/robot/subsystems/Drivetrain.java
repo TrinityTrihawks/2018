@@ -58,10 +58,10 @@ public class Drivetrain extends Subsystem {
 		
 		System.out.println("Enter Drive Train");
 		
-		magnitude = magnitude * (4096/RobotMap.wheelCircumference);
+		//magnitude = magnitude * (4096/RobotMap.wheelCircumference);
 		
-		double xPower = magnitude * Math.cos(theta + (3*Math.PI / 4))/100;
-		double yPower = magnitude * Math.sin(theta - (Math.PI / 4))/100;
+		double xPower = magnitude * Math.cos(theta + (3*Math.PI / 4));
+		double yPower = magnitude * Math.sin(theta - (Math.PI / 4));
 		
 		//double xPower = 0.5;
 		//double yPower = 0.5;
