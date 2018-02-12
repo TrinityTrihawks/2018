@@ -34,6 +34,16 @@ import org.usfirst.frc.team4215.robot.subsystems.Lift;
 
 public class Robot extends TimedRobot {
 	
+	/*
+	public enum robotPosition {
+		Left,
+		Middle,
+		Right,
+	}
+	*/
+
+	String robotPosition;
+	String robotPlan;
 
 	NetworkTableEntry entry;
 	
@@ -154,6 +164,40 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
+		
+		if(robotPosition == "Left") {
+			if(robotPlan == "DriveForward") {
+				
+			} else if(robotPlan == "DeadReckoningTurn") {
+				
+			} else {
+				
+			}
+			
+		} else if (robotPosition == "Right") {
+			if(robotPlan == "DriveForward") {
+				
+			} else if(robotPlan == "DeadReckoningTurn") {
+				
+			} else {
+				
+			}
+			
+		} else { 
+			if(robotPlan == "DriveForwardLeft") {
+				
+			}
+			else if(robotPlan == "DriveForwardRight") {
+				
+			} else if(robotPlan == "VisionLeft") {
+				
+			} else {
+				
+			}
+		}
+			
+		
+		
 	}
 
 	/**
