@@ -61,6 +61,10 @@ public class Robot extends TimedRobot {
 		
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		//SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
+		
+		for (int k = 0; k<4; k++) {
+			SmartDashboard.putNumber("power" + k, drivetrain.power[k]);
+		}
 	}
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
