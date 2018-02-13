@@ -46,10 +46,10 @@ public class Drivetrain extends Subsystem {
 		this.wheels[wheelIndex.backleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backleft);
 		this.wheels[wheelIndex.frontleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontleft);
 		
-		//this.wheels[wheelIndex.backleftwheel.getValue()].setInverted(true);
-		//this.wheels[wheelIndex.frontleftwheel.getValue()].setInverted(true);
-		this.wheels[wheelIndex.backrightwheel.getValue()].setInverted(true);
-		this.wheels[wheelIndex.frontrightwheel.getValue()].setInverted(true);
+		this.wheels[wheelIndex.backleftwheel.getValue()].setInverted(true);
+		this.wheels[wheelIndex.frontleftwheel.getValue()].setInverted(true);
+		//this.wheels[wheelIndex.backrightwheel.getValue()].setInverted(true);
+		//this.wheels[wheelIndex.frontrightwheel.getValue()].setInverted(true);
 		
 		
 	}
@@ -70,9 +70,9 @@ public class Drivetrain extends Subsystem {
 		
 		
 		power[wheelIndex.backrightwheel.getValue()] = slider_power*(xPower - rotation);
-		power[wheelIndex.frontrightwheel.getValue()] = slider_power*((yPower - rotation)*.66);
+		power[wheelIndex.frontrightwheel.getValue()] = slider_power*((yPower - rotation));
 		power[wheelIndex.backleftwheel.getValue()] = slider_power*(yPower + rotation);
-		power[wheelIndex.frontleftwheel.getValue()] = slider_power*((xPower + rotation)*.66);
+		power[wheelIndex.frontleftwheel.getValue()] = slider_power*((xPower + rotation));
 		
 		this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backrightwheel.getValue()]);
 		this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontrightwheel.getValue()]);

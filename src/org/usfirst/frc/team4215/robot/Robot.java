@@ -47,6 +47,8 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
 		
+		m_oi.gyro.calibrate();
+		
 	
 	}
 	@Override
@@ -74,10 +76,6 @@ public class Robot extends TimedRobot {
 		
 		//Scheduler.getInstance().removeAll();
 		System.out.println("Disabled Init");
-		k ++;
-		if(k == 2) {
-			Scheduler.getInstance().disable();
-		}
 	}
 
 	@Override
