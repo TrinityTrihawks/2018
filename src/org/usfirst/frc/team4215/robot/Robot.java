@@ -7,7 +7,6 @@
 
 package org.usfirst.frc.team4215.robot;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.cscore.AxisCamera;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -34,13 +33,12 @@ import org.usfirst.frc.team4215.robot.subsystems.Lift;
 
 public class Robot extends TimedRobot {
 	
-	/*
-	public enum robotPosition {
+	enum RobotPositions {
 		Left,
-		Middle,
 		Right,
+		Middle,
 	}
-	*/
+	
 
 	String robotPosition;
 	String robotPlan;
@@ -65,6 +63,9 @@ public class Robot extends TimedRobot {
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	
+	RobotPositions robotPos;
+	SendableChooser<RobotPositions> posChooser = new SendableChooser<>();
+	
 	
 
 
@@ -75,6 +76,17 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
+		
+		
+		
+		//m_chooser.addDefault("Cross Auto Line", new DriveForward());
+		
+		
+		posChooser.addDefault("Middle", RobotPositions.Middle);
+		posChooser.addObject("Left", RobotPositions.Left);
+		posChooser.addObject("Right", RobotPositions.Right);
+		
+		
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
 		
@@ -152,6 +164,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
+		robotPos = posChooser.getSelected();
+		
+		System.out.println("Robot Position: " + robotPos);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
