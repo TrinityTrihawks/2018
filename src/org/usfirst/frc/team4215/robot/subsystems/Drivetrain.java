@@ -81,12 +81,19 @@ public class Drivetrain extends Subsystem {
 		this.wheels[wheelIndex.backleftwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backleftwheel.getValue()]);
 		this.wheels[wheelIndex.frontleftwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontleftwheel.getValue()]);
 		
-		
+		logTalonBusVoltages();
 		
 	}
 	
 	public void Stop() {
 		Drive(0,0,0,0);
+	}
+	
+	public void logTalonBusVoltages() {
+		System.out.println("Back right: "+ this.wheels[wheelIndex.backrightwheel.getValue()].getBusVoltage());
+		System.out.println("Front right: "+ this.wheels[wheelIndex.frontrightwheel.getValue()].getBusVoltage());
+		System.out.println("Back left: "+ this.wheels[wheelIndex.backleftwheel.getValue()].getBusVoltage());
+		System.out.println("Front left: "+ this.wheels[wheelIndex.frontleftwheel.getValue()].getBusVoltage());
 	}
 	
 	
