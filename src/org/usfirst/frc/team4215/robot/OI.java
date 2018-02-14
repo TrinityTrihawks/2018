@@ -55,14 +55,20 @@ public class OI {
 	
 	protected Boolean applyCorrectedPolarCoordinates = true;
 	protected Boolean applySlider = true;
-
+	private final double TWOPI = Math.PI * 2; 
+	
 	/**
 	 * Magnitude from the drive Joystick
 	 * @return Magnitude
 	 */
-	public double getMagnitude() {  
-		return joystick.getMagnitude(); 
+	public double getMagnitude() {
+		if (this.applySlider) {
+			return joystick.getMagnitude() * this.getSlider(); 
+			
 		}
+		
+		return joystick.getMagnitude(); 
+	}
 	
 	/**
 	 * Theta value from the drive Joystick
@@ -74,10 +80,10 @@ public class OI {
 
 		if (applyCorrectedPolarCoordinates) {
 			if (theta < 0) {
-				theta = Math.abs(theta) + Math.PI;
+				theta = TWOPI - Math.abs(theta);
 			}
 			
-			
+			theta += (Math.PI / 2);
 		}
 		
 		return theta; 

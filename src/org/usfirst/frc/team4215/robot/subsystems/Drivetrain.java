@@ -1,35 +1,33 @@
 package org.usfirst.frc.team4215.robot.subsystems;
 
-
-
 import org.usfirst.frc.team4215.robot.RobotMap;
 import org.usfirst.frc.team4215.robot.commands.teleopDrive;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
 public class Drivetrain extends Subsystem {
+
+	private final double QUARTERPI = Math.PI / 4;
 	
 	//the port numbers of each of the wheels
 	//also used as the index for the wheels array
-	private enum wheelIndex {
+	private enum WheelIndex {
 		backrightwheel(RobotMap.talonWheel_backright),
 		frontrightwheel(RobotMap.talonWheel_frontright),
 		backleftwheel(RobotMap.talonWheel_backleft),
 		frontleftwheel(RobotMap.talonWheel_frontleft); 
 		
-		private int wheel;
-		private wheelIndex (int value) {
-			this.wheel = value;
+		private int wheelID;
+		private WheelIndex (int value) {
+			this.wheelID = value;
 		}
+
 		public int getValue() {
-			return wheel;
+			return wheelID;
 		}
 	}
-	
 	
 	int numberWheels = RobotMap.numberOfWheels;
 	
@@ -42,62 +40,50 @@ public class Drivetrain extends Subsystem {
 	public Drivetrain() {
 		
 		//instantiates TalonSRX objects 
-		this.wheels[wheelIndex.backrightwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backright);
-		this.wheels[wheelIndex.frontrightwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontright);
-		this.wheels[wheelIndex.backleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backleft);
-		this.wheels[wheelIndex.frontleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontleft);
+		this.wheels[WheelIndex.backrightwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backright);
+		this.wheels[WheelIndex.frontrightwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontright);
+		this.wheels[WheelIndex.backleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backleft);
+		this.wheels[WheelIndex.frontleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontleft);
 		
 		//inverts back right and front right wheels
-		this.wheels[wheelIndex.backrightwheel.getValue()].setInverted(true);
-		this.wheels[wheelIndex.frontrightwheel.getValue()].setInverted(true);
-		
-		
+		this.wheels[WheelIndex.backrightwheel.getValue()].setInverted(true);
+		this.wheels[WheelIndex.frontrightwheel.getValue()].setInverted(true);
 	}
+	
 	/**
-	 * Dives the robot
+	 * Drives the robot
 	 * @param magnitude
 	 * @param theta
 	 * @param rotation
 	 * @param slider_power
 	 */
-	public void Drive(double magnitude, double theta, double rotation, double slider_power) {
+	public void Drive(double magnitude, double theta, double rotation) {
 		
 		System.out.println("Enter Drive Train");
-		
 		magnitude = magnitude * (4096/RobotMap.wheelCircumference);
 		
-		double xPower = magnitude * Math.cos(theta + (3*Math.PI / 4))/100;
-		double yPower = magnitude * Math.sin(theta - (Math.PI / 4))/100;
-				
-		//takes values from above doubles and corresponds them with each wheel 
-		power[wheelIndex.backrightwheel.getValue()] = slider_power*(xPower - rotation);
-		power[wheelIndex.frontrightwheel.getValue()] = slider_power*((yPower - rotation)*.66);
-		power[wheelIndex.backleftwheel.getValue()] = slider_power*(yPower + rotation);
-		power[wheelIndex.frontleftwheel.getValue()] = slider_power*((xPower + rotation)*.66);
-		
+		double xPower = magnitude * Math.cos(theta + QUARTERPI)/100;
+		double yPower = magnitude * Math.sin(theta - QUARTERPI)/100;
+						
 		//sets power to all the wheels
-		this.wheels[wheelIndex.backrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backrightwheel.getValue()]);
-		this.wheels[wheelIndex.frontrightwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontrightwheel.getValue()]);
-		this.wheels[wheelIndex.backleftwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.backleftwheel.getValue()]);
-		this.wheels[wheelIndex.frontleftwheel.getValue()].set(ControlMode.PercentOutput, power[wheelIndex.frontleftwheel.getValue()]);
+		this.wheels[WheelIndex.backrightwheel.getValue()].set(ControlMode.PercentOutput, (xPower - rotation));
+		this.wheels[WheelIndex.frontrightwheel.getValue()].set(ControlMode.PercentOutput, (yPower - rotation));
+		this.wheels[WheelIndex.backleftwheel.getValue()].set(ControlMode.PercentOutput, (yPower + rotation));
+		this.wheels[WheelIndex.frontleftwheel.getValue()].set(ControlMode.PercentOutput, (xPower + rotation));
 		
 		logTalonBusVoltages();
-		
 	}
 	
 	public void Stop() {
-		Drive(0,0,0,0);
+		this.Drive(0,0,0);
 	}
 	
 	public void logTalonBusVoltages() {
-		System.out.println("Back right: "+ this.wheels[wheelIndex.backrightwheel.getValue()].getBusVoltage());
-		System.out.println("Front right: "+ this.wheels[wheelIndex.frontrightwheel.getValue()].getBusVoltage());
-		System.out.println("Back left: "+ this.wheels[wheelIndex.backleftwheel.getValue()].getBusVoltage());
-		System.out.println("Front left: "+ this.wheels[wheelIndex.frontleftwheel.getValue()].getBusVoltage());
+		for (WheelIndex w : WheelIndex.values()) {
+			System.out.println(w.toString() + ": " + this.wheels[w.getValue()].getBusVoltage());
+		}
 	}
 	
-	
-
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		setDefaultCommand(new teleopDrive());
