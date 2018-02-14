@@ -48,37 +48,76 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	public Joystick joystick;
+	public Joystick adjutantJoystick;
 	public AnalogGyro gyro;
 	public JoystickButton sampleButton;
 	public JoystickButton intakeButton;
 	
+	/**
+	 * Magnitude from the drive Joystick
+	 * @return Magnitude
+	 */
 	public double getMagnitude() {  
 		return joystick.getMagnitude(); 
 		}
+	/**
+	 * Theta value from the drive Joystick
+	 * @return Theta
+	 */
 	public double getTheta() { 
 		return joystick.getDirectionRadians(); 
 		}
+	/**
+	 * Rotation value from the drive Joystick
+	 * @return Rotations
+	 * {-1 to 1}
+	 */
 	public double getRotation() {
 		return joystick.getTwist(); 
 		}
+	/**
+	 * Slider value from the drive Joystick
+	 * @return Slider
+	 * {0 to 1}
+	 */
 	public double getSlider() {
 		double SliderVal = (joystick.getRawAxis(3)+1)/2;
 		return SliderVal;
 	}
-	
+	/**
+	 *  Gyro value from the gyro
+	 * @return Gyro Angle
+	 */
 	public double getGyroAngle(){
 		return gyro.getAngle() ;	
 	}
-	
+	/**
+	 * intakeButton value from the drive Joystick
+	 * @return True or False
+	 */
 	public boolean getIntakeButtonValue() {
 		return joystick.getRawButton(RobotMap.intakeButton);
 	}
+	/**
+	 * Magnitude value from adjutant Joystick
+	 * @return adjutant Magnitude
+	 */
+	public double getliftPower() {
+		return adjutantJoystick.getMagnitude();
+	}
+	public boolean getLiftButtonValue() {
+		return adjutantJoystick.getRawButton(RobotMap.lifttoggleButton);
+	}
+	
 	
 	public OI() {
 		super();
 		//instantiates joystick and intake button
 		this.joystick = new Joystick(RobotMap.driveStick);
 		this.intakeButton = new JoystickButton(joystick, RobotMap.intakeButton);
+		
+		this.adjutantJoystick = new Joystick(RobotMap.adjutantJoystick);
+
 	
 		//instantiates the gyro
 	   this.gyro = new AnalogGyro(RobotMap.gyroChannel); 

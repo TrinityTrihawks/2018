@@ -7,7 +7,6 @@
 
 package org.usfirst.frc.team4215.robot;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.cscore.AxisCamera;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -22,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4215.robot.commands.teleopDrive;
 import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4215.robot.subsystems.Intake;
+import org.usfirst.frc.team4215.robot.subsystems.Lift;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,11 +33,21 @@ import org.usfirst.frc.team4215.robot.subsystems.Intake;
 
 public class Robot extends TimedRobot {
 	
+	enum RobotPositions {
+		Left,
+		Right,
+		Middle,
+	}
+	
+
+	String robotPosition;
+	String robotPlan;
 
 	NetworkTableEntry entry;
 	
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final Intake intake = new Intake();
+	public static final Lift lift = new Lift();
 	
 	
 	AxisCamera cameraBack ;
@@ -53,6 +63,9 @@ public class Robot extends TimedRobot {
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	
+	RobotPositions robotPos;
+	SendableChooser<RobotPositions> posChooser = new SendableChooser<>();
+	
 	
 
 
@@ -63,6 +76,17 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
+		
+		
+		
+		//m_chooser.addDefault("Cross Auto Line", new DriveForward());
+		
+		
+		posChooser.addDefault("Middle", RobotPositions.Middle);
+		posChooser.addObject("Left", RobotPositions.Left);
+		posChooser.addObject("Right", RobotPositions.Right);
+		
+		
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
 		
@@ -140,6 +164,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
+		robotPos = posChooser.getSelected();
+		
+		System.out.println("Robot Position: " + robotPos);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -152,6 +179,40 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
+		
+		if(robotPosition == "Left") {
+			if(robotPlan == "DriveForward") {
+				
+			} else if(robotPlan == "DeadReckoningTurn") {
+				
+			} else {
+				
+			}
+			
+		} else if (robotPosition == "Right") {
+			if(robotPlan == "DriveForward") {
+				
+			} else if(robotPlan == "DeadReckoningTurn") {
+				
+			} else {
+				
+			}
+			
+		} else { 
+			if(robotPlan == "DriveForwardLeft") {
+				
+			}
+			else if(robotPlan == "DriveForwardRight") {
+				
+			} else if(robotPlan == "VisionLeft") {
+				
+			} else {
+				
+			}
+		}
+			
+		
+		
 	}
 
 	/**
