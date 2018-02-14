@@ -1,5 +1,12 @@
+
+# Gradle
+# ------
 .gradle
-/build/
+/build
+/buildSrc/build
+/subprojects/*/build
+/subprojects/docs/src/samples/*/*/build
+/subprojects/internal-android-performance-testing/build-android-libs
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -13,3 +20,19 @@ gradle-app.setting
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
 /bin/
+*.prefs
+
+# Eclipse
+# -------
+*.classpath
+*.project
+*.settings
+/bin
+/subprojects/*/bin
+atlassian-ide-plugin.xml
+.metadata/
+
+# macOS
+# ----
+.DS_Store
+*.prefs

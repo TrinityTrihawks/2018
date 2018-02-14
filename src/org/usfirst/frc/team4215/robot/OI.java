@@ -47,12 +47,15 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	public Joystick joystick;
-	public Joystick adjutantJoystick;
-	public AnalogGyro gyro;
-	public JoystickButton sampleButton;
-	public JoystickButton intakeButton;
+	protected Joystick joystick;
+	protected Joystick adjutantJoystick;
+	protected AnalogGyro gyro;
+	protected JoystickButton sampleButton;
+	protected JoystickButton intakeButton;
 	
+	protected Boolean applyCorrectedPolarCoordinates = true;
+	protected Boolean applySlider = true;
+
 	/**
 	 * Magnitude from the drive Joystick
 	 * @return Magnitude
@@ -60,13 +63,26 @@ public class OI {
 	public double getMagnitude() {  
 		return joystick.getMagnitude(); 
 		}
+	
 	/**
 	 * Theta value from the drive Joystick
 	 * @return Theta
 	 */
 	public double getTheta() { 
-		return joystick.getDirectionRadians(); 
+		
+		double theta = joystick.getDirectionRadians();
+
+		if (applyCorrectedPolarCoordinates) {
+			if (theta < 0) {
+				theta = Math.abs(theta) + Math.PI;
+			}
+			
+			
 		}
+		
+		return theta; 
+	}
+
 	/**
 	 * Rotation value from the drive Joystick
 	 * @return Rotations
@@ -75,6 +91,7 @@ public class OI {
 	public double getRotation() {
 		return joystick.getTwist(); 
 		}
+	
 	/**
 	 * Slider value from the drive Joystick
 	 * @return Slider
@@ -84,6 +101,7 @@ public class OI {
 		double SliderVal = (joystick.getRawAxis(3)+1)/2;
 		return SliderVal;
 	}
+	
 	/**
 	 *  Gyro value from the gyro
 	 * @return Gyro Angle
@@ -91,6 +109,7 @@ public class OI {
 	public double getGyroAngle(){
 		return gyro.getAngle() ;	
 	}
+	
 	/**
 	 * intakeButton value from the drive Joystick
 	 * @return True or False
@@ -98,6 +117,7 @@ public class OI {
 	public boolean getIntakeButtonValue() {
 		return joystick.getRawButton(RobotMap.intakeButton);
 	}
+	
 	/**
 	 * Magnitude value from adjutant Joystick
 	 * @return adjutant Magnitude
@@ -105,10 +125,10 @@ public class OI {
 	public double getliftPower() {
 		return adjutantJoystick.getMagnitude();
 	}
+	
 	public boolean getLiftButtonValue() {
 		return adjutantJoystick.getRawButton(RobotMap.lifttoggleButton);
 	}
-	
 	
 	public OI() {
 		super();
@@ -129,6 +149,34 @@ public class OI {
 	    //starts a new command based on input 
 		sampleButton.whenPressed(new NotDefaultCommand());
 		intakeButton.whileHeld(new RunIntake());
+	}
+
+	/**
+	 * @return the applyCorrectedPolarCoordinates
+	 */
+	public Boolean getApplyCorrectedPolarCoordinates() {
+		return applyCorrectedPolarCoordinates;
+	}
+
+	/**
+	 * @param applyCorrectedPolarCoordinates the applyCorrectedPolarCoordinates to set
+	 */
+	public void setApplyCorrectedPolarCoordinates(Boolean applyCorrectedPolarCoordinates) {
+		this.applyCorrectedPolarCoordinates = applyCorrectedPolarCoordinates;
+	}
+
+	/**
+	 * @return the applySlider
+	 */
+	public Boolean getApplySlider() {
+		return applySlider;
+	}
+
+	/**
+	 * @param applySlider the applySlider to set
+	 */
+	public void setApplySlider(Boolean applySlider) {
+		this.applySlider = applySlider;
 	}
 
 }
