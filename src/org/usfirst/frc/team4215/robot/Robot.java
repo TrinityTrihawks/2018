@@ -96,14 +96,7 @@ public class Robot extends TimedRobot {
 		NetworkTable table = inst.getTable("datatable");
 		entry = table.getEntry("X");
 		System.out.println("Created Network Table entry 'X'");
-		
-		cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
-		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		 System.out.println("Back camera initialized properly");
-		 // Creates the interface to the back camera
-
-		 
-		 			 
+	
 		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		 System.out.println("Front camera initialized properly");
