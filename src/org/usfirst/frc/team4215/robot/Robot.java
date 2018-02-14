@@ -33,26 +33,23 @@ import org.usfirst.frc.team4215.robot.subsystems.Lift;
 
 public class Robot extends TimedRobot {
 	
-	enum RobotPositions {
+	public enum RobotPositions {
 		Left,
 		Right,
 		Middle,
 	}
-	
 
 	String robotPosition;
 	String robotPlan;
 
 	NetworkTableEntry entry;
 	
-	public static final Drivetrain drivetrain = new Drivetrain();
-	public static final Intake intake = new Intake();
-	public static final Lift lift = new Lift();
-	
-	
+	public Drivetrain drivetrain = new Drivetrain();
+//	public static final Intake intake = new Intake();
+//	public static final Lift lift = new Lift();
+		
 	AxisCamera cameraBack ;
 	AxisCamera cameraFront ;
-	
 	
 	final int IMG_WIDTH = 320;
 	final int IMG_HEIGHT = 240;
@@ -65,9 +62,6 @@ public class Robot extends TimedRobot {
 	
 	RobotPositions robotPos;
 	SendableChooser<RobotPositions> posChooser = new SendableChooser<>();
-	
-	
-
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -77,19 +71,14 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		
-		
-		
 		//m_chooser.addDefault("Cross Auto Line", new DriveForward());
-		
-		
+
 		posChooser.addDefault("Middle", RobotPositions.Middle);
 		posChooser.addObject("Left", RobotPositions.Left);
 		posChooser.addObject("Right", RobotPositions.Right);
-		
-		
+				
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
-		
 	
 		//sets up NetworkTable on robot side
 		NetworkTableInstance inst = NetworkTableInstance.getDefault();
@@ -101,8 +90,6 @@ public class Robot extends TimedRobot {
 		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		 System.out.println("Back camera initialized properly");
 		 // Creates the interface to the back camera
-
-		 
 		 			 
 		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
@@ -120,8 +107,8 @@ public class Robot extends TimedRobot {
 		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		//SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
 		SmartDashboard.putNumber("X", entry.getDouble(0));
-
 	}
+	
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when

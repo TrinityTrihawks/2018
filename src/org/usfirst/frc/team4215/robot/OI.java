@@ -55,6 +55,7 @@ public class OI {
 	
 	protected Boolean applyCorrectedPolarCoordinates = true;
 	protected Boolean applySlider = true;
+
 	private final double TWOPI = Math.PI * 2; 
 	
 	/**
@@ -64,7 +65,6 @@ public class OI {
 	public double getMagnitude() {
 		if (this.applySlider) {
 			return joystick.getMagnitude() * this.getSlider(); 
-			
 		}
 		
 		return joystick.getMagnitude(); 
@@ -78,7 +78,7 @@ public class OI {
 		
 		double theta = joystick.getDirectionRadians();
 
-		if (applyCorrectedPolarCoordinates) {
+		if (this.applyCorrectedPolarCoordinates) {
 			if (theta < 0) {
 				theta = TWOPI - Math.abs(theta);
 			}

@@ -17,13 +17,13 @@ public class Lift extends Subsystem {
 	
 	int reverse;
 	
-	
 	public Lift() {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	victor1 = new Victor(RobotMap.liftvictorOne);
 	victor2 = new Victor(RobotMap.liftvictorTwo);
 	}
+	
 	/**
 	 * 
 	 */
@@ -41,7 +41,6 @@ public class Lift extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-        
         setDefaultCommand(new runLift());
     }
 }

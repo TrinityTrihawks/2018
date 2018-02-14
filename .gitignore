@@ -1,7 +1,6 @@
-.classpath
-.gradle
-.metadata/
-.settings
+.gradle/**
+.metadata/**
+.settings/**
 bin/**
 build/**
 .DS_Store

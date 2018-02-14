@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Drivetrain extends Subsystem {
 
 	private final double QUARTERPI = Math.PI / 4;
+	//private final int NUMBER_WHEELS = 4;
 	
 	//the port numbers of each of the wheels
 	//also used as the index for the wheels array
@@ -20,8 +21,15 @@ public class Drivetrain extends Subsystem {
 		frontleftwheel(RobotMap.talonWheel_frontleft); 
 		
 		private int wheelID;
+		private TalonSRX wheel;
+		
 		private WheelIndex (int value) {
 			this.wheelID = value;
+			this.wheelID = new TalonSRX(value);
+		}
+
+		public int getWheel() {
+			return wheelID;
 		}
 
 		public int getValue() {
@@ -29,25 +37,25 @@ public class Drivetrain extends Subsystem {
 		}
 	}
 	
-	int numberWheels = RobotMap.numberOfWheels;
+	//int numberWheels = RobotMap.numberOfWheels;
 	
 	//stores all the TalonSRX wheel objects
-	TalonSRX[] wheels = new TalonSRX[numberWheels];
-	
-	//power values for each wheel
-	public double [] power = new double [4];
-	
+	//TalonSRX[] wheels = new TalonSRX[NUMBER_WHEELS];
+		
 	public Drivetrain() {
 		
 		//instantiates TalonSRX objects 
-		this.wheels[WheelIndex.backrightwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backright);
+/*
+ 		this.wheels[WheelIndex.backrightwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backright);
 		this.wheels[WheelIndex.frontrightwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontright);
 		this.wheels[WheelIndex.backleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_backleft);
 		this.wheels[WheelIndex.frontleftwheel.getValue()] = new TalonSRX(RobotMap.talonWheel_frontleft);
-		
 		//inverts back right and front right wheels
 		this.wheels[WheelIndex.backrightwheel.getValue()].setInverted(true);
 		this.wheels[WheelIndex.frontrightwheel.getValue()].setInverted(true);
+*/		
+		WheelIndex.backrightwheel.getWheel().setInverted(true);
+		WheelIndex.frontrightwheel.getWhee().setInverted(true);
 	}
 	
 	/**
@@ -66,10 +74,16 @@ public class Drivetrain extends Subsystem {
 		double yPower = magnitude * Math.sin(theta - QUARTERPI)/100;
 						
 		//sets power to all the wheels
+		/*
 		this.wheels[WheelIndex.backrightwheel.getValue()].set(ControlMode.PercentOutput, (xPower - rotation));
 		this.wheels[WheelIndex.frontrightwheel.getValue()].set(ControlMode.PercentOutput, (yPower - rotation));
 		this.wheels[WheelIndex.backleftwheel.getValue()].set(ControlMode.PercentOutput, (yPower + rotation));
 		this.wheels[WheelIndex.frontleftwheel.getValue()].set(ControlMode.PercentOutput, (xPower + rotation));
+		*/
+		WheelIndex.backrightwheel.getWheel().set(ControlMode.PercentOutput, (xPower - rotation));
+		WheelIndex.frontrightwheel.getWheel().set(ControlMode.PercentOutput, (yPower - rotation));
+		WheelIndex.backleftwheel.getWheel().set(ControlMode.PercentOutput, (yPower + rotation));
+		WheelIndex.frontleftwheel.getWheel().set(ControlMode.PercentOutput, (xPower + rotation));
 		
 		logTalonBusVoltages();
 	}
