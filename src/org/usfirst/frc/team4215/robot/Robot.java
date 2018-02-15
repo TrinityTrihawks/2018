@@ -65,6 +65,8 @@ public class Robot extends TimedRobot {
 		for (int k = 0; k<4; k++) {
 			SmartDashboard.putNumber("power" + k, drivetrain.power[k]);
 		}
+		drivetrain.logTalonBusVoltages();
+		drivetrain.TalonOutputVoltage();
 	}
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
