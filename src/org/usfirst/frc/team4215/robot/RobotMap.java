@@ -7,8 +7,6 @@
 
 package org.usfirst.frc.team4215.robot;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -26,30 +24,30 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 	
-	
+	// operator
 	public final static int driveStick = 0; 
+	public final static int adjutantJoystick = 1;
 	
+	// drivetrain subsystem
 	public final static int talonWheel_backright = 1;
 	public final static int talonWheel_frontright = 2;
 	public final static int talonWheel_backleft = 0;
 	public final static int talonWheel_frontleft = 3;
+	public final static double talonWheel_wheelCircumference = 18.875; // Essentially 6*pi, however the C is a little larger in reality
 	
+	// intake subsystem
 	public final static int intakeVictor1 = 3;
 	public final static int intakeVictor2 = 4;
 	public final static int intakeButton = 1;
+	public final static double intakeDefaultPower = .5;
 	
-	public final static int adjutantJoystick = 1;
-	
+	// lift subsystem
+	public final static int lifttoggleButton = 1;
 	public final static int liftvictorOne = 3;
 	public final static int liftvictorTwo = 4;
 	
 	//Gyro
 	public final static int gyroChannel = 0;
-	
-	public final static int numberOfWheels = 4;
-	
-	//18.875
-	public final static double wheelCircumference = 18.875; // Essentially 6*pi, however the C is a little larger in reality
+		
 
-	public final static int lifttoggleButton = 1;
 }

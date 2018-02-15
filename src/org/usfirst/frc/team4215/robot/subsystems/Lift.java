@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4215.robot.subsystems;
 
-import org.usfirst.frc.team4215.robot.Robot;
 import org.usfirst.frc.team4215.robot.RobotMap;
 import org.usfirst.frc.team4215.robot.commands.runLift;
 
@@ -18,10 +17,8 @@ public class Lift extends Subsystem {
 	int reverse;
 	
 	public Lift() {
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-	victor1 = new Victor(RobotMap.liftvictorOne);
-	victor2 = new Victor(RobotMap.liftvictorTwo);
+		this.victor1 = new Victor(RobotMap.liftvictorOne);
+		this.victor2 = new Victor(RobotMap.liftvictorTwo);
 	}
 	
 	/**
@@ -36,8 +33,8 @@ public class Lift extends Subsystem {
 		
 		magnitude = magnitude/5;
 		
-		victor1.set(reverse*magnitude);
-		victor2.set(reverse*magnitude);
+		this.victor1.set(reverse*magnitude);
+		this.victor2.set(reverse*magnitude);
 	}
 	
     public void initDefaultCommand() {

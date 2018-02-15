@@ -44,9 +44,10 @@ public class Robot extends TimedRobot {
 
 	NetworkTableEntry entry;
 	
-	public Drivetrain drivetrain = new Drivetrain();
-//	public static final Intake intake = new Intake();
-//	public static final Lift lift = new Lift();
+	public static Drivetrain drivetrain = new Drivetrain();
+	public static Intake intake = new Intake();
+	public static Lift lift = new Lift();
+	public static OI operator = new OI();
 		
 	AxisCamera cameraBack ;
 	AxisCamera cameraFront ;
@@ -54,7 +55,7 @@ public class Robot extends TimedRobot {
 	final int IMG_WIDTH = 320;
 	final int IMG_HEIGHT = 240;
 	
-	public static OI m_oi;
+;
 
 	//for choosing autonomous mode (right, left, middle)
 	Command m_autonomousCommand;
@@ -69,7 +70,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		m_oi = new OI();
 		
 		//m_chooser.addDefault("Cross Auto Line", new DriveForward());
 
@@ -98,13 +98,13 @@ public class Robot extends TimedRobot {
 	}
 	@Override
 	public void robotPeriodic() {
-		SmartDashboard.putNumber("Magnitude", m_oi.getMagnitude());
-		SmartDashboard.putNumber("Direction", m_oi.getTheta());
-		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
-		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
-		SmartDashboard.putNumber("Slider", m_oi.getSlider());
+		SmartDashboard.putNumber("Magnitude", operator.getMagnitude());
+		SmartDashboard.putNumber("Direction", operator.getTheta());
+		SmartDashboard.putNumber("Rotation", operator.getRotation());
+		SmartDashboard.putNumber("Gyro Angle", operator.getGyroAngle());
+		SmartDashboard.putNumber("Slider", operator.getSlider());
 		
-		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
+		System.out.println(operator.getMagnitude() + "   " + operator.getTheta() + "    " + operator.getRotation());
 		//SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
 		SmartDashboard.putNumber("X", entry.getDouble(0));
 	}
@@ -114,27 +114,14 @@ public class Robot extends TimedRobot {
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
 	 */
-	int k = 0;
 	@Override
 	public void disabledInit() {
-	/*	Scheduler.getInstance().disable();
-		drivetrain.Stop();
-	*/
-		
-		//Scheduler.getInstance().removeAll();
-		System.out.println("Disabled Init");
-		k ++;
-		if(k == 2) {
-			Scheduler.getInstance().disable();
-		}
+		Scheduler.getInstance().removeAll();
+		Scheduler.getInstance().disable();
 	}
 
 	@Override
 	public void disabledPeriodic() {
-		//Scheduler.getInstance().run();
-		//drivetrain.Stop();
-		//System.out.println("Disabled Periodic");
-
 	}
 
 	/**
@@ -198,8 +185,7 @@ public class Robot extends TimedRobot {
 			}
 		}
 			
-		
-		
+		Scheduler.getInstance().enable();		
 	}
 
 	/**
@@ -221,19 +207,16 @@ public class Robot extends TimedRobot {
 		}
 		m_chooser.addDefault("Default Teleop", new teleopDrive());
 
-		
-		//Scheduler.getInstance().disable();
-		//drivetrain.Stop();
-		System.out.println("Teleop Init");
+		Scheduler.getInstance().enable();		
 
+		System.out.println("Teleop Init");
 	}
 
 	/**
 	 * This function is called periodically during operator control.
 	 */
 	@Override
-	public void teleopPeriodic() {
-		
+	public void teleopPeriodic() {		
 		Scheduler.getInstance().run();
 	}
 
@@ -243,8 +226,5 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 		System.out.println("Test Periodic");
-
 	}
-	
-	
 }

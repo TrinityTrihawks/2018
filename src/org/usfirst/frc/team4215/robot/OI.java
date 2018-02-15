@@ -8,7 +8,6 @@
 package org.usfirst.frc.team4215.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
-import org.usfirst.frc.team4215.robot.commands.NotDefaultCommand;
 import org.usfirst.frc.team4215.robot.commands.RunIntake;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -50,7 +49,6 @@ public class OI {
 	protected Joystick joystick;
 	protected Joystick adjutantJoystick;
 	protected AnalogGyro gyro;
-	protected JoystickButton sampleButton;
 	protected JoystickButton intakeButton;
 	
 	protected Boolean applyCorrectedPolarCoordinates = true;
@@ -71,7 +69,7 @@ public class OI {
 	}
 	
 	/**
-	 * Theta value from the drive Joystick
+	 * Theta value (radians) from the drive Joystick
 	 * @return Theta
 	 */
 	public double getTheta() { 
@@ -96,14 +94,14 @@ public class OI {
 	 */
 	public double getRotation() {
 		return joystick.getTwist(); 
-		}
+	}
 	
 	/**
 	 * Slider value from the drive Joystick
 	 * @return Slider
 	 * {0 to 1}
 	 */
-	public double getSlider() {
+	protected double getSlider() {
 		double SliderVal = (joystick.getRawAxis(3)+1)/2;
 		return SliderVal;
 	}
@@ -147,21 +145,18 @@ public class OI {
 	
 		//instantiates the gyro
 	   this.gyro = new AnalogGyro(RobotMap.gyroChannel); 
-	   gyro.initGyro();
-	   
-		//instantiates the sample button 
-	   this.sampleButton = new JoystickButton(joystick, 2);
-		
-	    //starts a new command based on input 
-		sampleButton.whenPressed(new NotDefaultCommand());
-		intakeButton.whileHeld(new RunIntake());
+	   this.gyro.initGyro();
+	   		
+	    //starts a new command based on input
+		//this.intakeButton.whileHeld(new RunIntake());
+		this.intakeButton.whenPressed(new RunIntake());
 	}
 
 	/**
 	 * @return the applyCorrectedPolarCoordinates
 	 */
 	public Boolean getApplyCorrectedPolarCoordinates() {
-		return applyCorrectedPolarCoordinates;
+		return this.applyCorrectedPolarCoordinates;
 	}
 
 	/**
@@ -175,7 +170,7 @@ public class OI {
 	 * @return the applySlider
 	 */
 	public Boolean getApplySlider() {
-		return applySlider;
+		return this.applySlider;
 	}
 
 	/**

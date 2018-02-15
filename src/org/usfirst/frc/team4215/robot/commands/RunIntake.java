@@ -1,8 +1,6 @@
 package org.usfirst.frc.team4215.robot.commands;
 
 import org.usfirst.frc.team4215.robot.Robot;
-import org.usfirst.frc.team4215.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -29,7 +27,7 @@ public class RunIntake extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {    	
 	    	//as soon as button is released i.e. false value, then end command
-	    	if (Robot.m_oi.getIntakeButtonValue() == false) {
+	    	if (Robot.operator.getIntakeButtonValue() == false) {
 	    		return true;
 	    	} else {
 	    		return false;
