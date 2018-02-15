@@ -54,16 +54,16 @@ public class Drivetrain extends Subsystem {
 	public void Drive(double magnitude, double theta, double rotation) {
 		
 		System.out.println("Enter Drive Train");
-		magnitude = magnitude * (4096/RobotMap.talonWheel_wheelCircumference);
+		//magnitude = magnitude * (4096/RobotMap.talonWheel_wheelCircumference);
 		
-		double xPower = magnitude * Math.cos(theta + QUARTERPI)/100;
-		double yPower = magnitude * Math.sin(theta - QUARTERPI)/100;
+		double xPower = magnitude * Math.sin(theta + QUARTERPI);
+		double yPower = magnitude * Math.cos(theta + QUARTERPI);
 						
 		//sets power to all the wheels
-		WheelIndex.backrightwheel.getWheel().set(ControlMode.PercentOutput, (xPower - rotation));
+		WheelIndex.frontleftwheel.getWheel().set(ControlMode.PercentOutput, (xPower + rotation));
 		WheelIndex.frontrightwheel.getWheel().set(ControlMode.PercentOutput, (yPower - rotation));
 		WheelIndex.backleftwheel.getWheel().set(ControlMode.PercentOutput, (yPower + rotation));
-		WheelIndex.frontleftwheel.getWheel().set(ControlMode.PercentOutput, (xPower + rotation));
+		WheelIndex.backrightwheel.getWheel().set(ControlMode.PercentOutput, (xPower - rotation));
 		
 		logTalonBusVoltages();
 	}

@@ -5,3 +5,4 @@ bin/**
 build/**
 .DS_Store
 *.prefs
+/bin/

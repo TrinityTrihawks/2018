@@ -62,7 +62,7 @@ public class OI {
 	 */
 	public double getMagnitude() {
 		if (this.applySlider) {
-			return joystick.getMagnitude() * this.getSlider(); 
+			//return joystick.getMagnitude() * this.getSlider(); 
 		}
 		
 		return joystick.getMagnitude(); 
@@ -102,7 +102,7 @@ public class OI {
 	 * {0 to 1}
 	 */
 	protected double getSlider() {
-		double SliderVal = (joystick.getRawAxis(3)+1)/2;
+		double SliderVal = ((joystick.getRawAxis(3)-1)/2)*-1;
 		return SliderVal;
 	}
 	
