@@ -14,6 +14,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -54,7 +55,9 @@ public class Robot extends TimedRobot {
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	
-	
+	String gameData;
+	int position;
+	Alliance alliance;
 
 
 	/**
@@ -64,8 +67,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		//SmartDashboard.putData("Auto mode", m_chooser);
+		 //chooser.addObject("Robot Location", new MyAutoCommand());
+		SmartDashboard.putData("Auto mode", m_chooser);
 		
 	
 		//sets up NetworkTable on robot side
@@ -73,12 +76,6 @@ public class Robot extends TimedRobot {
 		NetworkTable table = inst.getTable("datatable");
 		entry = table.getEntry("X");
 		System.out.println("Created Network Table entry 'X'");
-		
-		cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
-		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		 System.out.println("Back camera initialized properly");
-		 // Creates the interface to the back camera
-
 		 
 		 			 
 		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
@@ -115,7 +112,7 @@ public class Robot extends TimedRobot {
 		System.out.println("Disabled Init");
 		k ++;
 		if(k == 2) {
-			Scheduler.getInstance().disable();
+			//Scheduler.getInstance().disable();
 		}
 	}
 
@@ -141,19 +138,21 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
+		
+		
+		  String autoSelected = SmartDashboard.getString("Auto Selector",
+		  "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+		  = new MyAutoCommand(); break; case "Default Auto": default:
+		  autonomousCommand = new ExampleCommand(); break; }
+		 
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
-			String gameData;
+			
 			gameData = DriverStation.getInstance().getGameSpecificMessage();
+			position = DriverStation.getInstance().getLocation();
+			alliance = DriverStation.getInstance().getAlliance();
 			for(int i = 0;i < 3; i++) {
 			if(gameData.charAt(i) == 'L')
 			{
@@ -165,6 +164,10 @@ public class Robot extends TimedRobot {
 					System.out.println("No FMS input detected");
 			}
 		}
+			SmartDashboard.putNumber("Station", position);
+			SmartDashboard.putString("Order of lights", gameData);
+			SmartDashboard.putString("Alliance", alliance)
+		
 		}
 	}
 
