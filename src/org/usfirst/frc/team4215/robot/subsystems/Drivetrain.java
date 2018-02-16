@@ -58,22 +58,19 @@ public class Drivetrain extends Subsystem {
 	public void Drive(double magnitude, double theta, double rotation, double slider_power) {
 		
 		System.out.println("Enter Drive Train");
-		rotation = 0;
+		rotation *= -1;
 		//magnitude = magnitude * (4096/RobotMap.wheelCircumference);
 		
-		double xPower = slider_power * magnitude * Math.cos(theta + (3*Math.PI / 4));
-		double yPower = slider_power * magnitude * Math.sin(theta + (Math.PI / 4));
+		//rotation = 0;
 		
-		//double xPower = 0.5;
-		//double yPower = 0.5;
-		
-		// TODO: We need to reevaluate rotation. It shouldn't be directly from the joystick
-		
-		
-		power[wheelIndex.backrightwheel.getValue()] = (xPower - rotation);
-		power[wheelIndex.frontrightwheel.getValue()] = ((yPower - rotation));
-		power[wheelIndex.backleftwheel.getValue()] = (yPower + rotation);
-		power[wheelIndex.frontleftwheel.getValue()] = ((xPower + rotation));
+		double xPower = magnitude * Math.sin(-theta - Math.PI / 4);
+		double yPower = magnitude * Math.cos(-theta - Math.PI / 4);
+				
+		//takes values from above doubles and corresponds them with each wheel 
+		power[wheelIndex.backrightwheel.getValue()] = xPower - rotation;
+		power[wheelIndex.frontrightwheel.getValue()] = yPower - rotation;
+		power[wheelIndex.backleftwheel.getValue()] = yPower + rotation;
+		power[wheelIndex.frontleftwheel.getValue()] = xPower + rotation;
 		
 		/*power[wheelIndex.backrightwheel.getValue()] = magnitude;
 		 
