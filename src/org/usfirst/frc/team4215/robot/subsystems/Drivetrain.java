@@ -119,7 +119,7 @@ public class Drivetrain extends Subsystem {
 		Drive(0,0,0,0);
 	}
 	
-	public void logTalonBusVoltages() {
+	public void logTalonBusVoltagesConsole() {
 		System.out.println("Back right: "+ this.wheels[wheelIndex.backrightwheel.getValue()].getBusVoltage());
 		System.out.println("Front right: "+ this.wheels[wheelIndex.frontrightwheel.getValue()].getBusVoltage());
 		System.out.println("Back left: "+ this.wheels[wheelIndex.backleftwheel.getValue()].getBusVoltage());
