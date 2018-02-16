@@ -90,6 +90,8 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
 		
+		m_oi.gyro.calibrate();
+		
 	
 		//sets up NetworkTable on robot side
 		NetworkTableInstance inst = NetworkTableInstance.getDefault();
@@ -114,6 +116,12 @@ public class Robot extends TimedRobot {
 		//SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
 		SmartDashboard.putNumber("X", entry.getDouble(0));
 
+		
+		for (int k = 0; k<4; k++) {
+			SmartDashboard.putNumber("power" + k, drivetrain.power[k]);
+		}
+		drivetrain.logTalonBusVoltages();
+		drivetrain.TalonOutputVoltage();
 	}
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
@@ -129,10 +137,6 @@ public class Robot extends TimedRobot {
 		
 		//Scheduler.getInstance().removeAll();
 		System.out.println("Disabled Init");
-		k ++;
-		if(k == 2) {
-			Scheduler.getInstance().disable();
-		}
 	}
 
 	@Override
