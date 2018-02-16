@@ -66,7 +66,8 @@ public class Robot extends TimedRobot {
 	RobotPositions robotPos;
 	SendableChooser<RobotPositions> posChooser = new SendableChooser<>();
 	
-	
+	boolean teleop;
+
 
 
 	/**
@@ -137,6 +138,10 @@ public class Robot extends TimedRobot {
 		
 		//Scheduler.getInstance().removeAll();
 		System.out.println("Disabled Init");
+		if(teleop == true) {
+			Scheduler.getInstance().disable();
+			teleop = false;
+		}
 	}
 
 	@Override
@@ -219,7 +224,6 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 	}
-
 	@Override
 	public void teleopInit() {
 		// This makes sure that the autonomous stops running when
@@ -235,6 +239,8 @@ public class Robot extends TimedRobot {
 		//Scheduler.getInstance().disable();
 		//drivetrain.Stop();
 		System.out.println("Teleop Init");
+		teleop = true;
+		
 
 	}
 
@@ -246,6 +252,7 @@ public class Robot extends TimedRobot {
 		
 		Scheduler.getInstance().run();
 	}
+	
 
 	/**
 	 * This function is called periodically during test mode.
