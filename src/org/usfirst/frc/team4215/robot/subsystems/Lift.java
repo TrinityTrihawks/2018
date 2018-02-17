@@ -27,17 +27,19 @@ public class Lift extends Subsystem {
 	/**
 	 * 
 	 */
-	public void lift(double magnitude, boolean toggle){
-		if (toggle == true){
+	public void lift(double magnitude, double theta){
+		
+		if (Math.abs(theta)>(Math.PI/2)){
 			reverse = -1;
-		} else{
+		}
+		else {
 			reverse = 1;
 		}
 		
-		magnitude = magnitude/5;
+		magnitude = magnitude;
 		
-		victor1.set(reverse*magnitude*5);
-		victor2.set(reverse*magnitude*5);
+		victor1.set(reverse*magnitude);
+		victor2.set(reverse*magnitude);
 	}
 	
     public void initDefaultCommand() {
