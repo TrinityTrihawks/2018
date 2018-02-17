@@ -52,6 +52,7 @@ public class OI {
 	public AnalogGyro gyro;
 	public JoystickButton intakeButton;
 	public JoystickButton intakeoffButton;
+	public JoystickButton spitButton;
 	
 	/**
 	 * Magnitude from the drive Joystick
@@ -122,10 +123,13 @@ public class OI {
 		super();
 		//instantiates joystick and intake button
 		this.joystick = new Joystick(RobotMap.driveStick);
-		this.intakeButton = new JoystickButton(joystick, RobotMap.intakeButton);
-		this.intakeoffButton = new JoystickButton(joystick, RobotMap.intakeOffButton);
-		
 		this.adjutantJoystick = new Joystick(RobotMap.adjutantJoystick);
+
+		this.intakeButton = new JoystickButton(adjutantJoystick, RobotMap.intakeButton);
+		this.intakeoffButton = new JoystickButton(adjutantJoystick, RobotMap.intakeOffButton);
+		this.spitButton = new JoystickButton(adjutantJoystick, RobotMap.spitButton);
+
+		
 
 	
 		//instantiates the gyro
@@ -135,8 +139,9 @@ public class OI {
 		//instantiates the sample button 
 		
 	    //starts a new command based on input 
-		intakeButton.whenPressed(new RunIntake());
+		intakeButton.whenPressed(new RunIntake(true));
 		intakeoffButton.whenPressed(new StopIntake());
+		spitButton.whenPressed(new RunIntake(false));
 	}
 
 }

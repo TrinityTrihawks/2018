@@ -24,9 +24,9 @@ public class Intake extends Subsystem {
 	
 	public void setIntakeOn (boolean toggle) {
 		if (toggle == true){
-			reverse = -1;
-		} else{
 			reverse = 1;
+		} else{
+			reverse = -1;
 		}
 		
 		intake1.set(intakePower*reverse);
