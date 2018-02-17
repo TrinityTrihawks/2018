@@ -36,12 +36,14 @@ public class RobotMap {
 	
 	public final static int intakeVictor1 = 3;
 	public final static int intakeVictor2 = 4;
+	
 	public final static int intakeButton = 1;
+	public final static int intakeOffButton = 2;
 	
 	public final static int adjutantJoystick = 1;
 	
-	public final static int liftvictorOne = 3;
-	public final static int liftvictorTwo = 4;
+	public final static int liftvictorOne = 0;
+	public final static int liftvictorTwo = 1;
 	
 	//Gyro
 	public final static int gyroChannel = 0;
@@ -52,4 +54,5 @@ public class RobotMap {
 	public final static double wheelCircumference = 18.875; // Essentially 6*pi, however the C is a little larger in reality
 
 	public final static int lifttoggleButton = 1;
+	public final static int spitButton = 3;
 }

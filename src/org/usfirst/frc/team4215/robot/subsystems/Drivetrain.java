@@ -64,8 +64,12 @@ public class Drivetrain extends Subsystem {
 	 */
 	public void Drive(double magnitude, double theta, double rotation, double slider_power) {
 		
-		System.out.println("Enter Drive Train");
-		rotation *= -1;
+		//System.out.println("Enter Drive Train");
+		rotation *= -.5;
+		if (magnitude <= .05 && magnitude >= -.05) {
+			theta = 0;
+			magnitude = 0;
+		}
 		//magnitude = magnitude * (4096/RobotMap.wheelCircumference);
 		
 		//rotation = 0;
@@ -75,8 +79,8 @@ public class Drivetrain extends Subsystem {
 				
 		//takes values from above doubles and corresponds them with each wheel 
 		power[wheelIndex.backrightwheel.getValue()] = xPower - rotation;
-		power[wheelIndex.frontrightwheel.getValue()] = yPower - rotation;
-		power[wheelIndex.backleftwheel.getValue()] = yPower + rotation;
+		power[wheelIndex.frontrightwheel.getValue()] = yPower + rotation;
+		power[wheelIndex.backleftwheel.getValue()] = yPower - rotation;
 		power[wheelIndex.frontleftwheel.getValue()] = xPower + rotation;
 		
 		/*power[wheelIndex.backrightwheel.getValue()] = magnitude;

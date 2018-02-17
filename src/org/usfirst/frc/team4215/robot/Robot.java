@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
 		SmartDashboard.putNumber("Slider", m_oi.getSlider());
 		
-		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
+		//System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		//SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
 		SmartDashboard.putNumber("X", entry.getDouble(0));
 
@@ -139,7 +139,7 @@ public class Robot extends TimedRobot {
 		//Scheduler.getInstance().removeAll();
 		System.out.println("Disabled Init");
 		if(teleop == true) {
-			Scheduler.getInstance().disable();
+			Scheduler.getInstance().removeAll();;
 			teleop = false;
 		}
 	}
@@ -240,6 +240,7 @@ public class Robot extends TimedRobot {
 		//drivetrain.Stop();
 		System.out.println("Teleop Init");
 		teleop = true;
+		Scheduler.getInstance().enable();
 		
 
 	}

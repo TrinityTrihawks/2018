@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class RunIntake extends Command {
 
+	static boolean intakeon = true;
+
     public RunIntake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -19,28 +21,28 @@ public class RunIntake extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	System.out.println("Initializing RunIntake command");
+    	
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.setIntakeOn();
-    	
+    		//if(intakeon == true) {
+    	    	Robot.intake.setIntakeOn(Robot.m_oi.getSpitButtonValue());
+    	    	//intakeon = false;
+    		//}
+    	System.out.println("RunIntake.Execute");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	
     	//as soon as button is released i.e. false value, then end command
-    	if (Robot.m_oi.getIntakeButtonValue() == false) {
-    		return true;
-    	} else {
-    		return false;
-    	}
+    	return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intake.setIntakeOff();
     	System.out.println("Ending RunIntake command");
     }
 

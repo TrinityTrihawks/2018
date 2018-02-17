@@ -15,7 +15,7 @@ public class Lift extends Subsystem {
 	Victor victor1;
 	Victor victor2;
 	
-	int reverse;
+	private int reverse;
 	
 	
 	public Lift() {
@@ -36,8 +36,8 @@ public class Lift extends Subsystem {
 		
 		magnitude = magnitude/5;
 		
-		victor1.set(reverse*magnitude);
-		victor2.set(reverse*magnitude);
+		victor1.set(reverse*magnitude*5);
+		victor2.set(reverse*magnitude*5);
 	}
 	
     public void initDefaultCommand() {
