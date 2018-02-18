@@ -26,32 +26,34 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 	
-	
-	public final static int driveStick = 0; 
-	
-	public final static int talonWheel_backright = 1;
-	public final static int talonWheel_frontright = 2;
-	public final static int talonWheel_backleft = 0;
-	public final static int talonWheel_frontleft = 3;
-	
-	public final static int intakeVictor1 = 3;
-	public final static int intakeVictor2 = 4;
-	
-	public final static int intakeButton = 3;
-	public final static int intakeOffButton = 1;
-	
-	public final static int adjutantJoystick = 1;
-	
-	public final static int liftvictorOne = 0;
-	public final static int liftvictorTwo = 1;
-	
-	//Gyro
-	public final static int gyroChannel = 0;
-	
-	public final static int numberOfWheels = 4;
-	
-	//18.875
-	public final static double wheelCircumference = 18.875; // Essentially 6*pi, however the C is a little larger in reality
+	// Joysticks
+		public final static int driveStick = 0; 
+		public final static int adjutantJoystick = 1;
 
-	public final static int spitButton = 4;
+		// Talons for drivetrain
+		public final static int talonWheel_backright = 1;
+		public final static int talonWheel_frontright = 2;
+		public final static int talonWheel_backleft = 0;
+		public final static int talonWheel_frontleft = 3;
+		
+		// Victors for Intake
+		public final static int intakeVictor1 = 3;
+		public final static int intakeVictor2 = 4;
+		
+		// Joystick button controls for Intake
+		public final static int intakeButton = 3;
+		public final static int intakeOffButton = 1;
+		public final static int spitButton = 4;
+
+		// Victors for Lift
+		public final static int liftvictorOne = 0;
+		public final static int liftvictorTwo = 1;
+		
+		// Valuable numbers for Drivetrain
+		public final static int numberOfWheels = 4;
+		//18.875
+		public final static double wheelCircumference = 18.875; // Essentially 6*pi(C=D*pi), however the C is a little larger in reality
+
+		// Sensor channels
+		public final static int gyroChannel = 0;
 }
