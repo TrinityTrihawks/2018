@@ -1,53 +1,38 @@
 package org.usfirst.frc.team4215.robot.commands;
 
 import org.usfirst.frc.team4215.robot.Robot;
-import org.usfirst.frc.team4215.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class RunIntake extends Command {
+public class StopIntake extends Command {
 
-	static boolean intakeon = true;
-	private boolean intakeDirection;
-
-    public RunIntake(boolean intake) {
+    public StopIntake() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.intake);
-    	
-    	this.intakeDirection = intake;
-    	
+        requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("Initializing RunIntake command");
-    	
-    	
+    	System.out.println("Initializing StopIntake command");
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    		//if(intakeon == true) {
-    	    	Robot.intake.setIntakeOn(intakeDirection);
-    	    	//intakeon = false;
-    		//}
-    	System.out.println("RunIntake.Execute");
+    	Robot.intake.setIntakeOff();
+    	System.out.println("StopIntake.execute");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	
-    	//as soon as button is released i.e. false value, then end command
-    	return true;
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	System.out.println("Ending RunIntake command");
     }
 
     // Called when another command which requires one or more of the same

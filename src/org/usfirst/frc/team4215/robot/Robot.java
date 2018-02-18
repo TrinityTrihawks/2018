@@ -7,7 +7,6 @@
 
 package org.usfirst.frc.team4215.robot;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.cscore.AxisCamera;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -22,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4215.robot.commands.teleopDrive;
 import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4215.robot.subsystems.Intake;
+import org.usfirst.frc.team4215.robot.subsystems.Lift;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,11 +33,21 @@ import org.usfirst.frc.team4215.robot.subsystems.Intake;
 
 public class Robot extends TimedRobot {
 	
+	enum RobotPositions {
+		Left,
+		Right,
+		Middle,
+	}
+	
+
+	String robotPosition;
+	String robotPlan;
 
 	NetworkTableEntry entry;
 	
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final Intake intake = new Intake();
+	public static final Lift lift = new Lift();
 	
 	
 	AxisCamera cameraBack ;
@@ -53,7 +63,11 @@ public class Robot extends TimedRobot {
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	
+	RobotPositions robotPos;
+	SendableChooser<RobotPositions> posChooser = new SendableChooser<>();
 	
+	boolean teleop;
+
 
 
 	/**
@@ -63,8 +77,21 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
+		
+		
+		
+		//m_chooser.addDefault("Cross Auto Line", new DriveForward());
+		
+		
+		posChooser.addDefault("Middle", RobotPositions.Middle);
+		posChooser.addObject("Left", RobotPositions.Left);
+		posChooser.addObject("Right", RobotPositions.Right);
+		
+		
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
+		
+		m_oi.gyro.calibrate();
 		
 	
 		//sets up NetworkTable on robot side
@@ -72,14 +99,7 @@ public class Robot extends TimedRobot {
 		NetworkTable table = inst.getTable("datatable");
 		entry = table.getEntry("X");
 		System.out.println("Created Network Table entry 'X'");
-		
-		cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
-		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		 System.out.println("Back camera initialized properly");
-		 // Creates the interface to the back camera
-
-		 
-		 			 
+	
 		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		 System.out.println("Front camera initialized properly");
@@ -93,10 +113,16 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
 		SmartDashboard.putNumber("Slider", m_oi.getSlider());
 		
-		System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
+		//System.out.println(m_oi.getMagnitude() + "   " + m_oi.getTheta() + "    " + m_oi.getRotation());
 		//SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
 		SmartDashboard.putNumber("X", entry.getDouble(0));
 
+		
+		for (int k = 0; k<4; k++) {
+			SmartDashboard.putNumber("power" + k, drivetrain.power[k]);
+		}
+		drivetrain.logTalonBusVoltages();
+		drivetrain.TalonOutputVoltage();
 	}
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
@@ -112,9 +138,9 @@ public class Robot extends TimedRobot {
 		
 		//Scheduler.getInstance().removeAll();
 		System.out.println("Disabled Init");
-		k ++;
-		if(k == 2) {
-			Scheduler.getInstance().disable();
+		if(teleop == true) {
+			Scheduler.getInstance().removeAll();;
+			teleop = false;
 		}
 	}
 
@@ -140,6 +166,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
+		robotPos = posChooser.getSelected();
+		
+		System.out.println("Robot Position: " + robotPos);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -152,6 +181,40 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
+		
+		if(robotPosition == "Left") {
+			if(robotPlan == "DriveForward") {
+				
+			} else if(robotPlan == "DeadReckoningTurn") {
+				
+			} else {
+				
+			}
+			
+		} else if (robotPosition == "Right") {
+			if(robotPlan == "DriveForward") {
+				
+			} else if(robotPlan == "DeadReckoningTurn") {
+				
+			} else {
+				
+			}
+			
+		} else { 
+			if(robotPlan == "DriveForwardLeft") {
+				
+			}
+			else if(robotPlan == "DriveForwardRight") {
+				
+			} else if(robotPlan == "VisionLeft") {
+				
+			} else {
+				
+			}
+		}
+			
+		
+		
 	}
 
 	/**
@@ -161,7 +224,6 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 	}
-
 	@Override
 	public void teleopInit() {
 		// This makes sure that the autonomous stops running when
@@ -177,6 +239,9 @@ public class Robot extends TimedRobot {
 		//Scheduler.getInstance().disable();
 		//drivetrain.Stop();
 		System.out.println("Teleop Init");
+		teleop = true;
+		Scheduler.getInstance().enable();
+		
 
 	}
 
@@ -188,6 +253,7 @@ public class Robot extends TimedRobot {
 		
 		Scheduler.getInstance().run();
 	}
+	
 
 	/**
 	 * This function is called periodically during test mode.
