@@ -39,7 +39,7 @@ public class Drivetrain extends Subsystem {
 	
 	//power values for each wheel
 	public double [] power = new double [4];
-	
+		
 	public Drivetrain() {
 		
 		//instantiates TalonSRX objects 
