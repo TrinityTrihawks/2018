@@ -4,6 +4,9 @@ plugins {
     id "jaci.openrio.gradle.GradleRIO" version "2018.01.07"
 }
 
+telemetry {
+	reportTelemetry = false
+}
 repositories {
     mavenCentral()
 	maven {
@@ -13,12 +16,10 @@ repositories {
 
 
 def TEAM = 4215
-def ROBOT_CLASS = "frc.team4215.robot.Robot"
+def ROBOT_CLASS = "org.usfirst.frc.team4215.robot.Robot"
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
-rioIP = "10.42.15.2"
-    rioHost = "roboRIO-4215-FRC.local"
 deploy {
     targets {
         target("roborio", jaci.openrio.gradle.frc.RoboRIO) {
