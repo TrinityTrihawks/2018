@@ -46,8 +46,8 @@ public class Robot extends TimedRobot {
 	NetworkTableEntry entry;
 	
 	public static final Drivetrain drivetrain = new Drivetrain();
-	public static final Intake intake = new Intake();
-	public static final Lift lift = new Lift();
+	//public static final Intake intake = new Intake();
+	//public static final Lift lift = new Lift();
 	
 	
 	AxisCamera cameraBack ;

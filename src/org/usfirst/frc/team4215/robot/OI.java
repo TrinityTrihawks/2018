@@ -8,9 +8,6 @@
 package org.usfirst.frc.team4215.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
-import org.usfirst.frc.team4215.robot.commands.RunIntake;
-import org.usfirst.frc.team4215.robot.commands.StopIntake;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -139,9 +136,9 @@ public class OI {
 		//instantiates the sample button 
 		
 	    //starts a new command based on input 
-		intakeButton.whenPressed(new RunIntake(true));
-		intakeoffButton.whenPressed(new StopIntake());
-		spitButton.whenPressed(new RunIntake(false));
+		//intakeButton.whenPressed(new RunIntake(true));
+		//intakeoffButton.whenPressed(new StopIntake());
+		//spitButton.whenPressed(new RunIntake(false));
 	}
 
 }

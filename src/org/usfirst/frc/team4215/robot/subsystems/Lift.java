@@ -2,8 +2,6 @@ package org.usfirst.frc.team4215.robot.subsystems;
 
 import org.usfirst.frc.team4215.robot.Robot;
 import org.usfirst.frc.team4215.robot.RobotMap;
-import org.usfirst.frc.team4215.robot.commands.runLift;
-
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -44,7 +42,7 @@ public class Lift extends Subsystem {
 	
     public void initDefaultCommand() {
         
-        setDefaultCommand(new runLift());
+        //setDefaultCommand(new runLift());
     }
 }
 
