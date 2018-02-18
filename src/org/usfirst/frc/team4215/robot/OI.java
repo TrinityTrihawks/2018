@@ -8,7 +8,11 @@
 package org.usfirst.frc.team4215.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import org.usfirst.frc.team4215.robot.commands.RunIntake;
+import org.usfirst.frc.team4215.robot.commands.StopIntake;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -43,34 +47,101 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-//	Joystick joystick = new Joystick(RobotMap.driveStick);
 	public Joystick joystick;
+	public Joystick adjutantJoystick;
 	public AnalogGyro gyro;
+	public JoystickButton intakeButton;
+	public JoystickButton intakeoffButton;
+	public JoystickButton spitButton;
 	
+	/**
+	 * Magnitude from the drive Joystick
+	 * @return Magnitude
+	 */
 	public double getMagnitude() {  
 		return joystick.getMagnitude(); 
 		}
+	/**
+	 * Theta value from the drive Joystick
+	 * @return Theta
+	 */
 	public double getTheta() { 
 		return joystick.getDirectionRadians(); 
 		}
+	/**
+	 * Rotation value from the drive Joystick
+	 * @return Rotations
+	 * {-1 to 1}
+	 */
 	public double getRotation() {
 		return joystick.getTwist(); 
 		}
+	/**
+	 * Slider value from the drive Joystick
+	 * @return Slider
+	 * {0 to 1}
+	 */
 	public double getSlider() {
-		return joystick.getRawAxis(3);
+		double SliderVal = (joystick.getRawAxis(3)+1)/2;
+		return SliderVal;
 	}
-	
+	/**
+	 *  Gyro value from the gyro
+	 * @return Gyro Angle
+	 */
 	public double getGyroAngle(){
 		return gyro.getAngle() ;	
 	}
+	/**
+	 * intakeButton value from the drive Joystick
+	 * @return True or False
+	 */
+	public boolean getIntakeButtonValue() {
+		return joystick.getRawButton(RobotMap.intakeButton);
+	}
+	
+	public boolean getIntakeoffButtonValue() {
+		return joystick.getRawButton(RobotMap.intakeOffButton);
+	}
+	/**
+	 * Magnitude value from adjutant Joystick
+	 * @return adjutant Magnitude
+	 */
+	public double getliftPower() {
+		return adjutantJoystick.getMagnitude();
+	}
+	
+	public boolean getSpitButtonValue() {
+		return joystick.getRawButton(RobotMap.spitButton);
+	}
+	public double getadjutantTheta() {
+		return adjutantJoystick.getDirectionRadians();
+	}
+	
 	
 	public OI() {
 		super();
+		//instantiates joystick and intake button
 		this.joystick = new Joystick(RobotMap.driveStick);
+		this.adjutantJoystick = new Joystick(RobotMap.adjutantJoystick);
+
+		this.intakeButton = new JoystickButton(adjutantJoystick, RobotMap.intakeButton);
+		this.intakeoffButton = new JoystickButton(adjutantJoystick, RobotMap.intakeOffButton);
+		this.spitButton = new JoystickButton(adjutantJoystick, RobotMap.spitButton);
+
+		
+
 	
+		//instantiates the gyro
 	   this.gyro = new AnalogGyro(RobotMap.gyroChannel); 
 	   gyro.initGyro();
 	   
+		//instantiates the sample button 
+		
+	    //starts a new command based on input 
+		intakeButton.whenPressed(new RunIntake(true));
+		intakeoffButton.whenPressed(new StopIntake());
+		spitButton.whenPressed(new RunIntake(false));
 	}
 
 }

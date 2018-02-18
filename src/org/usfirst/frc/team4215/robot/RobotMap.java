@@ -27,12 +27,23 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 	
 	
-	public final static int driveStick = 0; // This may not be the actual value, just a framework
+	public final static int driveStick = 0; 
 	
 	public final static int talonWheel_backright = 1;
-	public final static int talonWheel_frontright = 0;
-	public final static int talonWheel_backleft = 3;
-	public final static int talonWheel_frontleft = 2;
+	public final static int talonWheel_frontright = 2;
+	public final static int talonWheel_backleft = 0;
+	public final static int talonWheel_frontleft = 3;
+	
+	public final static int intakeVictor1 = 3;
+	public final static int intakeVictor2 = 4;
+	
+	public final static int intakeButton = 3;
+	public final static int intakeOffButton = 1;
+	
+	public final static int adjutantJoystick = 1;
+	
+	public final static int liftvictorOne = 0;
+	public final static int liftvictorTwo = 1;
 	
 	//Gyro
 	public final static int gyroChannel = 0;
@@ -41,4 +52,6 @@ public class RobotMap {
 	
 	//18.875
 	public final static double wheelCircumference = 18.875; // Essentially 6*pi, however the C is a little larger in reality
+
+	public final static int spitButton = 4;
 }

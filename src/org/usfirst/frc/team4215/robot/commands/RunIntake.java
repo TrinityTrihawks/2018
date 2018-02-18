@@ -1,44 +1,57 @@
 package org.usfirst.frc.team4215.robot.commands;
 
 import org.usfirst.frc.team4215.robot.Robot;
+import org.usfirst.frc.team4215.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class teleopDrive extends Command {
+public class RunIntake extends Command {
 
-    public teleopDrive() {
+	static boolean intakeon = true;
+	private boolean intakeDirection;
+
+    public RunIntake(boolean intake) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.drivetrain);
+    	requires(Robot.intake);
+    	
+    	this.intakeDirection = intake;
     	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	System.out.println("Initializing RunIntake command");
+    	
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.Drive(Robot.m_oi.getMagnitude(), Robot.m_oi.getTheta(), Robot.m_oi.getRotation(), Robot.m_oi.getSlider());
+    		//if(intakeon == true) {
+    	    	Robot.intake.setIntakeOn(intakeDirection);
+    	    	//intakeon = false;
+    		//}
+    	System.out.println("RunIntake.Execute");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	
+    	//as soon as button is released i.e. false value, then end command
+    	return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	
+    	System.out.println("Ending RunIntake command");
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	System.out.println("Interrupted");
     }
 }
