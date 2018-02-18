@@ -66,7 +66,7 @@ public class Drivetrain extends Subsystem {
 		
 		//System.out.println("Enter Drive Train");
 		rotation *= -.5;
-		if (magnitude <= .05 && magnitude >= -.05) {
+		if (magnitude <= .08 && magnitude >= -.08) {
 			theta = 0;
 			magnitude = 0;
 		}
