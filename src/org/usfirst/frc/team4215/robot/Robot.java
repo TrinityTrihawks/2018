@@ -39,6 +39,11 @@ public class Robot extends TimedRobot {
 		Middle,
 	}
 	
+	enum TeamColor {
+		Red,
+		Blue,
+	}
+	
 
 	String robotPosition;
 	String robotPlan;
@@ -66,6 +71,9 @@ public class Robot extends TimedRobot {
 	RobotPositions robotPos;
 	SendableChooser<RobotPositions> posChooser = new SendableChooser<>();
 	
+	TeamColor robotTeam;
+	SendableChooser<TeamColor> teamChooser = new SendableChooser<>();
+	
 	
 
 
@@ -85,6 +93,9 @@ public class Robot extends TimedRobot {
 		posChooser.addDefault("Middle", RobotPositions.Middle);
 		posChooser.addObject("Left", RobotPositions.Left);
 		posChooser.addObject("Right", RobotPositions.Right);
+		
+		teamChooser.addObject("Red", TeamColor.Red);
+		teamChooser.addObject("Blue", TeamColor.Blue);
 		
 		
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -165,8 +176,10 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
 		robotPos = posChooser.getSelected();
+		robotTeam = teamChooser.getSelected();
 		
 		System.out.println("Robot Position: " + robotPos);
+		System.out.println("Robot Team: " + robotTeam);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
