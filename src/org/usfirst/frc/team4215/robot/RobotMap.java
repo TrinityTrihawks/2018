@@ -56,7 +56,9 @@ public class RobotMap {
 
 	// Sensor channels
 	public final static int gyroChannel = 0;
-
+	// TODO Find and set the actual values for these ports 
+    public final static int frontLeftUltrasonicChannel = 0; 
+    public final static int frontRightUltrasonicChannel = 1; 
 	
 	
 }

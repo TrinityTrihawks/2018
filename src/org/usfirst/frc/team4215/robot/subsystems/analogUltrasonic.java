@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4215.robot.subsystems;
 
+import org.usfirst.frc.team4215.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -15,7 +17,8 @@ public class analogUltrasonic extends Subsystem {
 	AnalogInput frontRight;
 	
 	analogUltrasonic(){
-		this.frontLeft = new AnalogInput(0);
+		this.frontLeft = new AnalogInput(RobotMap.frontLeftUltrasonicChannel);
+		this.frontRight = new AnalogInput(RobotMap.frontRightUltrasonicChannel);
 		
 	}
 
