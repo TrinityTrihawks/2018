@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team4215.robot.commands.AutonomousDriveDistanceCommand;
 import org.usfirst.frc.team4215.robot.commands.teleopDrive;
 import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4215.robot.subsystems.Intake;
@@ -86,11 +87,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		
-		
-		
 		//m_chooser.addDefault("Cross Auto Line", new DriveForward());
-		
 		
 		posChooser.addDefault("Middle", RobotPositions.Middle);
 		posChooser.addObject("Left", RobotPositions.Left);
@@ -99,12 +96,10 @@ public class Robot extends TimedRobot {
 		teamChooser.addObject("Red", TeamColor.Red);
 		teamChooser.addObject("Blue", TeamColor.Blue);
 		
-		
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
 		
 		m_oi.gyro.calibrate();
-		
 	
 		//sets up NetworkTable on robot side
 		NetworkTableInstance inst = NetworkTableInstance.getDefault();
@@ -177,7 +172,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
+//		this.m_autonomousCommand = m_chooser.getSelected();
+		this.m_autonomousCommand = new AutonomousDriveDistanceCommand(24, 1, 0);
 		robotPos = posChooser.getSelected();
 		robotTeam = teamChooser.getSelected();
 		

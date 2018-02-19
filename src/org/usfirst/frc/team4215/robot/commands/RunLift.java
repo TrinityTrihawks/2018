@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class runLift extends Command {
+public class RunLift extends Command {
 
-    public runLift() {
+    public RunLift() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.lift);
     }
@@ -19,7 +19,7 @@ public class runLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.lift.lift(Robot.m_oi.getliftPower(), Robot.m_oi.getadjutantTheta());
+    		Robot.lift.lift(Robot.m_oi.getliftPower(), Robot.m_oi.getadjutantTheta());
     }
 
     // Make this return true when this Command no longer needs to run execute()
