@@ -13,6 +13,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -49,6 +50,8 @@ public class Robot extends TimedRobot {
 	String robotPosition;
 	String robotPlan;
 
+	SimpleCSVLogger logger = new SimpleCSVLogger();
+
 	NetworkTableEntry entry;
 	
 	public static final Drivetrain drivetrain = new Drivetrain();
@@ -76,6 +79,7 @@ public class Robot extends TimedRobot {
 	TeamColor robotTeam;
 	SendableChooser<TeamColor> teamChooser = new SendableChooser<>();
 	
+	Timer timer;
 	
 
 
@@ -179,6 +183,11 @@ public class Robot extends TimedRobot {
 		
 		System.out.println("Robot Position: " + robotPos);
 		System.out.println("Robot Team: " + robotTeam);
+		String[] ls = new String[] { "1", "1", "1", "1"};
+		logger.init(ls, ls);
+		
+		timer.start();
+		
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -233,6 +242,28 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		
+		double getDistance = drivetrain.getDistance();
+		double[] getTalonBusVoltages = drivetrain.getTalonBusVoltages();
+		double[] getWheelOutputs = drivetrain.getMotorOutputPercents();
+		double[] getMotorOutputCurrents = drivetrain.getMotorOutputCurrents();
+		
+		double[] log = new double[13];
+		log[0] = timer.get();
+		log[1] = getDistance;
+		
+		for(int i = 0; i < 4; i++) {
+			log[2 + i] = getTalonBusVoltages[i];
+		}
+		for(int i = 0; i < 4; i++) {
+			log[6 + i] = getWheelOutputs[i];
+		}
+		for(int i = 0; i < 4; i++) {
+			log[10 + i] = getMotorOutputCurrents[i];
+		}
+
+		logger.writeData(log);
+
 	}
 	@Override
 	public void teleopInit() {

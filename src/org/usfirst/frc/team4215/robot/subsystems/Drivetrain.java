@@ -69,10 +69,15 @@ public class Drivetrain extends Subsystem {
 			theta = 0;
 			magnitude = 0;
 		}
+		
+		
+		//not sure what this is supposed to be 
+		//if (theta <= Math.PI/30 && theta >= -Math.PI/30)
+		
+			
 		//magnitude = magnitude * (4096/RobotMap.wheelCircumference);
 		
 		//rotation = 0;
-		
 		double xPower = magnitude * Math.sin(-theta - Math.PI / 4);
 		double yPower = magnitude * Math.cos(-theta - Math.PI / 4);
 				
@@ -115,6 +120,34 @@ public class Drivetrain extends Subsystem {
 		System.out.println("Back left: "+ this.wheels[wheelIndex.backleftwheel.getValue()].getBusVoltage());
 		System.out.println("Front left: "+ this.wheels[wheelIndex.frontleftwheel.getValue()].getBusVoltage());
 	}
+	
+	public double[] getTalonBusVoltages() {
+		double[] voltages = new double[4];
+		voltages[0] = this.wheels[wheelIndex.backrightwheel.getValue()].getBusVoltage();
+		voltages[1] = this.wheels[wheelIndex.frontrightwheel.getValue()].getBusVoltage();
+		voltages[2] = this.wheels[wheelIndex.backleftwheel.getValue()].getBusVoltage();
+		voltages[3] = this.wheels[wheelIndex.frontleftwheel.getValue()].getBusVoltage();
+		return voltages;
+	}
+	
+	public double[] getMotorOutputPercents() {
+		double[] outputs = new double[4];
+		outputs[0] = this.wheels[wheelIndex.backrightwheel.getValue()].getMotorOutputPercent();
+		outputs[1] = this.wheels[wheelIndex.frontrightwheel.getValue()].getMotorOutputPercent();
+		outputs[2] = this.wheels[wheelIndex.backleftwheel.getValue()].getMotorOutputPercent();
+		outputs[3] = this.wheels[wheelIndex.frontleftwheel.getValue()].getMotorOutputPercent();
+		return outputs;
+	}
+	
+	public double[] getMotorOutputCurrents() {
+		double[] outputs = new double[4];
+		outputs[0] = this.wheels[wheelIndex.backrightwheel.getValue()].getOutputCurrent();
+		outputs[1] = this.wheels[wheelIndex.frontrightwheel.getValue()].getOutputCurrent();
+		outputs[2] = this.wheels[wheelIndex.backleftwheel.getValue()].getOutputCurrent();
+		outputs[3] = this.wheels[wheelIndex.frontleftwheel.getValue()].getOutputCurrent();
+		return outputs;
+	}
+	
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
