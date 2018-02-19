@@ -8,8 +8,8 @@
 package org.usfirst.frc.team4215.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
-import org.usfirst.frc.team4215.robot.commands.NotDefaultCommand;
 import org.usfirst.frc.team4215.robot.commands.RunIntake;
+import org.usfirst.frc.team4215.robot.commands.StopIntake;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -50,8 +50,9 @@ public class OI {
 	public Joystick joystick;
 	public Joystick adjutantJoystick;
 	public AnalogGyro gyro;
-	public JoystickButton sampleButton;
 	public JoystickButton intakeButton;
+	public JoystickButton intakeoffButton;
+	public JoystickButton spitButton;
 	
 	/**
 	 * Magnitude from the drive Joystick
@@ -98,6 +99,10 @@ public class OI {
 	public boolean getIntakeButtonValue() {
 		return joystick.getRawButton(RobotMap.intakeButton);
 	}
+	
+	public boolean getIntakeoffButtonValue() {
+		return joystick.getRawButton(RobotMap.intakeOffButton);
+	}
 	/**
 	 * Magnitude value from adjutant Joystick
 	 * @return adjutant Magnitude
@@ -105,8 +110,12 @@ public class OI {
 	public double getliftPower() {
 		return adjutantJoystick.getMagnitude();
 	}
-	public boolean getLiftButtonValue() {
-		return adjutantJoystick.getRawButton(RobotMap.lifttoggleButton);
+	
+	public boolean getSpitButtonValue() {
+		return joystick.getRawButton(RobotMap.spitButton);
+	}
+	public double getadjutantTheta() {
+		return adjutantJoystick.getDirectionRadians();
 	}
 	
 	
@@ -114,9 +123,13 @@ public class OI {
 		super();
 		//instantiates joystick and intake button
 		this.joystick = new Joystick(RobotMap.driveStick);
-		this.intakeButton = new JoystickButton(joystick, RobotMap.intakeButton);
-		
 		this.adjutantJoystick = new Joystick(RobotMap.adjutantJoystick);
+
+		this.intakeButton = new JoystickButton(adjutantJoystick, RobotMap.intakeButton);
+		this.intakeoffButton = new JoystickButton(adjutantJoystick, RobotMap.intakeOffButton);
+		this.spitButton = new JoystickButton(adjutantJoystick, RobotMap.spitButton);
+
+		
 
 	
 		//instantiates the gyro
@@ -124,11 +137,11 @@ public class OI {
 	   gyro.initGyro();
 	   
 		//instantiates the sample button 
-	   this.sampleButton = new JoystickButton(joystick, 2);
 		
 	    //starts a new command based on input 
-		sampleButton.whenPressed(new NotDefaultCommand());
-		intakeButton.whileHeld(new RunIntake());
+		intakeButton.whenPressed(new RunIntake(true));
+		intakeoffButton.whenPressed(new StopIntake());
+		spitButton.whenPressed(new RunIntake(false));
 	}
 
 }
