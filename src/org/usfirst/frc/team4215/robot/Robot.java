@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4215.robot.commands.AutonomousDriveDistanceCommand;
+import org.usfirst.frc.team4215.robot.commands.Turn;
 import org.usfirst.frc.team4215.robot.commands.teleopDrive;
 import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4215.robot.subsystems.Intake;
@@ -70,6 +71,8 @@ public class Robot extends TimedRobot {
 
 	//for choosing autonomous mode (right, left, middle)
 	Command m_autonomousCommand;
+	Command autonomousTurn;
+	
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	
 	RobotPositions robotPos;
@@ -178,6 +181,8 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 //		this.m_autonomousCommand = m_chooser.getSelected();
 		this.m_autonomousCommand = new AutonomousDriveDistanceCommand(24, 1, 0);
+		this.autonomousTurn = new Turn(90, 0.5);
+				
 		robotPos = posChooser.getSelected();
 		robotTeam = teamChooser.getSelected();
 		
@@ -188,6 +193,9 @@ public class Robot extends TimedRobot {
 		
 		timer.start();
 		
+		Scheduler.getInstance().add(autonomousTurn);
+		autonomousTurn.start();
+
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -198,7 +206,7 @@ public class Robot extends TimedRobot {
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+			//m_autonomousCommand.start();
 		}
 		
 		if(robotPosition == "Left") {
