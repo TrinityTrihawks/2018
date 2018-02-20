@@ -109,7 +109,7 @@ public class Robot extends TimedRobot {
 		
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
-		m_oi.gyro.reset();
+		//m_oi.gyro.reset();
 		m_oi.gyro.calibrate();
 		
 	
@@ -173,7 +173,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 //		this.m_autonomousCommand = m_chooser.getSelected();
-		drivetrain.rampRate(6);
+		drivetrain.rampRate(3);
 		this.m_autonomousCommand = new Turn(90, 0.5);
 		Scheduler.getInstance().add(m_autonomousCommand);
 		

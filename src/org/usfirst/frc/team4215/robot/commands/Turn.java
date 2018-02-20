@@ -24,7 +24,7 @@ public class Turn extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.m_oi.gyro.reset();
+    	//Robot.m_oi.gyro.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
