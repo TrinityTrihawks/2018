@@ -55,9 +55,9 @@ public class RobotMap {
 		public final static double wheelCircumference = 18.875; // Essentially 6*pi(C=D*pi), however the C is a little larger in reality
 
 		// Sensor channels
-		public final static int gyroChannel = 3;
+		public final static int gyroChannel = 0;
 		// TODO Find and set the actual values for these ports
-		public final static int frontLeftUltrasonicChannel = 0;
+		public final static int frontLeftUltrasonicChannel = 3;
 		public final static int frontRightUltrasonicChannel = 1;
 		
 		public final static int liftSonic = 2;

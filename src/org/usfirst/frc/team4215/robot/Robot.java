@@ -61,8 +61,7 @@ public class Robot extends TimedRobot {
 	public static final Lift lift = new Lift();
 	
 	
-	AxisCamera cameraBack ;
-	AxisCamera cameraFront ;
+	AxisCamera camera;
 	
 	
 	final int IMG_WIDTH = 320;
@@ -119,9 +118,9 @@ public class Robot extends TimedRobot {
 		entry = table.getEntry("X");
 		System.out.println("Created Network Table entry 'X'");
 	
-		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
-		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		 System.out.println("Front camera initialized properly");
+		 camera = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
+		 camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		 System.out.println("Camera initialized properly");
 		 
 	}
 	@Override
@@ -173,8 +172,18 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 //		this.m_autonomousCommand = m_chooser.getSelected();
-		drivetrain.rampRate(3);
-		this.m_autonomousCommand = new Turn(90, 0.5);
+		drivetrain.rampRate(0);
+		//this.m_autonomousCommand = new Turn(90, 0.5);
+		
+		robotPos = posChooser.getSelected();
+		robotTeam = teamChooser.getSelected();
+		
+		System.out.println("Robot Position: " + robotPos);
+		System.out.println("Robot Team: " + robotTeam);
+		
+		this.m_autonomousCommand = m_chooser.getSelected();
+		System.out.print("Choosing autonomous mode: "+ m_autonomousCommand.getName());
+
 		Scheduler.getInstance().add(m_autonomousCommand);
 		
 		m_autonomousCommand.start();
@@ -183,27 +192,20 @@ public class Robot extends TimedRobot {
 		
 		//this.m_autonomousCommand = new AutonomousDriveDistanceCommand(24, 1, 0);
 				
-
-		this.m_autonomousCommand = m_chooser.getSelected();
-		
 		//this.m_autonomousCommand = new AutonomousDriveDistanceCommand(24, 1, 0);
 		
 		//this.autonomousTurn = new Turn(90, 0.5);
 		
 		//this.m_autonomousCommand = new GoForwardTurnRight();
 		
-		robotPos = posChooser.getSelected();
-		robotTeam = teamChooser.getSelected();
 		
-		System.out.println("Robot Position: " + robotPos);
-		System.out.println("Robot Team: " + robotTeam);
+		
+		
 		String[] ls = new String[] { "1", "1", "1", "1"};
 		logger.init(ls, ls);
 		
 		timer.start();
 		
-		Scheduler.getInstance().add(m_autonomousCommand);
-		m_autonomousCommand.start();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -291,9 +293,15 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		
+		//System.out.println("Autonomous command is canceled: " + m_autonomousCommand.isCanceled());
+		
+		Scheduler.getInstance().removeAll();
+		
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+	    m_chooser.addDefault("Default Teleop", new teleopDrive()); 
 
 		
 		//Scheduler.getInstance().disable();

@@ -75,7 +75,7 @@ public class Drivetrain extends Subsystem {
 		//if (theta <= Math.PI/30 && theta >= -Math.PI/30)
 		
 			
-		magnitude *= slider_power;
+		//magnitude *= slider_power;
 		
 		//rotation = 0;
 		double xPower = magnitude * Math.sin(-theta - Math.PI / 4);
