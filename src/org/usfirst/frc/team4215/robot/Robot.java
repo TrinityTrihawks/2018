@@ -97,6 +97,10 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		//m_chooser.addDefault("Cross Auto Line", new DriveForward());
 		
+		m_chooser.addDefault("Drive forward", new AutonomousDriveDistanceCommand(24, 1, 0));
+		m_chooser.addObject("Turn Right", new Turn(90, 0.5));
+		m_chooser.addObject("Go forward and turn", new GoForwardTurnRight());
+		
 		posChooser.addDefault("Middle", RobotPositions.Middle);
 		posChooser.addObject("Left", RobotPositions.Left);
 		posChooser.addObject("Right", RobotPositions.Right);
@@ -180,12 +184,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-//		this.m_autonomousCommand = m_chooser.getSelected();
+
+		this.m_autonomousCommand = m_chooser.getSelected();
+		
 		//this.m_autonomousCommand = new AutonomousDriveDistanceCommand(24, 1, 0);
 		
-		this.autonomousTurn = new Turn(90, 0.5);
+		//this.autonomousTurn = new Turn(90, 0.5);
 		
-		this.m_autonomousCommand = new GoForwardTurnRight();
+		//this.m_autonomousCommand = new GoForwardTurnRight();
 		
 		robotPos = posChooser.getSelected();
 		robotTeam = teamChooser.getSelected();
@@ -197,8 +203,8 @@ public class Robot extends TimedRobot {
 		
 		timer.start();
 		
-		Scheduler.getInstance().add(autonomousTurn);
-		autonomousTurn.start();
+		Scheduler.getInstance().add(m_autonomousCommand);
+		m_autonomousCommand.start();
 
 
 		/*
@@ -286,7 +292,6 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
-		m_chooser.addDefault("Default Teleop", new teleopDrive());
 
 		
 		//Scheduler.getInstance().disable();
