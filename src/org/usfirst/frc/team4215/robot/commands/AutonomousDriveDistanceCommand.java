@@ -25,6 +25,7 @@ public class AutonomousDriveDistanceCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	System.out.println("Initializing autonomous command");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,22 +34,31 @@ public class AutonomousDriveDistanceCommand extends Command {
         		Robot.drivetrain.resetDistance();
     			Robot.drivetrain.Drive(this.magnitude, this.theta, 0.0, 1);
     			runOnce = false;
+    			
+    			System.out.println("Executed once");
     		}
     		else
     		{
-    			if (Robot.drivetrain.getDistance() < targetDistanceInches) {
-    				Robot.drivetrain.Stop();
-    			}
+    			
     		}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	if (Robot.drivetrain.getDistance() >= targetDistanceInches) {
+			this.completed = true;
+		}
+    	
 		return this.completed;
+		
+		
     }
 
     // Called once after isFinished returns true
     protected void end() {
+		Robot.drivetrain.Stop();
+		System.out.println("DriveDistance Command ended");
+
     }
 
     // Called when another command which requires one or more of the same

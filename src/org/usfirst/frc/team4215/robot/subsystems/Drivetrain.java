@@ -75,7 +75,7 @@ public class Drivetrain extends Subsystem {
 		//if (theta <= Math.PI/30 && theta >= -Math.PI/30)
 		
 			
-		//magnitude = magnitude * (4096/RobotMap.wheelCircumference);
+		magnitude *= slider_power;
 		
 		//rotation = 0;
 		double xPower = magnitude * Math.sin(-theta - Math.PI / 4);
@@ -112,6 +112,22 @@ public class Drivetrain extends Subsystem {
 	
 	public void Stop() {
 		Drive(0,0,0,0);
+	}
+	double deaccel;
+	double velocity;
+	
+	public void brake(double time, double displacement) {
+		velocity =  this.wheels[wheelIndex.backrightwheel.getValue()].getSelectedSensorVelocity(wheelIndex.backrightwheel.getValue());
+		deaccel = ((displacement-velocity*time-getDistance())/Math.pow(time, 2));
+		Drive(Math.abs(deaccel), Math.PI, 0, 1);
+		
+	}
+	
+	public void rampRate(int rate) {
+		this.wheels[wheelIndex.backrightwheel.getValue()].configOpenloopRamp(rate, 0);
+		this.wheels[wheelIndex.frontrightwheel.getValue()].configOpenloopRamp(rate, 0);
+		this.wheels[wheelIndex.backleftwheel.getValue()].configOpenloopRamp(rate, 0);
+		this.wheels[wheelIndex.frontleftwheel.getValue()].configOpenloopRamp(rate, 0);
 	}
 	
 	public void logTalonBusVoltagesConsole() {
@@ -175,4 +191,6 @@ public class Drivetrain extends Subsystem {
 		
 		return distance;
 	}
+	
+	
 }

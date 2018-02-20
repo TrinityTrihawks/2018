@@ -20,11 +20,11 @@ public class Turn extends Command {
     	this.desiredTurn = desiredTurn;
     	this.speed = speed;
     	
-    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.m_oi.gyro.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -32,18 +32,21 @@ public class Turn extends Command {
     	if(runOnce) {
     		initialGyroValue = Robot.m_oi.gyro.getAngle();
     		
-    		double turnDirection = this.desiredTurn / Math.abs(this.desiredTurn);
+    		double turnDirection = desiredTurn / Math.abs(desiredTurn);
     		Robot.drivetrain.Drive(0, 0, turnDirection*speed, 1);
     		runOnce = false;
+    		System.out.println("Turn Direction: " + turnDirection);
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {    	
 	    	//as soon as button is released i.e. false value, then end command
-    		if(Robot.m_oi.gyro.getAngle() - initialGyroValue > desiredTurn) {
+    		if(Math.abs(Robot.m_oi.gyro.getAngle()) - Math.abs(initialGyroValue) > Math.abs(desiredTurn))
+    		{
+    			System.out.println("Turn finished");
+
     			return true;
-    			
     		} else {
     			return false;
     		}
@@ -52,6 +55,7 @@ public class Turn extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.drivetrain.Stop();
+    	System.out.println("Turn called drivetrain.stop");
     }
 
     // Called when another command which requires one or more of the same

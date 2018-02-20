@@ -71,7 +71,6 @@ public class Robot extends TimedRobot {
 
 	//for choosing autonomous mode (right, left, middle)
 	Command m_autonomousCommand;
-	Command autonomousTurn;
 	
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	
@@ -82,7 +81,7 @@ public class Robot extends TimedRobot {
 	TeamColor robotTeam;
 	SendableChooser<TeamColor> teamChooser = new SendableChooser<>();
 	
-	Timer timer;
+	Timer timer = new Timer();
 	
 
 
@@ -105,8 +104,9 @@ public class Robot extends TimedRobot {
 		
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
-		
+		m_oi.gyro.reset();
 		m_oi.gyro.calibrate();
+		
 	
 		//sets up NetworkTable on robot side
 		NetworkTableInstance inst = NetworkTableInstance.getDefault();
@@ -143,26 +143,14 @@ public class Robot extends TimedRobot {
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
 	 */
-	int k = 0;
 	@Override
 	public void disabledInit() {
-	/*	Scheduler.getInstance().disable();
-		drivetrain.Stop();
-	*/
 		
-		//Scheduler.getInstance().removeAll();
-		System.out.println("Disabled Init");
-		if(teleop == true) {
-			Scheduler.getInstance().removeAll();;
-			teleop = false;
-		}
 	}
-
 	@Override
 	public void disabledPeriodic() {
-		//Scheduler.getInstance().run();
-		//drivetrain.Stop();
-		//System.out.println("Disabled Periodic");
+		Scheduler.getInstance().run();
+		
 
 	}
 
@@ -180,8 +168,15 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 //		this.m_autonomousCommand = m_chooser.getSelected();
-		this.m_autonomousCommand = new AutonomousDriveDistanceCommand(24, 1, 0);
-		this.autonomousTurn = new Turn(90, 0.5);
+		drivetrain.rampRate(6);
+		this.m_autonomousCommand = new Turn(90, 0.5);
+		Scheduler.getInstance().add(m_autonomousCommand);
+		
+		m_autonomousCommand.start();
+		
+		
+		
+		//this.m_autonomousCommand = new AutonomousDriveDistanceCommand(24, 1, 0);
 				
 		robotPos = posChooser.getSelected();
 		robotTeam = teamChooser.getSelected();
@@ -192,10 +187,10 @@ public class Robot extends TimedRobot {
 		logger.init(ls, ls);
 		
 		timer.start();
-		
+		/*
 		Scheduler.getInstance().add(autonomousTurn);
 		autonomousTurn.start();
-
+*/
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -205,9 +200,13 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
+
+	
+		/*
 		if (m_autonomousCommand != null) {
 			//m_autonomousCommand.start();
 		}
+		*/
 		
 		if(robotPosition == "Left") {
 			if(robotPlan == "DriveForward") {
@@ -256,7 +255,7 @@ public class Robot extends TimedRobot {
 		double[] getWheelOutputs = drivetrain.getMotorOutputPercents();
 		double[] getMotorOutputCurrents = drivetrain.getMotorOutputCurrents();
 		
-		double[] log = new double[13];
+		double[] log = new double[14];
 		log[0] = timer.get();
 		log[1] = getDistance;
 		
