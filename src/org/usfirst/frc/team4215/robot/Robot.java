@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4215.robot.commands.AutonomousDriveDistanceCommand;
+import org.usfirst.frc.team4215.robot.commands.GoForwardTurnRight;
 import org.usfirst.frc.team4215.robot.commands.Turn;
 import org.usfirst.frc.team4215.robot.commands.teleopDrive;
 import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
@@ -180,9 +181,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 //		this.m_autonomousCommand = m_chooser.getSelected();
-		this.m_autonomousCommand = new AutonomousDriveDistanceCommand(24, 1, 0);
+		//this.m_autonomousCommand = new AutonomousDriveDistanceCommand(24, 1, 0);
+		
 		this.autonomousTurn = new Turn(90, 0.5);
-				
+		
+		this.m_autonomousCommand = new GoForwardTurnRight();
+		
 		robotPos = posChooser.getSelected();
 		robotTeam = teamChooser.getSelected();
 		
