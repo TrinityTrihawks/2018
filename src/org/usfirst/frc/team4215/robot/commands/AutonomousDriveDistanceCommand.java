@@ -58,6 +58,7 @@ public class AutonomousDriveDistanceCommand extends Command {
     protected void end() {
     	Robot.drivetrain.brake(2, 10);
 		Robot.drivetrain.Stop();
+		Robot.drivetrain.resetDistance();
 		System.out.println("DriveDistance Command ended");
 
     }

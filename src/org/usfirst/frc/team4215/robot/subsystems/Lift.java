@@ -17,6 +17,8 @@ public class Lift extends Subsystem {
 	Victor victor2;
 	
 	AnalogInput liftSonic;
+	
+	double height;
 		
 	public Lift() {
     // Put methods for controlling this subsystem
@@ -39,8 +41,8 @@ public class Lift extends Subsystem {
 		victor2.set(magnitude);
 	}
 	
-	public void liftHeight() {
-		//height = (liftSonic.getVoltage()/0.0)
+	public double liftHeight() {
+		return height = (liftSonic.getVoltage()/(0.0048828)/5);
 	}
 	
     public void initDefaultCommand() {

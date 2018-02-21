@@ -60,5 +60,8 @@ public class RobotMap {
 		public final static int frontLeftUltrasonicChannel = 3;
 		public final static int frontRightUltrasonicChannel = 1;
 		
+		public final static String rightUsbUltrasonic = "/dev/ttyUSB0";
+		public final static String leftUsbUltrasonic = "/dev/ttyUSB1";
+		
 		public final static int liftSonic = 2;
 }
