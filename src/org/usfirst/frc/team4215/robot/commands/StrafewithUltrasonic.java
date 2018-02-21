@@ -2,7 +2,6 @@ package org.usfirst.frc.team4215.robot.commands;
 
 import org.usfirst.frc.team4215.robot.Robot;
 import org.usfirst.frc.team4215.robot.RobotMap;
-import org.usfirst.frc.team4215.robot.ultrasonic.UltrasonicReader;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -27,15 +26,15 @@ public class StrafewithUltrasonic extends Command {
 	
 	private boolean completed = false;
 	
-	private UltrasonicReader reader;
+	//private UltrasonicReader reader;
 
     public StrafewithUltrasonic(int distanceInches, double magnitude, double theta) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.drivetrain);
         if(theta == Math.PI/2) {
-        	reader = UltrasonicReader.Create(RobotMap.rightUsbUltrasonic);
+        	//reader = UltrasonicReader.Create(RobotMap.rightUsbUltrasonic);
         } else if(theta == -Math.PI/2){
-        	reader = UltrasonicReader.Create(RobotMap.leftUsbUltrasonic);
+        	//reader = UltrasonicReader.Create(RobotMap.leftUsbUltrasonic);
         } else {
         	System.out.println("Ultrasonic direction invalid");
         }
@@ -59,6 +58,7 @@ public class StrafewithUltrasonic extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	/*
     		if(reader.getDistance() < failSafeReading) {
     			if(state == MovementState.Moving) {
     				
@@ -72,11 +72,12 @@ public class StrafewithUltrasonic extends Command {
     				state = MovementState.Moving;
     			}
     		}
+    		*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.drivetrain.getDistance() >= targetDistanceInches && reader.getDistance() <= desiredReading) {
+    	if (Robot.drivetrain.getDistance() >= targetDistanceInches) {
 			this.completed = true;
 		}
     	

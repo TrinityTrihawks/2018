@@ -24,6 +24,7 @@ import org.usfirst.frc.team4215.robot.commands.GoForwardTurnRight;
 import org.usfirst.frc.team4215.robot.commands.LeftPositionLeftScale;
 import org.usfirst.frc.team4215.robot.commands.RightPositionRightScale;
 import org.usfirst.frc.team4215.robot.commands.Strafe;
+import org.usfirst.frc.team4215.robot.commands.StrafeWithGyro;
 import org.usfirst.frc.team4215.robot.commands.StrafewithUltrasonic;
 import org.usfirst.frc.team4215.robot.commands.Turn;
 import org.usfirst.frc.team4215.robot.commands.liftToheight;
@@ -101,6 +102,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Strafe with sonics", new StrafewithUltrasonic(120, .5, -Math.PI/2));
 		m_chooser.addObject("LeftLeftScale", new LeftPositionLeftScale());
 		m_chooser.addObject("RightRightScale", new RightPositionRightScale());
+		m_chooser.addObject("Strafe with gyro", new StrafeWithGyro(240, 0.5, Math.PI/2));
 
 		SmartDashboard.putData("Auto mode", m_chooser);
 
