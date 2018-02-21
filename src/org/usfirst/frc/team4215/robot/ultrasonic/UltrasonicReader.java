@@ -11,7 +11,7 @@ import gnu.io.SerialPortEventListener;
 public class UltrasonicReader implements Runnable, SerialPortEventListener {
 
 	public static int MIN_DISTANCE = 300;
-	public static int MAX_DISTANCE = 5000;
+	public static int MAX_DISTANCE = 500;
 
 	private static int InstanceCounter = 0;
 	private static int BufferByteSize = 6;

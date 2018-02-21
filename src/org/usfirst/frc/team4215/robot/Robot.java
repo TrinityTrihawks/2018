@@ -21,10 +21,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4215.robot.commands.AutonomousDriveDistanceCommand;
 import org.usfirst.frc.team4215.robot.commands.GoForwardTurnRight;
+import org.usfirst.frc.team4215.robot.commands.LeftPositionLeftScale;
+import org.usfirst.frc.team4215.robot.commands.RightPositionRightScale;
 import org.usfirst.frc.team4215.robot.commands.Strafe;
+import org.usfirst.frc.team4215.robot.commands.StrafewithUltrasonic;
 import org.usfirst.frc.team4215.robot.commands.Turn;
 import org.usfirst.frc.team4215.robot.commands.liftToheight;
-import org.usfirst.frc.team4215.robot.commands.liftWhileDrivingandTurn;
+import org.usfirst.frc.team4215.robot.commands.liftWhileDriving;
 import org.usfirst.frc.team4215.robot.commands.teleopDrive;
 import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4215.robot.subsystems.Intake;
@@ -93,8 +96,12 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Turn Right", new Turn(90, 0.5));
 		m_chooser.addObject("Go forward and turn", new GoForwardTurnRight());
 		m_chooser.addObject("Lift block", new liftToheight(40));
-		m_chooser.addObject("Lift while drive and turn", new liftWhileDrivingandTurn());
+		m_chooser.addObject("Lift while drive", new liftWhileDriving());
 		m_chooser.addObject("Strafe right 2 feet", new Strafe(120));
+		m_chooser.addObject("Strafe with sonics", new StrafewithUltrasonic(120, .5, -Math.PI/2));
+		m_chooser.addObject("LeftLeftScale", new LeftPositionLeftScale());
+		m_chooser.addObject("RightRightScale", new RightPositionRightScale());
+
 		SmartDashboard.putData("Auto mode", m_chooser);
 
 		posChooser.addDefault("Middle", RobotPositions.Middle);
@@ -200,7 +207,7 @@ public class Robot extends TimedRobot {
 		// this.m_autonomousCommand = new GoForwardTurnRight();
 
 		String[] ls = new String[] { "1", "1", "1", "1" };
-		logger.init(ls, ls);
+		//logger.init(ls, ls);
 
 		timer.start();
 
@@ -275,7 +282,7 @@ public class Robot extends TimedRobot {
 			log[10 + i] = getMotorOutputCurrents[i];
 		}
 
-		logger.writeData(log);
+		//logger.writeData(log);
 
 	}
 

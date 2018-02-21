@@ -33,9 +33,9 @@ public class StrafewithUltrasonic extends Command {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.drivetrain);
         if(theta == Math.PI/2) {
-        	reader = new UltrasonicReader(RobotMap.rightUsbUltrasonic);
+        	reader = UltrasonicReader.Create(RobotMap.rightUsbUltrasonic);
         } else if(theta == -Math.PI/2){
-        	reader = new UltrasonicReader(RobotMap.leftUsbUltrasonic);
+        	reader = UltrasonicReader.Create(RobotMap.leftUsbUltrasonic);
         } else {
         	System.out.println("Ultrasonic direction invalid");
         }
