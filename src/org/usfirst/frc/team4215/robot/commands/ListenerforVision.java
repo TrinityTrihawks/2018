@@ -7,7 +7,7 @@ import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 
-public abstract class ListenerforVision implements VisionRunner.Listener<GripPipelineOh>{
+public abstract class ListenerforVision {
 	int IMG_WIDTH = 320;
 	int IMG_HEIGHT = 240;
 	double closedLoopPosBounds = 7*12;
@@ -18,7 +18,7 @@ public abstract class ListenerforVision implements VisionRunner.Listener<GripPip
 	double offSet;
 	double centerX;
 	
-	public void copyPipelineOutputs(GripPipelineOh pipeline) {
+	public void copyPipelineOutputs(Pipeline pipeline) {
 		// TODO Auto-generated method stub
 		 if (!pipeline.filterContoursOutput().isEmpty()) {
 			 Rect r = null;

@@ -1,3 +1,4 @@
+package org.usfirst.frc.team4215.robot.commands;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import org.opencv.objdetect.*;
 *
 * @author GRIP
 */
-public class GripPipelineOh {
+public class Pipeline {
 
 	//Outputs
 	private Mat hslThresholdOutput = new Mat();
