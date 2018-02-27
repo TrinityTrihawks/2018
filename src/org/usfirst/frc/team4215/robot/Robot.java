@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
 		teamChooser.addObject("Blue", TeamColor.Blue);
 		
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		//SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putData("Auto mode", m_chooser);
 		//m_oi.gyro.reset();
 		m_oi.gyro.calibrate();
 		
