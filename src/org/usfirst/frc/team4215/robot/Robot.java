@@ -12,6 +12,8 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -171,6 +173,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
+		Alliance alliance = DriverStation.getInstance().getAlliance();
+		
+		char switchPosition = gameData.charAt(0);
+		char scalePosition = gameData.charAt(1);
+		
+		System.out.println("switchPosition is..." + switchPosition);
+		System.out.println("scalePosition is..." + scalePosition);
 //		this.m_autonomousCommand = m_chooser.getSelected();
 		drivetrain.rampRate(0);
 		//this.m_autonomousCommand = new Turn(90, 0.5);
