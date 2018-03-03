@@ -64,4 +64,7 @@ public class RobotMap {
 		public final static String leftUsbUltrasonic = "/dev/ttyUSB1";
 		
 		public final static int liftSonic = 2;
+		
+		// Command numbers
+		public final static double liftSpeed = .4;
 }

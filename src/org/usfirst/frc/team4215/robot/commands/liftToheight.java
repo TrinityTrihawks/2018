@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4215.robot.commands;
 
 import org.usfirst.frc.team4215.robot.Robot;
+import org.usfirst.frc.team4215.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -26,7 +27,7 @@ public class liftToheight extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if (this.runOnce) {
-    		Robot.lift.lift(.4, 0);
+    		Robot.lift.lift(RobotMap.liftSpeed, 0);
     		runOnce = false;
     		System.out.println("Lifting");
     	}
@@ -53,5 +54,6 @@ public class liftToheight extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

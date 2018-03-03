@@ -38,9 +38,9 @@ public class StrafeWithGyro extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double drift = Robot.m_oi.getGyroAngle();
-    	if (Math.abs(Robot.m_oi.getGyroAngle())>0) {
+    	if (Math.abs(Robot.m_oi.getGyroAngle())>0 && Math.abs(Robot.m_oi.getGyroAngle())<1) {
         	Robot.drivetrain.Drive(this.magnitude, this.theta, -.1, 1);
-
+        	
     	}
 
     }
@@ -62,5 +62,6 @@ public class StrafeWithGyro extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
