@@ -100,7 +100,7 @@ public class Robot extends TimedRobot {
 		// m_chooser.addDefault("Cross Auto Line", new DriveForward());
 
 		m_chooser.addDefault("Drive forward", new AutonomousDriveDistanceCommand(24, 1, 0));
-		m_chooser.addObject("Turn Right", new Turn(90, 0.5));
+		m_chooser.addObject("Turn Right", new Turn(150, 0.5));
 		m_chooser.addObject("Go forward and turn", new GoForwardTurnRight());
 		m_chooser.addObject("Lift block", new liftToheight(40));
 		m_chooser.addObject("Lift while drive", new liftWhileDriving());

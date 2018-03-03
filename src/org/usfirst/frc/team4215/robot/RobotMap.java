@@ -30,12 +30,18 @@ public class RobotMap {
 		public final static int driveStick = 0; 
 		public final static int adjutantJoystick = 1;
 
-		// Talons for drivetrain
+		/*// Talons for drivetrain
 		public final static int talonWheel_backright = 1;
 		public final static int talonWheel_frontright = 2;
 		public final static int talonWheel_backleft = 0;
 		public final static int talonWheel_frontleft = 3;
-		
+		*/
+		// Talons for drivetrain
+				public final static int talonWheel_backright = 3;
+				public final static int talonWheel_frontright = 2;
+				public final static int talonWheel_backleft = 1;
+				public final static int talonWheel_frontleft = 0;
+				
 		// Victors for Intake
 		public final static int intakeVictor1 = 3;
 		public final static int intakeVictor2 = 4;

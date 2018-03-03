@@ -38,9 +38,12 @@ public class StrafeWithGyro extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double drift = Robot.m_oi.getGyroAngle();
-    	if (Math.abs(Robot.m_oi.getGyroAngle())>0 && Math.abs(Robot.m_oi.getGyroAngle())<1) {
-        	Robot.drivetrain.Drive(this.magnitude, this.theta, -.1, 1);
-        	
+    	if (Math.abs(Robot.m_oi.getGyroAngle())>1) {
+        	Robot.drivetrain.Drive(this.magnitude, this.theta, -1*Math.signum(Robot.m_oi.getGyroAngle())*.05, 1);        	
+    	}
+    	else if (Math.abs(Robot.m_oi.getGyroAngle())>0) {
+        	Robot.drivetrain.Drive(this.magnitude, this.theta, 0, 1);        	
+
     	}
 
     }

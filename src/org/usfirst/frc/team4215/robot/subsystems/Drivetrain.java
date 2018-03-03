@@ -52,6 +52,11 @@ public class Drivetrain extends Subsystem {
 		this.wheels[wheelIndex.frontleftwheel.getValue()].setInverted(true);
 		//this.wheels[wheelIndex.backrightwheel.getValue()].setInverted(true);
 		this.wheels[wheelIndex.frontrightwheel.getValue()].setInverted(true);
+		
+		/*//this.wheels[wheelIndex.backleftwheel.getValue()].setInverted(true);
+				//this.wheels[wheelIndex.frontleftwheel.getValue()].setInverted(true);
+				this.wheels[wheelIndex.backrightwheel.getValue()].setInverted(true);
+				this.wheels[wheelIndex.frontrightwheel.getValue()].setInverted(true);*/
 	}
 	
 	/**
@@ -106,7 +111,7 @@ public class Drivetrain extends Subsystem {
 		 
 	 public void TalonOutputVoltage() {
 		 for(int j = 0; j<4;j++) {
-			 SmartDashboard.putNumber("outputVoltage"+j, this.wheels[j].getMotorOutputVoltage());
+			 //SmartDashboard.putNumber("outputVoltage"+j, this.wheels[j].getMotorOutputVoltage());
 		 }
 	 }
 	
@@ -181,10 +186,8 @@ public class Drivetrain extends Subsystem {
 
 	public double getDistance()
 	{
-		int ticks = Math.min(Math.abs(this.wheels[wheelIndex.backrightwheel.getValue()].getSensorCollection().getQuadraturePosition()), 
-				Math.abs(this.wheels[wheelIndex.frontrightwheel.getValue()].getSensorCollection().getQuadraturePosition()));
-		ticks = Math.min(ticks, Math.abs(this.wheels[wheelIndex.backleftwheel.getValue()].getSensorCollection().getQuadraturePosition()));
-		ticks = Math.min(ticks, Math.abs(this.wheels[wheelIndex.frontleftwheel.getValue()].getSensorCollection().getQuadraturePosition()));
+		int ticks = Math.abs(this.wheels[wheelIndex.frontleftwheel.getValue()].getSensorCollection().getQuadraturePosition());
+				
 		
 		// convert encoder ticks
 		double distance = ticks/4096 * RobotMap.wheelCircumference;
