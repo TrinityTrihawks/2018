@@ -339,5 +339,49 @@ public class Robot extends TimedRobot {
 		System.out.println("Test Periodic");
 
 	}
+	
+	private Command chooseAutonomousRoutine(RobotPositions robotPos, String fieldData) {
+		switch(robotPos) {
+		
+			case Left:
+				
+				switch(fieldData.charAt(1)) { //the switch
+					case 'L':
+						break;
+					default:
+						break; 
+					}
+				
+					break;
+				
+			case Right:
+				
+				switch(fieldData.charAt(1)) { //the switch
+					case 'L':
+						break;
+					default:
+						break; 
+				}
+				
+				break;
+			
+			default:
+				
+				switch(fieldData.charAt(1)) { //the switch
+					case 'L':
+						break;
+					default:
+						break;
+				}
+				
+				break;
+		}
+		
+		//just for now
+		return m_autonomousCommand;
 
+			
+	}
+	
+	
 }
