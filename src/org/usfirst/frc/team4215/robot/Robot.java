@@ -22,9 +22,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4215.robot.commands.AutonomousDriveDistanceCommand;
+import org.usfirst.frc.team4215.robot.commands.CenterPositionGoLeft;
+import org.usfirst.frc.team4215.robot.commands.CenterPositionGoRight;
 import org.usfirst.frc.team4215.robot.commands.GoForwardTurnRight;
 import org.usfirst.frc.team4215.robot.commands.LeftPositionLeftScale;
+import org.usfirst.frc.team4215.robot.commands.LeftPositionLeftSwitch;
 import org.usfirst.frc.team4215.robot.commands.RightPositionRightScale;
+import org.usfirst.frc.team4215.robot.commands.RightPositionRightSwitch;
 import org.usfirst.frc.team4215.robot.commands.Strafe;
 import org.usfirst.frc.team4215.robot.commands.StrafeWithGyro;
 import org.usfirst.frc.team4215.robot.commands.StrafewithUltrasonic;
@@ -105,6 +109,10 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("LeftLeftScale", new LeftPositionLeftScale());
 		m_chooser.addObject("RightRightScale", new RightPositionRightScale());
 		m_chooser.addObject("Strafe with gyro", new StrafeWithGyro(240, 0.5, Math.PI/2));
+		m_chooser.addObject("Go diagonally right", new CenterPositionGoRight());
+		m_chooser.addObject("Go diagonally left", new CenterPositionGoLeft());
+		m_chooser.addObject("LeftLeft Switch", new LeftPositionLeftSwitch());
+		m_chooser.addObject("RightRight Switch", new RightPositionRightSwitch());
 
 		SmartDashboard.putData("Auto mode", m_chooser);
 
@@ -188,18 +196,23 @@ public class Robot extends TimedRobot {
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		Alliance alliance = DriverStation.getInstance().getAlliance();
 		
+			
 		char switchPosition = gameData.charAt(0);
 		char scalePosition = gameData.charAt(1);
 		
 		System.out.println("switchPosition is..." + switchPosition);
 		System.out.println("scalePosition is..." + scalePosition);
-		
+						
 		drivetrain.rampRate(3);
+		
 		robotPos = posChooser.getSelected();
 		robotTeam = teamChooser.getSelected();
 
 		System.out.println("Robot Position: " + robotPos);
 		System.out.println("Robot Team: " + robotTeam);
+		
+		//m_autonomousCommand = chooseAutonomousRoutine(robotPos, switchPosition, scalePosition);
+
 
 		m_autonomousCommand = m_chooser.getSelected();
 		System.out.print("Choosing autonomous mode: " + m_autonomousCommand.getName());
@@ -340,35 +353,67 @@ public class Robot extends TimedRobot {
 
 	}
 	
-	private Command chooseAutonomousRoutine(RobotPositions robotPos, String fieldData) {
+	private Command chooseAutonomousRoutine(RobotPositions robotPos, char switchPosition, char scalePosition) {
 		switch(robotPos) {
 		
+			//if robot starts on left
 			case Left:
 				
-				switch(fieldData.charAt(1)) { //the switch
+				//if scale is also on left, go to scale
+				//otherwise, ?
+				switch(scalePosition) {
 					case 'L':
+						return new LeftPositionLeftScale();
+					case 'R':
 						break;
 					default:
 						break; 
 					}
 				
 					break;
-				
+			
+			//if robot starts on right
 			case Right:
 				
-				switch(fieldData.charAt(1)) { //the switch
+				//if scale is also on right, go to scale
+				//otherwise, ?
+				switch(scalePosition) {
 					case 'L':
 						break;
+					case 'R':
+						return new RightPositionRightScale();
 					default:
 						break; 
 				}
 				
 				break;
 			
+			//if robot starts in the middle
+			case Middle:
+				
+				//if switch is on left, cross auto line on right
+				//if switch is on right, cross auto line on left
+				switch(switchPosition) {
+					case 'L':
+						return new CenterPositionGoRight();
+					case 'R':
+						return new CenterPositionGoLeft();
+					default:
+						break;
+				}
+				
+				break;
+			
+			// if robot position is not left, right, or middle
 			default:
 				
-				switch(fieldData.charAt(1)) { //the switch
+				System.out.println("Invalid robotPosition: " + robotPosition.toString());
+				
+				//do something?
+				switch(scalePosition) {
 					case 'L':
+						break;
+					case 'R':
 						break;
 					default:
 						break;
