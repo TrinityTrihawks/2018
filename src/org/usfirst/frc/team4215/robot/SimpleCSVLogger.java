@@ -16,8 +16,6 @@ public class SimpleCSVLogger {
     BufferedWriter log_file = null;
     boolean log_open = false;
 
-
-
     /**
      * Determines a unique file name, and opens a file in the data captures directory and writes the
      * initial lines to it.
@@ -26,11 +24,11 @@ public class SimpleCSVLogger {
      * @param units_fields A set of strings for signal units to write into the file
      * @return 0 on successful log open, -1 on failure
      */
-    public int init(String[] data_fields, String[] units_fields) {
+    public void init(String[] data_fields, String[] units_fields) {
 
         if (log_open) {
             System.out.println("Warning - log is already open!");
-            return 0;
+            return;
         }
 
         log_open = false;
@@ -53,7 +51,6 @@ public class SimpleCSVLogger {
             // End of line
             log_file.write("\n");
 
-
             // Write user-defined units line
             for (String header_txt : units_fields) {
                 log_file.write(header_txt + ", ");
@@ -65,11 +62,11 @@ public class SimpleCSVLogger {
         // Catch ALL the errors!!!
         catch (IOException e) {
             System.out.println("Error initializing log file: " + e.getMessage());
-            return -1;
+            return;
         }
         System.out.println("done!");
         log_open = true;
-        return 0;
+        return;
 
     }
 
@@ -84,12 +81,12 @@ public class SimpleCSVLogger {
      *        call to init()
      * @return 0 on write success, -1 on failure.
      */
-    public int writeData(double... data_elements) {
+    public void writeData(double... data_elements) {
         String line_to_write = "";
 
         if (log_open == false) {
             System.out.println("Error - Log is not yet opened, cannot write!");
-            return -1;
+            return;
         }
 
         try {
@@ -109,11 +106,11 @@ public class SimpleCSVLogger {
         // Catch ALL the errors!!!
         catch (IOException e) {
             System.out.println("Error writing to log file: " + e.getMessage());
-            return -1;
+            return;
         }
 
         log_write_index++;
-        return 0;
+        return;
     }
 
 
@@ -126,10 +123,10 @@ public class SimpleCSVLogger {
      * 
      * @return Returns 0 on flush success or -1 on failure.
      */
-    public int forceSync() {
+    public void forceSync() {
         if (log_open == false) {
             System.out.println("Error - Log is not yet opened, cannot sync!");
-            return -1;
+            return;
         }
         try {
             log_file.flush();
@@ -137,10 +134,10 @@ public class SimpleCSVLogger {
         // Catch ALL the errors!!!
         catch (IOException e) {
             System.out.println("Error flushing IO stream file: " + e.getMessage());
-            return -1;
+            return;
         }
 
-        return 0;
+        return;
 
     }
 
@@ -152,11 +149,11 @@ public class SimpleCSVLogger {
      * 
      * @return -1 on failure to close, 0 on success
      */
-    public int close() {
+    public void close() {
 
         if (log_open == false) {
             System.out.println("Warning - Log is not yet opened, nothing to close.");
-            return 0;
+            return;
         }
 
         try {
@@ -166,18 +163,15 @@ public class SimpleCSVLogger {
         // Catch ALL the errors!!!
         catch (IOException e) {
             System.out.println("Error Closing Log File: " + e.getMessage());
-            return -1;
+            return;
         }
-        return 0;
+        return;
 
     }
-
 
     private String getDateTimeString() {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
         df.setTimeZone(TimeZone.getTimeZone("US/Central"));
         return df.format(new Date());
     }
-
-
 }

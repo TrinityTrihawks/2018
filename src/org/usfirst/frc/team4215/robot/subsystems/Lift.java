@@ -25,7 +25,7 @@ public class Lift extends Subsystem {
     // here. Call these from Commands.
 	victor1 = new Victor(RobotMap.liftvictorOne);
 	victor2 = new Victor(RobotMap.liftvictorTwo);
-	this.liftSonic = new AnalogInput(RobotMap.liftSonic);
+	this.liftSonic = new AnalogInput(RobotMap.liftUltrasonicChannel);
 	}
 	
 	/**

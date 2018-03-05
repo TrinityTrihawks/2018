@@ -8,11 +8,9 @@
 package org.usfirst.frc.team4215.robot;
 
 import edu.wpi.cscore.AxisCamera;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -39,6 +37,7 @@ import org.usfirst.frc.team4215.robot.commands.teleopDrive;
 import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4215.robot.subsystems.Intake;
 import org.usfirst.frc.team4215.robot.subsystems.Lift;
+import org.usfirst.frc.team4215.robot.ultrasonic.UltrasonicReaderV3;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -63,12 +62,14 @@ public class Robot extends TimedRobot {
 
 	SimpleCSVLogger logger = new SimpleCSVLogger();
 
-	NetworkTableEntry entry;
+//	NetworkTableEntry entry;
 
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final Intake intake = new Intake();
 	public static final Lift lift = new Lift();
 
+	public static UltrasonicReaderV3 frontLeftUltrasonic;
+	
 	AxisCamera camera;
 
 	final int IMG_WIDTH = 320;
@@ -129,16 +130,12 @@ public class Robot extends TimedRobot {
 		//m_oi.gyro.reset();
 		m_oi.gyro.calibrate();
 
-		// sets up NetworkTable on robot side
-		NetworkTableInstance inst = NetworkTableInstance.getDefault();
-		NetworkTable table = inst.getTable("datatable");
-		entry = table.getEntry("X");
-		System.out.println("Created Network Table entry 'X'");
-
+		// TODO: check if camera defined before adding to CameraServer
 		camera = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		System.out.println("Camera initialized properly");
-
+		
+		Robot.frontLeftUltrasonic = UltrasonicReaderV3.Create("sideLeftUltrasonic", SerialPort.Port.kUSB);		
 	}
 
 	@Override
@@ -148,19 +145,14 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Rotation", m_oi.getRotation());
 		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
 		SmartDashboard.putNumber("Slider", m_oi.getSlider());
-		SmartDashboard.putNumber("Ultrasonic", lift.liftHeight());
+		SmartDashboard.putNumber("Lift : Ultrasonic", lift.liftHeight());
 
-
-		// System.out.println(m_oi.getMagnitude() + " " + m_oi.getTheta() + " " +
-		// m_oi.getRotation());
-		// SmartDashboard.putNumberArray("Motor Powers", drivetrain.power);
-		SmartDashboard.putNumber("X", entry.getDouble(0));
-
-		for (int k = 0; k < 4; k++) {
-			SmartDashboard.putNumber("power" + k, drivetrain.power[k]);
-		}
+		drivetrain.logTalonMotorOutputPercent();
 		drivetrain.logTalonBusVoltages();
-		drivetrain.TalonOutputVoltage();
+		
+		if (frontLeftUltrasonic != null) {
+			SmartDashboard.putNumber("Ultrasonic ( " + frontLeftUltrasonic.getName() + " ) :  ", frontLeftUltrasonic.getDistance());
+		}
 	}
 
 	/**
@@ -203,7 +195,7 @@ public class Robot extends TimedRobot {
 		System.out.println("switchPosition is..." + switchPosition);
 		System.out.println("scalePosition is..." + scalePosition);
 						
-		drivetrain.rampRate(3);
+		drivetrain.setRampRate(3);
 		
 		robotPos = posChooser.getSelected();
 		robotTeam = teamChooser.getSelected();
@@ -286,24 +278,24 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 
-		double getDistance = drivetrain.getDistance();
-		double[] getTalonBusVoltages = drivetrain.getTalonBusVoltages();
-		double[] getWheelOutputs = drivetrain.getMotorOutputPercents();
-		double[] getMotorOutputCurrents = drivetrain.getMotorOutputCurrents();
-
-		double[] log = new double[14];
-		log[0] = timer.get();
-		log[1] = getDistance;
-
-		for (int i = 0; i < 4; i++) {
-			log[2 + i] = getTalonBusVoltages[i];
-		}
-		for (int i = 0; i < 4; i++) {
-			log[6 + i] = getWheelOutputs[i];
-		}
-		for (int i = 0; i < 4; i++) {
-			log[10 + i] = getMotorOutputCurrents[i];
-		}
+//		double getDistance = drivetrain.getDistance();
+//		double[] getTalonBusVoltages = drivetrain.getTalonBusVoltages();
+//		double[] getWheelOutputs = drivetrain.getMotorOutputPercents();
+//		double[] getMotorOutputCurrents = drivetrain.getMotorOutputCurrents();
+//
+//		double[] log = new double[14];
+//		log[0] = timer.get();
+//		log[1] = getDistance;
+//
+//		for (int i = 0; i < 4; i++) {
+//			log[2 + i] = getTalonBusVoltages[i];
+//		}
+//		for (int i = 0; i < 4; i++) {
+//			log[6 + i] = getWheelOutputs[i];
+//		}
+//		for (int i = 0; i < 4; i++) {
+//			log[10 + i] = getMotorOutputCurrents[i];
+//		}
 
 		//logger.writeData(log);
 
@@ -331,7 +323,7 @@ public class Robot extends TimedRobot {
 		System.out.println("Teleop Init");
 		teleop = true;
 		Scheduler.getInstance().enable();
-		drivetrain.rampRate(0);
+		drivetrain.setRampRate(0);
 
 	}
 
@@ -424,9 +416,5 @@ public class Robot extends TimedRobot {
 		
 		//just for now
 		return m_autonomousCommand;
-
-			
 	}
-	
-	
 }

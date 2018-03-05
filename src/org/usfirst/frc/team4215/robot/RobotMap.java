@@ -7,8 +7,6 @@
 
 package org.usfirst.frc.team4215.robot;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -37,10 +35,10 @@ public class RobotMap {
 		public final static int talonWheel_frontleft = 3;
 		*/
 		// Talons for drivetrain
-				public final static int talonWheel_backright = 3;
-				public final static int talonWheel_frontright = 2;
-				public final static int talonWheel_backleft = 1;
-				public final static int talonWheel_frontleft = 0;
+		public final static int talonWheel_backright = 3;
+		public final static int talonWheel_frontright = 2;
+		public final static int talonWheel_backleft = 1;
+		public final static int talonWheel_frontleft = 0;
 				
 		// Victors for Intake
 		public final static int intakeVictor1 = 3;
@@ -65,11 +63,9 @@ public class RobotMap {
 		// TODO Find and set the actual values for these ports
 		public final static int frontLeftUltrasonicChannel = 3;
 		public final static int frontRightUltrasonicChannel = 1;
-		
-		public final static String rightUsbUltrasonic = "/dev/ttyUSB0";
-		public final static String leftUsbUltrasonic = "/dev/ttyUSB1";
-		
-		public final static int liftSonic = 2;
+		public final static String sideRightUltrasonic = "/dev/ttyUSB1";
+		public final static String sideLeftUltrasonic = "/dev/ttyUSB0";
+		public final static int liftUltrasonicChannel = 2;
 		
 		// Command numbers
 		public final static double liftSpeed = .4;
