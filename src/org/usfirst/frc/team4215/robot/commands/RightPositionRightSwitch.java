@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4215.robot.commands;
 
+import org.usfirst.frc.team4215.robot.commandgroup.LiftSwitchHeightWhileDriving;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**

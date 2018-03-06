@@ -19,25 +19,12 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team4215.robot.commands.AutonomousDriveDistanceCommand;
-import org.usfirst.frc.team4215.robot.commands.CenterPositionGoLeft;
-import org.usfirst.frc.team4215.robot.commands.CenterPositionGoRight;
-import org.usfirst.frc.team4215.robot.commands.GoForwardTurnRight;
-import org.usfirst.frc.team4215.robot.commands.LeftPositionLeftScale;
-import org.usfirst.frc.team4215.robot.commands.LeftPositionLeftSwitch;
-import org.usfirst.frc.team4215.robot.commands.RightPositionRightScale;
-import org.usfirst.frc.team4215.robot.commands.RightPositionRightSwitch;
-import org.usfirst.frc.team4215.robot.commands.Strafe;
-import org.usfirst.frc.team4215.robot.commands.StrafeWithGyro;
-import org.usfirst.frc.team4215.robot.commands.StrafewithUltrasonic;
-import org.usfirst.frc.team4215.robot.commands.Turn;
-import org.usfirst.frc.team4215.robot.commands.liftToheight;
-import org.usfirst.frc.team4215.robot.commands.liftWhileDriving;
-import org.usfirst.frc.team4215.robot.commands.teleopDrive;
+import org.usfirst.frc.team4215.robot.commandgroup.*;
+import org.usfirst.frc.team4215.robot.commands.*;
 import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4215.robot.subsystems.Intake;
 import org.usfirst.frc.team4215.robot.subsystems.Lift;
-import org.usfirst.frc.team4215.robot.ultrasonic.UltrasonicReaderV3;
+import org.usfirst.frc.team4215.robot.ultrasonic.UltrasonicReaderUSB;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -68,7 +55,7 @@ public class Robot extends TimedRobot {
 	public static final Intake intake = new Intake();
 	public static final Lift lift = new Lift();
 
-	public static UltrasonicReaderV3 frontLeftUltrasonic;
+	public static UltrasonicReaderUSB frontLeftUltrasonic;
 	
 	AxisCamera camera;
 
@@ -100,6 +87,7 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		// m_chooser.addDefault("Cross Auto Line", new DriveForward());
 
+		m_chooser.addDefault("Drive forward with Ultrasonic", new GoFowardCollisionWait());
 		m_chooser.addDefault("Drive forward", new AutonomousDriveDistanceCommand(24, 1, 0));
 		m_chooser.addObject("Turn Right", new Turn(150, 0.5));
 		m_chooser.addObject("Go forward and turn", new GoForwardTurnRight());
@@ -127,7 +115,7 @@ public class Robot extends TimedRobot {
 
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
-		//m_oi.gyro.reset();
+		m_oi.gyro.reset();
 		m_oi.gyro.calibrate();
 
 		// TODO: check if camera defined before adding to CameraServer
@@ -135,7 +123,7 @@ public class Robot extends TimedRobot {
 		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		System.out.println("Camera initialized properly");
 		
-		Robot.frontLeftUltrasonic = UltrasonicReaderV3.Create("sideLeftUltrasonic", SerialPort.Port.kUSB);		
+		Robot.frontLeftUltrasonic = UltrasonicReaderUSB.Create("sideLeftUltrasonic", SerialPort.Port.kUSB);		
 	}
 
 	@Override
@@ -151,7 +139,7 @@ public class Robot extends TimedRobot {
 		drivetrain.logTalonBusVoltages();
 		
 		if (frontLeftUltrasonic != null) {
-			SmartDashboard.putNumber("Ultrasonic ( " + frontLeftUltrasonic.getName() + " ) :  ", frontLeftUltrasonic.getDistance());
+			SmartDashboard.putNumber("Ultrasonic ( " + frontLeftUltrasonic.getName() + " ) :  ", frontLeftUltrasonic.getRangeMM());
 		}
 	}
 
@@ -188,7 +176,6 @@ public class Robot extends TimedRobot {
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		Alliance alliance = DriverStation.getInstance().getAlliance();
 		
-			
 		char switchPosition = gameData.charAt(0);
 		char scalePosition = gameData.charAt(1);
 		
@@ -205,8 +192,9 @@ public class Robot extends TimedRobot {
 		
 		//m_autonomousCommand = chooseAutonomousRoutine(robotPos, switchPosition, scalePosition);
 
-
 		m_autonomousCommand = m_chooser.getSelected();
+
+		m_autonomousCommand = new GoFowardCollisionWait();
 		System.out.print("Choosing autonomous mode: " + m_autonomousCommand.getName());
 
 		Scheduler.getInstance().add(m_autonomousCommand);

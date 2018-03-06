@@ -2,11 +2,7 @@ package org.usfirst.frc.team4215.robot.ultrasonic;
 
 import edu.wpi.first.wpilibj.SerialPort;
 
-public class UltrasonicReaderV3 implements Runnable {
-
-	public static int MIN_DISTANCE = 300;
-	public static int MAX_DISTANCE = 5000;
-	public static int ERR_DISTANCE = 0;
+public class UltrasonicReaderUSB implements Runnable, IUltrasonic {
 
 	private static int SerialBaudRate = 57600;
 
@@ -15,24 +11,24 @@ public class UltrasonicReaderV3 implements Runnable {
 	private String name;
 	private Thread readThread;
 	private volatile boolean readThreadFlag;
-	private volatile int distance = ERR_DISTANCE;
+	private volatile double distance = ERR_DISTANCE;
 	
-	public static UltrasonicReaderV3 Create(String name, SerialPort.Port port) {
+	public static UltrasonicReaderUSB Create(String name, SerialPort.Port port) {
 		try {
-			return new UltrasonicReaderV3(name, port);
+			return new UltrasonicReaderUSB(name, port);
 	    } catch (Exception e) { 
 			System.out.println(e);
-			return new UltrasonicReaderV3(name);
+			return new UltrasonicReaderUSB(name);
 		}
 	}
 	
-	private UltrasonicReaderV3(String name)  {
+	private UltrasonicReaderUSB(String name)  {
 		this.name = name;
 		this.readThreadFlag = false;
 		this.readThread = new Thread(this);
 	}
 
-	private UltrasonicReaderV3(String name, SerialPort.Port port)  {
+	private UltrasonicReaderUSB(String name, SerialPort.Port port)  {
 		this.name = name;
 		this.serialPort = new SerialPort(SerialBaudRate, port);
 		this.serialPort.setReadBufferSize(7);
@@ -90,18 +86,25 @@ public class UltrasonicReaderV3 implements Runnable {
         // TODO: not sure if boundary checks are needed
         this.distance = this.distance < MIN_DISTANCE ? MIN_DISTANCE : this.distance;
         this.distance = this.distance > MAX_DISTANCE ? MAX_DISTANCE : this.distance;
-
-        // TODO: not sure if we can (OR SHOULD) write to dashbaord from background thread
-//        SmartDashboard.putNumber("Ultrasonic ( " + this.getName() + " ) :  ", this.distance);
  	}
 
-	public int getDistance() {
-		return this.distance;
-	}
-
+	@Override
 	public String getName() {
 		return this.name;
 	}
+	
+	@Override
+	public boolean isEnabled() {
+		return this.readThread.isAlive() && this.readThreadFlag;
+	}
 
+	@Override
+	public double getRangeInches() {
+		return this.distance / 25.4;
+	}
 
+	@Override
+	public double getRangeMM() {
+		return this.distance;
+	}
 }

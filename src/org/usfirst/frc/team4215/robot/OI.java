@@ -133,8 +133,8 @@ public class OI {
 
 	
 		//instantiates the gyro
-	   this.gyro = new AnalogGyro(RobotMap.gyroChannel); 
-	   gyro.initGyro();
+		this.gyro = new AnalogGyro(RobotMap.gyroChannel); 
+		this.gyro.initGyro();
 	   
 		//instantiates the sample button 
 		

@@ -54,7 +54,7 @@ public class RobotMap {
 		public final static int liftvictorTwo = 1;
 		
 		// Valuable numbers for Drivetrain
-		public final static int numberOfWheels = 4;
+		//public final static int numberOfWheels = 4;
 		//18.875
 		public final static double wheelCircumference = 18.875; // Essentially 6*pi(C=D*pi), however the C is a little larger in reality
 

@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4215.robot.commands;
 
+import org.usfirst.frc.team4215.robot.commandgroup.liftWhileDriving;
+import org.usfirst.frc.team4215.robot.commandgroup.liftWhileTurning;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**

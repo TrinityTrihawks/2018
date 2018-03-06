@@ -1,7 +1,9 @@
 package org.usfirst.frc.team4215.robot.commands;
 
 import org.usfirst.frc.team4215.robot.Robot;
+import org.usfirst.frc.team4215.robot.ultrasonic.IUltrasonic;
 
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -9,11 +11,10 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutonomousDriveDistanceCommand extends Command {
 
-	private double targetDistanceInches = 0;
-	private double magnitude = 0;
-	private double theta = 0;
-	private boolean runOnce = true;
-	private boolean completed = false;
+	protected double targetDistanceInches = 0;
+	protected double magnitude = 0;
+	protected double theta = 0;
+	protected boolean completed = false;
 	
     public AutonomousDriveDistanceCommand(int distanceInches, double magnitude, double theta) {
     		requires(Robot.drivetrain);
@@ -22,45 +23,39 @@ public class AutonomousDriveDistanceCommand extends Command {
     		this.magnitude = magnitude;
     		this.theta = theta;
     }
-
+    
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("Initializing autonomous command");
+    		System.out.println("Initializing autonomous command");
+    		Robot.drivetrain.resetDistance();
     }
 
+    
+    
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    		if (this.runOnce) {
-        		Robot.drivetrain.resetDistance();
-    			Robot.drivetrain.Drive(this.magnitude, this.theta, 0.0, 1);
-    			runOnce = false;
-    			
-    			System.out.println("Executed once");
-    		}
-    		else
-    		{
-    			
-    		}
-    }
+		Robot.drivetrain.Drive(this.magnitude, this.theta, 0.0, 1);	
+		return;
+    	}
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.drivetrain.getDistance() >= targetDistanceInches) {
-			this.completed = true;
-		}
-    	
+    		if (!this.completed) {
+    			if (Robot.drivetrain.getDistance() >= targetDistanceInches) {
+    				this.completed = true;
+    				//Robot.drivetrain.brake(2, 10);
+    			}    			
+    		}
+    		
 		return this.completed;
-		
-		
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.drivetrain.brake(2, 10);
+    		this.completed = true;
 		Robot.drivetrain.Stop();
 		Robot.drivetrain.resetDistance();
 		System.out.println("DriveDistance Command ended");
-
     }
 
     // Called when another command which requires one or more of the same
