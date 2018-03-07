@@ -48,9 +48,7 @@ public class Robot extends TimedRobot {
 	String robotPlan;
 
 	SimpleCSVLogger logger = new SimpleCSVLogger();
-
-//	NetworkTableEntry entry;
-
+	
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final Intake intake = new Intake();
 	public static final Lift lift = new Lift();
@@ -93,7 +91,10 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Go forward and turn", new GoForwardTurnRight());
 		m_chooser.addObject("Lift block", new liftToheight(40));
 		m_chooser.addObject("Lift while drive", new liftWhileDriving());
-		m_chooser.addObject("Strafe right 2 feet", new Strafe(120));
+		m_chooser.addObject("Strafe right 5 feet", new Strafe(60));
+		m_chooser.addObject("Strafe right 5 feet gyro", new StrafeWithGyro(60, .5, (Math.PI/2)+(Math.PI/10)));
+
+		m_chooser.addObject("Strafe left 5 feet with gyro", new StrafeWithGyro(60, .5, (-1*Math.PI/2) + (Math.PI/15)));
 		m_chooser.addObject("Strafe with sonics", new StrafewithUltrasonic(120, .5, -Math.PI/2));
 		m_chooser.addObject("LeftLeftScale", new LeftPositionLeftScale());
 		m_chooser.addObject("RightRightScale", new RightPositionRightScale());
@@ -113,7 +114,6 @@ public class Robot extends TimedRobot {
 		teamChooser.addObject("Red", TeamColor.Red);
 		teamChooser.addObject("Blue", TeamColor.Blue);
 
-		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		m_oi.gyro.reset();
 		m_oi.gyro.calibrate();
@@ -190,72 +190,19 @@ public class Robot extends TimedRobot {
 		System.out.println("Robot Position: " + robotPos);
 		System.out.println("Robot Team: " + robotTeam);
 		
-		//m_autonomousCommand = chooseAutonomousRoutine(robotPos, switchPosition, scalePosition);
-
 		m_autonomousCommand = m_chooser.getSelected();
 
-		m_autonomousCommand = new GoFowardCollisionWait();
+		//m_autonomousCommand = new GoFowardCollisionWait();
 		System.out.print("Choosing autonomous mode: " + m_autonomousCommand.getName());
 
 		Scheduler.getInstance().add(m_autonomousCommand);
 
 		m_autonomousCommand.start();
 
-		// this.m_autonomousCommand = new AutonomousDriveDistanceCommand(24, 1, 0);
-
-		// this.m_autonomousCommand = new AutonomousDriveDistanceCommand(24, 1, 0);
-
-		// this.autonomousTurn = new Turn(90, 0.5);
-
-		// this.m_autonomousCommand = new GoForwardTurnRight();
-
 		String[] ls = new String[] { "1", "1", "1", "1" };
 		//logger.init(ls, ls);
 
 		timer.start();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
-		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
-		 * ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-
-		/*
-		 * if (m_autonomousCommand != null) { //m_autonomousCommand.start(); }
-		 */
-
-		if (robotPosition == "Left") {
-			if (robotPlan == "DriveForward") {
-
-			} else if (robotPlan == "DeadReckoningTurn") {
-
-			} else {
-
-			}
-
-		} else if (robotPosition == "Right") {
-			if (robotPlan == "DriveForward") {
-
-			} else if (robotPlan == "DeadReckoningTurn") {
-
-			} else {
-
-			}
-
-		} else {
-			if (robotPlan == "DriveForwardLeft") {
-
-			} else if (robotPlan == "DriveForwardRight") {
-
-			} else if (robotPlan == "VisionLeft") {
-
-			} else {
-
-			}
-		}
 
 	}
 
