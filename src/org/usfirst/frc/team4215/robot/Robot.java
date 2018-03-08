@@ -15,9 +15,12 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.HashMap;
 
 import org.usfirst.frc.team4215.robot.commandgroup.*;
 import org.usfirst.frc.team4215.robot.commands.*;
@@ -36,16 +39,21 @@ import org.usfirst.frc.team4215.robot.ultrasonic.UltrasonicReaderUSB;
 
 public class Robot extends TimedRobot {
 
-	enum RobotPositions {
+	public enum RobotPositions {
 		Left, Right, Middle,
 	}
 
-	enum TeamColor {
+	public enum TeamColor {
 		Red, Blue,
+	}
+	public enum Complexity {
+		Do_Not_Move, Basic, Advanced,
 	}
 
 	String robotPosition;
 	String robotPlan;
+	
+	char targetPosition;
 
 	SimpleCSVLogger logger = new SimpleCSVLogger();
 	
@@ -70,8 +78,12 @@ public class Robot extends TimedRobot {
 	RobotPositions robotPos;
 	SendableChooser<RobotPositions> posChooser = new SendableChooser<>();
 
+
 	boolean teleop;
 	TeamColor robotTeam;
+	Complexity complexity;
+	SendableChooser<Complexity> complex_chooser = new SendableChooser<>();
+
 	SendableChooser<TeamColor> teamChooser = new SendableChooser<>();
 
 	Timer timer = new Timer();
@@ -103,6 +115,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Go diagonally left", new CenterPositionGoLeft());
 		m_chooser.addObject("LeftLeft Switch", new LeftPositionLeftSwitch());
 		m_chooser.addObject("RightRight Switch", new RightPositionRightSwitch());
+		
 
 		SmartDashboard.putData("Auto mode", m_chooser);
 
@@ -113,8 +126,16 @@ public class Robot extends TimedRobot {
 		
 		teamChooser.addObject("Red", TeamColor.Red);
 		teamChooser.addObject("Blue", TeamColor.Blue);
-
+		
+		complex_chooser.addObject("Do Not Move", Complexity.Do_Not_Move);
+		complex_chooser.addDefault("Basic", Complexity.Basic);
+		complex_chooser.addObject("Advanced", Complexity.Advanced);
+	
 		SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putData("Complexity", complex_chooser);
+		SmartDashboard.putData("Team Chooser", teamChooser);
+		SmartDashboard.putData("Position", posChooser);
+
 		m_oi.gyro.reset();
 		m_oi.gyro.calibrate();
 
@@ -280,75 +301,189 @@ public class Robot extends TimedRobot {
 
 	}
 	
-	private Command chooseAutonomousRoutine(RobotPositions robotPos, char switchPosition, char scalePosition) {
-		switch(robotPos) {
+	private CommandGroup chooseAutonomousRoutine(Complexity complexity, 
+			RobotPositions robotPos, char switchPosition, char scalePosition, 
+			TeamColor robotTeam) {
 		
-			//if robot starts on left
-			case Left:
-				
-				//if scale is also on left, go to scale
-				//otherwise, ?
-				switch(scalePosition) {
-					case 'L':
-						return new LeftPositionLeftScale();
-					case 'R':
-						break;
-					default:
-						break; 
-					}
-				
-					break;
-			
-			//if robot starts on right
-			case Right:
-				
-				//if scale is also on right, go to scale
-				//otherwise, ?
-				switch(scalePosition) {
-					case 'L':
-						break;
-					case 'R':
-						return new RightPositionRightScale();
-					default:
-						break; 
-				}
-				
-				break;
-			
-			//if robot starts in the middle
-			case Middle:
-				
-				//if switch is on left, cross auto line on right
-				//if switch is on right, cross auto line on left
-				switch(switchPosition) {
-					case 'L':
-						return new CenterPositionGoRight();
-					case 'R':
-						return new CenterPositionGoLeft();
-					default:
-						break;
-				}
-				
-				break;
-			
-			// if robot position is not left, right, or middle
-			default:
-				
-				System.out.println("Invalid robotPosition: " + robotPosition.toString());
-				
-				//do something?
-				switch(scalePosition) {
-					case 'L':
-						break;
-					case 'R':
-						break;
-					default:
-						break;
-				}
-				
-				break;
+		HashMap<String, CommandGroup> hmap = new HashMap<String, CommandGroup>();
+		
+		hmap.put("Basic_Left_Blue_L", new DriveForward());
+		hmap.put("Basic_Right_Blue_R", new DriveForward());
+		
+		hmap.put("Basic_Left_Red_L", new DriveForward());
+		hmap.put("Basic_Right_Red_R", new DriveForward());
+		
+		hmap.put("Advanced_Left_Blue_L", new LeftPositionLeftScale());
+		hmap.put("Advanced_Right_Blue_R", new RightPositionRightScale());
+		
+		hmap.put("Advanced_Left_Red_L", new LeftPositionLeftScale());
+		hmap.put("Advanced_Right_Red_R", new RightPositionRightScale());
+		
+		hmap.
+
+		if(complexity.toString() == "Basic") {
+			targetPosition = switchPosition;
+		} else if(complexity.toString() == "Advanced"){
+			targetPosition = scalePosition;
+		} else {
+			return new NoMovement();
 		}
 		
+		
+		String key = String.format("{0}_{1}_{2}_{3}", complexity.toString(), robotPos.toString(), robotTeam.toString(), targetPosition);
+		
+		if (hmap.containsKey(key)) {
+			return hmap.get(key);
+		} else {
+			return new NoMovement();
+		}
+		/*switch(complexity) {
+		case Do_Not_Move:
+			return new NoMovement();
+		case Basic:
+			
+		case Advanced:
+			switch(robotTeam) {
+			case Blue:
+			
+				switch(robotPos) {
+					
+					//if robot starts on left
+					case Left:
+						
+						//if scale is also on left, go to scale
+						//otherwise, ?
+						switch(scalePosition) {
+							case 'L':
+								return new LeftPositionLeftScale();
+							case 'R':
+								break;
+							default:
+								break; 
+							}
+						
+							break;
+						}
+					//if robot starts on right
+					case Right:
+						
+						//if scale is also on right, go to scale
+						//otherwise, ?
+						switch(scalePosition) {
+							case 'L':
+								break;
+							case 'R':
+								return new RightPositionRightScale();
+							default:
+								break; 
+						}
+						
+						break;
+					
+					//if robot starts in the middle
+					case Middle:
+						
+						//if switch is on left, cross auto line on right
+						//if switch is on right, cross auto line on left
+						switch(switchPosition) {
+							case 'L':
+								return new CenterPositionGoRight();
+							case 'R':
+								return new CenterPositionGoLeft();
+							default:
+								break;
+						}
+						
+						break;
+					
+					// if robot position is not left, right, or middle
+					default:
+						
+						System.out.println("Invalid robotPosition: " + robotPosition.toString());
+						
+						//do something?
+						switch(scalePosition) {
+							case 'L':
+								break;
+							case 'R':
+								break;
+							default:
+								break;
+						}
+						
+						break;
+				}
+			case Red:
+				switch(robotPos) {
+				
+				//if robot starts on left
+				case Left:
+					
+					//if scale is also on left, go to scale
+					//otherwise, ?
+					switch(scalePosition) {
+						case 'L':
+							return new LeftPositionLeftScale();
+						case 'R':
+							break;
+						default:
+							break; 
+						}
+					
+						break;
+				
+				//if robot starts on right
+				case Right:
+					
+					//if scale is also on right, go to scale
+					//otherwise, ?
+					switch(scalePosition) {
+						case 'L':
+							break;
+						case 'R':
+							return new RightPositionRightScale();
+						default:
+							break; 
+					}
+					
+					break;
+				
+				//if robot starts in the middle
+				case Middle:
+					
+					//if switch is on left, cross auto line on right
+					//if switch is on right, cross auto line on left
+					switch(switchPosition) {
+						case 'L':
+							return new CenterPositionGoRight();
+						case 'R':
+							return new CenterPositionGoLeft();
+						default:
+							break;
+					}
+					
+					break;
+				
+				// if robot position is not left, right, or middle
+				default:
+					
+					System.out.println("Invalid robotPosition: " + robotPosition.toString());
+					
+					//do something?
+					switch(scalePosition) {
+						case 'L':
+							break;
+						case 'R':
+							break;
+						default:
+							break;
+					}
+					
+					break;
+			}
+			
+		}
+	}*/
 		//just for now
 		return m_autonomousCommand;
 	}
