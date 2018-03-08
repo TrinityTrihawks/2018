@@ -306,6 +306,12 @@ public class Robot extends TimedRobot {
 		hmap.put("Basic_Left_Red_L", new DriveForward());
 		hmap.put("Basic_Right_Red_R", new DriveForward());
 		
+		hmap.put("Basic_Middle_Blue_L", new CenterPositionGoRight());
+		hmap.put("Basic_Middle_Blue_R", new CenterPositionGoLeft());
+		
+		hmap.put("Basic_Middle_Red_L", new CenterPositionGoRight());
+		hmap.put("Basic_Middle_Red_R", new CenterPositionGoLeft());
+		
 		hmap.put("Advanced_Left_Blue_L", new LeftPositionLeftScale());
 		hmap.put("Advanced_Right_Blue_R", new RightPositionRightScale());
 		
