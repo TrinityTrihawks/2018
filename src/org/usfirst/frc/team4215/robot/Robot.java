@@ -97,7 +97,6 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		// m_chooser.addDefault("Cross Auto Line", new DriveForward());
 
-		m_chooser.addDefault("Drive forward with Ultrasonic", new GoFowardCollisionWait());
 		m_chooser.addDefault("Drive forward", new AutonomousDriveDistanceCommand(24, 1, 0));
 		m_chooser.addObject("Turn Right", new Turn(150, 0.5));
 		m_chooser.addObject("Go forward and turn", new GoForwardTurnRight());
@@ -144,7 +143,6 @@ public class Robot extends TimedRobot {
 		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		System.out.println("Camera initialized properly");
 		
-		Robot.frontLeftUltrasonic = UltrasonicReaderUSB.Create("sideLeftUltrasonic", SerialPort.Port.kUSB);		
 	}
 
 	@Override
@@ -159,9 +157,7 @@ public class Robot extends TimedRobot {
 		drivetrain.logTalonMotorOutputPercent();
 		drivetrain.logTalonBusVoltages();
 		
-		if (frontLeftUltrasonic != null) {
-			SmartDashboard.putNumber("Ultrasonic ( " + frontLeftUltrasonic.getName() + " ) :  ", frontLeftUltrasonic.getRangeMM());
-		}
+		
 	}
 
 	/**
@@ -319,7 +315,18 @@ public class Robot extends TimedRobot {
 		hmap.put("Advanced_Left_Red_L", new LeftPositionLeftScale());
 		hmap.put("Advanced_Right_Red_R", new RightPositionRightScale());
 		
-		hmap.
+		hmap.put("Advanced_Middle_Blue_L", new MiddleStrafeplusLLS());
+		hmap.put("Advanced_Middle_Blue_R", new MiddleStrafeplusRRS());
+		
+		hmap.put("Advanced_Middle_Red_L", new MiddleStrafeplusLLS());
+		hmap.put("Advanced_Middle_Red_R", new MiddleStrafeplusRRS());
+		
+		hmap.put("Advanced_Right_Blue_L", new FarStrafeplusLLS());
+		hmap.put("Advanced_Left_Blue_R", new FarStrafePlusRRS());
+		
+		hmap.put("Advanced_Right_Red_L", new FarStrafeplusLLS());
+		hmap.put("Advanced_Left_Red_R", new FarStrafePlusRRS());
+
 
 		if(complexity.toString() == "Basic") {
 			targetPosition = switchPosition;
@@ -337,154 +344,7 @@ public class Robot extends TimedRobot {
 		} else {
 			return new NoMovement();
 		}
-		/*switch(complexity) {
-		case Do_Not_Move:
-			return new NoMovement();
-		case Basic:
-			
-		case Advanced:
-			switch(robotTeam) {
-			case Blue:
-			
-				switch(robotPos) {
-					
-					//if robot starts on left
-					case Left:
-						
-						//if scale is also on left, go to scale
-						//otherwise, ?
-						switch(scalePosition) {
-							case 'L':
-								return new LeftPositionLeftScale();
-							case 'R':
-								break;
-							default:
-								break; 
-							}
-						
-							break;
-						}
-					//if robot starts on right
-					case Right:
-						
-						//if scale is also on right, go to scale
-						//otherwise, ?
-						switch(scalePosition) {
-							case 'L':
-								break;
-							case 'R':
-								return new RightPositionRightScale();
-							default:
-								break; 
-						}
-						
-						break;
-					
-					//if robot starts in the middle
-					case Middle:
-						
-						//if switch is on left, cross auto line on right
-						//if switch is on right, cross auto line on left
-						switch(switchPosition) {
-							case 'L':
-								return new CenterPositionGoRight();
-							case 'R':
-								return new CenterPositionGoLeft();
-							default:
-								break;
-						}
-						
-						break;
-					
-					// if robot position is not left, right, or middle
-					default:
-						
-						System.out.println("Invalid robotPosition: " + robotPosition.toString());
-						
-						//do something?
-						switch(scalePosition) {
-							case 'L':
-								break;
-							case 'R':
-								break;
-							default:
-								break;
-						}
-						
-						break;
-				}
-			case Red:
-				switch(robotPos) {
-				
-				//if robot starts on left
-				case Left:
-					
-					//if scale is also on left, go to scale
-					//otherwise, ?
-					switch(scalePosition) {
-						case 'L':
-							return new LeftPositionLeftScale();
-						case 'R':
-							break;
-						default:
-							break; 
-						}
-					
-						break;
-				
-				//if robot starts on right
-				case Right:
-					
-					//if scale is also on right, go to scale
-					//otherwise, ?
-					switch(scalePosition) {
-						case 'L':
-							break;
-						case 'R':
-							return new RightPositionRightScale();
-						default:
-							break; 
-					}
-					
-					break;
-				
-				//if robot starts in the middle
-				case Middle:
-					
-					//if switch is on left, cross auto line on right
-					//if switch is on right, cross auto line on left
-					switch(switchPosition) {
-						case 'L':
-							return new CenterPositionGoRight();
-						case 'R':
-							return new CenterPositionGoLeft();
-						default:
-							break;
-					}
-					
-					break;
-				
-				// if robot position is not left, right, or middle
-				default:
-					
-					System.out.println("Invalid robotPosition: " + robotPosition.toString());
-					
-					//do something?
-					switch(scalePosition) {
-						case 'L':
-							break;
-						case 'R':
-							break;
-						default:
-							break;
-					}
-					
-					break;
-			}
-			
-		}
-	}*/
-		//just for now
-		return m_autonomousCommand;
+		
+		
 	}
 }
