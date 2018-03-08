@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4215.robot.commands;
 
 import org.usfirst.frc.team4215.robot.Robot;
-import org.usfirst.frc.team4215.robot.ultrasonic.IUltrasonic;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
