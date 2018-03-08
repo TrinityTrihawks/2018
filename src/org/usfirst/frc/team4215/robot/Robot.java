@@ -343,6 +343,7 @@ public class Robot extends TimedRobot {
 		String key = String.format("{0}_{1}_{2}_{3}", complexity.toString(), robotPos.toString(), robotTeam.toString(), targetPosition);
 		
 		if (hmap.containsKey(key)) {
+			System.out.println(key);
 			return hmap.get(key);
 		} else {
 			return new NoMovement();
