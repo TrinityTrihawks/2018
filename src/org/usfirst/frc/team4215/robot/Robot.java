@@ -299,10 +299,10 @@ public class Robot extends TimedRobot {
 		
 		HashMap<String, CommandGroup> hmap = new HashMap<String, CommandGroup>();
 		
-		hmap.put("Basic_Left_Blue_L", new LeftPositionLeftSwitch());
+		hmap.put("Basic_Left_Blue_L", new DriveForward());
 		hmap.put("Basic_Right_Blue_R", new DriveForward());
 		
-		hmap.put("Basic_Left_Red_L", new LeftPositionLeftSwitch());
+		hmap.put("Basic_Left_Red_L", new DriveForward());
 		hmap.put("Basic_Right_Red_R", new DriveForward());
 		
 		hmap.put("Basic_Left_Blue_R", new DriveForward());
