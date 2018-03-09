@@ -115,8 +115,8 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putData("Auto mode", m_chooser);
 
-		posChooser.addDefault("Middle", RobotPositions.Middle);
 		posChooser.addObject("Left", RobotPositions.Left);
+		posChooser.addDefault("Middle", RobotPositions.Middle);
 		posChooser.addObject("Right", RobotPositions.Right);
 
 		
@@ -200,11 +200,12 @@ public class Robot extends TimedRobot {
 		
 		robotPos = posChooser.getSelected();
 		robotTeam = teamChooser.getSelected();
+		complexity = complex_chooser.getSelected();
 
 		System.out.println("Robot Position: " + robotPos);
 		System.out.println("Robot Team: " + robotTeam);
 		
-		m_autonomousCommand = m_chooser.getSelected();
+		m_autonomousCommand = chooseAutonomousRoutine(complexity, robotPos, switchPosition, scalePosition, robotTeam);
 
 		//m_autonomousCommand = new GoFowardCollisionWait();
 		System.out.print("Choosing autonomous mode: " + m_autonomousCommand.getName());
@@ -267,8 +268,6 @@ public class Robot extends TimedRobot {
 		}
 		m_chooser.addDefault("Default Teleop", new teleopDrive());
 
-		// Scheduler.getInstance().disable();
-		// drivetrain.Stop();
 		System.out.println("Teleop Init");
 		teleop = true;
 		Scheduler.getInstance().enable();
@@ -300,11 +299,17 @@ public class Robot extends TimedRobot {
 		
 		HashMap<String, CommandGroup> hmap = new HashMap<String, CommandGroup>();
 		
-		hmap.put("Basic_Left_Blue_L", new DriveForward());
+		hmap.put("Basic_Left_Blue_L", new LeftPositionLeftSwitch());
 		hmap.put("Basic_Right_Blue_R", new DriveForward());
 		
-		hmap.put("Basic_Left_Red_L", new DriveForward());
+		hmap.put("Basic_Left_Red_L", new LeftPositionLeftSwitch());
 		hmap.put("Basic_Right_Red_R", new DriveForward());
+		
+		hmap.put("Basic_Left_Blue_R", new DriveForward());
+		hmap.put("Basic_Right_Blue_L", new DriveForward());
+		
+		hmap.put("Basic_Left_Red_R", new DriveForward());
+		hmap.put("Basic_Right_Red_L", new DriveForward());
 		
 		hmap.put("Basic_Middle_Blue_L", new CenterPositionGoRight());
 		hmap.put("Basic_Middle_Blue_R", new CenterPositionGoLeft());
@@ -324,28 +329,32 @@ public class Robot extends TimedRobot {
 		hmap.put("Advanced_Middle_Red_L", new MiddleStrafeplusLLS());
 		hmap.put("Advanced_Middle_Red_R", new MiddleStrafeplusRRS());
 		
-		hmap.put("Advanced_Right_Blue_L", new FarStrafeplusLLS());
-		hmap.put("Advanced_Left_Blue_R", new FarStrafePlusRRS());
+		hmap.put("Advanced_Right_Blue_L", new amendedfarsideLeft());
+		hmap.put("Advanced_Left_Blue_R", new amendedfarsideRight());
 		
-		hmap.put("Advanced_Right_Red_L", new FarStrafeplusLLS());
-		hmap.put("Advanced_Left_Red_R", new FarStrafePlusRRS());
+		hmap.put("Advanced_Right_Red_L", new amendedfarsideLeft());
+		hmap.put("Advanced_Left_Red_R", new amendedfarsideRight());
 
-
+		System.out.println(complexity);
 		if(complexity.toString() == "Basic") {
 			targetPosition = switchPosition;
 		} else if(complexity.toString() == "Advanced"){
 			targetPosition = scalePosition;
 		} else {
+			System.out.println("No movement selected");
 			return new NoMovement();
 		}
 		
 		
-		String key = String.format("{0}_{1}_{2}_{3}", complexity.toString(), robotPos.toString(), robotTeam.toString(), targetPosition);
+		//String key = String.format(""/"{0}"/_/"{1}_{2}_{3}", complexity.toString(), robotPos.toString(), robotTeam.toString(), targetPosition);
+		String key = (complexity.toString() + "_" + robotPos.toString() + "_" + robotTeam.toString() + "_" + targetPosition);
+		System.out.println("Key: " + key);
+
 		
 		if (hmap.containsKey(key)) {
-			System.out.println(key);
 			return hmap.get(key);
 		} else {
+			System.out.println("No key found");
 			return new NoMovement();
 		}
 		

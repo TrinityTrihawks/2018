@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LiftSwitchHeightWhileDriving extends CommandGroup {
 
     public LiftSwitchHeightWhileDriving() {
-    	addParallel(new liftToheight(24));
-		addSequential(new AutonomousDriveDistanceCommand(168, 0.5, 0));
+    	addParallel(new liftToheight(30));
+		addSequential(new AutonomousDriveDistanceCommand(100, 0.6, 0));
 
     }
 }

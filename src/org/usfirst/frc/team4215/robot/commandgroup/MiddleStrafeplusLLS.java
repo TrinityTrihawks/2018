@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class MiddleStrafeplusLLS extends CommandGroup {
 
     public MiddleStrafeplusLLS() {
-        addSequential(new StrafeWithGyro(132, .5, -Math.PI/2));
+        addSequential(new StrafeWithGyro(175, .5, -Math.PI/2));
         addSequential(new LeftPositionLeftScale());
     }
 }

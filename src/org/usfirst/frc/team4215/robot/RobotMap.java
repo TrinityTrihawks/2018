@@ -69,4 +69,6 @@ public class RobotMap {
 		
 		// Command numbers
 		public final static double liftSpeed = .4;
+		
+		public final static int middleBasicAutoDistance = 120;
 }

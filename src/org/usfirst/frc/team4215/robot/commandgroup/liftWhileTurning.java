@@ -13,7 +13,7 @@ public class liftWhileTurning extends CommandGroup {
     public liftWhileTurning(double angle) {
     	
     	// 65 degrees works now
-    	addParallel(new liftToheight(67));
+    	addParallel(new liftToheight(60));
 		addSequential(new Turn(angle, .5));
     }
 }
