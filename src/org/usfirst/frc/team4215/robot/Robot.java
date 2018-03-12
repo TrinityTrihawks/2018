@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -53,6 +52,10 @@ public class Robot extends TimedRobot {
 	String robotPlan;
 	
 	char targetPosition;
+	char switchPosition;
+	char scalePosition;
+	
+	String gameData;
 
 	SimpleCSVLogger logger = new SimpleCSVLogger();
 	
@@ -83,8 +86,6 @@ public class Robot extends TimedRobot {
 
 	SendableChooser<TeamColor> teamChooser = new SendableChooser<>();
 
-	Timer timer = new Timer();
-
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -94,23 +95,7 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		// m_chooser.addDefault("Cross Auto Line", new DriveForward());
 
-		m_chooser.addDefault("Drive forward", new AutonomousDriveDistanceCommand(24, 1, 0));
-		m_chooser.addObject("Turn Right", new Turn(150, 0.5));
-		m_chooser.addObject("Go forward and turn", new GoForwardTurnRight());
-		m_chooser.addObject("Lift block", new liftToheight(40));
-		m_chooser.addObject("Lift while drive", new liftWhileDriving());
-		m_chooser.addObject("Strafe right 5 feet", new Strafe(60));
-		m_chooser.addObject("Strafe right 5 feet gyro", new StrafeWithGyro(60, .5, (Math.PI/2)+(Math.PI/10)));
-
-		m_chooser.addObject("Strafe left 5 feet with gyro", new StrafeWithGyro(60, .5, (-1*Math.PI/2) + (Math.PI/15)));
-		m_chooser.addObject("Strafe with sonics", new StrafewithUltrasonic(120, .5, -Math.PI/2));
-		m_chooser.addObject("LeftLeftScale", new LeftPositionLeftScale());
-		m_chooser.addObject("RightRightScale", new RightPositionRightScale());
-		m_chooser.addObject("Strafe with gyro", new StrafeWithGyro(240, 0.5, Math.PI/2));
-		m_chooser.addObject("Go diagonally right", new CenterPositionGoRight());
-		m_chooser.addObject("Go diagonally left", new CenterPositionGoLeft());
-		m_chooser.addObject("LeftLeft Switch", new LeftPositionLeftSwitch());
-		m_chooser.addObject("RightRight Switch", new RightPositionRightSwitch());
+		
 		
 
 		SmartDashboard.putData("Auto mode", m_chooser);
@@ -152,7 +137,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Lift : Ultrasonic", lift.liftHeight());
 
 		drivetrain.logTalonMotorOutputPercent();
-		drivetrain.logTalonBusVoltages();
 		
 		
 	}
@@ -187,37 +171,49 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		String gameData = DriverStation.getInstance().getGameSpecificMessage();
-		Alliance alliance = DriverStation.getInstance().getAlliance();
 		
-		char switchPosition = gameData.charAt(0);
-		char scalePosition = gameData.charAt(1);
-		
-		System.out.println("switchPosition is..." + switchPosition);
-		System.out.println("scalePosition is..." + scalePosition);
-						
-		drivetrain.setRampRate(3);
-		
-		robotPos = posChooser.getSelected();
-		robotTeam = teamChooser.getSelected();
-		complexity = complex_chooser.getSelected();
+		try {
+			
+			if (gameData != null) {
+				gameData = DriverStation.getInstance().getGameSpecificMessage();	
+				
+				switchPosition = gameData.charAt(0);
+				scalePosition = gameData.charAt(1);
+				
+				System.out.println("switchPosition is..." + switchPosition);
+				System.out.println("scalePosition is..." + scalePosition);
+								
+				drivetrain.setRampRate(3);
+				
+				robotPos = posChooser.getSelected();
+				robotTeam = teamChooser.getSelected();
+				complexity = complex_chooser.getSelected();
+	
+				System.out.println("Robot Position: " + robotPos);
+				System.out.println("Robot Team: " + robotTeam);
+				
+				m_autonomousCommand = chooseAutonomousRoutine(complexity, robotPos, switchPosition, scalePosition, robotTeam);
+	
+			}
+			else {
+				m_autonomousCommand = new DriveForward();
+			}
+		}
+		catch (Exception e) {
+			m_autonomousCommand = new DriveForward();			
+		}
+		finally {
+			System.out.print("Choosing autonomous mode: " + m_autonomousCommand.getName());
 
-		System.out.println("Robot Position: " + robotPos);
-		System.out.println("Robot Team: " + robotTeam);
-		
-		m_autonomousCommand = chooseAutonomousRoutine(complexity, robotPos, switchPosition, scalePosition, robotTeam);
+			Scheduler.getInstance().add(m_autonomousCommand);
 
+			m_autonomousCommand.start();
+		}
+		
+		
 		//m_autonomousCommand = new GoFowardCollisionWait();
-		System.out.print("Choosing autonomous mode: " + m_autonomousCommand.getName());
+		
 
-		Scheduler.getInstance().add(m_autonomousCommand);
-
-		m_autonomousCommand.start();
-
-		String[] ls = new String[] { "1", "1", "1", "1" };
-		//logger.init(ls, ls);
-
-		timer.start();
 
 	}
 
@@ -227,28 +223,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-
-//		double getDistance = drivetrain.getDistance();
-//		double[] getTalonBusVoltages = drivetrain.getTalonBusVoltages();
-//		double[] getWheelOutputs = drivetrain.getMotorOutputPercents();
-//		double[] getMotorOutputCurrents = drivetrain.getMotorOutputCurrents();
-//
-//		double[] log = new double[14];
-//		log[0] = timer.get();
-//		log[1] = getDistance;
-//
-//		for (int i = 0; i < 4; i++) {
-//			log[2 + i] = getTalonBusVoltages[i];
-//		}
-//		for (int i = 0; i < 4; i++) {
-//			log[6 + i] = getWheelOutputs[i];
-//		}
-//		for (int i = 0; i < 4; i++) {
-//			log[10 + i] = getMotorOutputCurrents[i];
-//		}
-
-		//logger.writeData(log);
-
 	}
 
 	@Override

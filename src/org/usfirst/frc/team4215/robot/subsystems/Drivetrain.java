@@ -71,7 +71,6 @@ public class Drivetrain extends Subsystem {
 		WheelType.backleftwheel.getWheel().set(ControlMode.PercentOutput, yPower - rotation);
 		WheelType.frontleftwheel.getWheel().set(ControlMode.PercentOutput, xPower + rotation);
 		
-		logTalonBusVoltages();
 	}
 
 	public void Stop() {
@@ -116,11 +115,11 @@ public class Drivetrain extends Subsystem {
 	//
 	// logging functions
 	//
-	public void logTalonBusVoltages() {
+	/*public void logTalonBusVoltages() {
 		for (WheelType w : WheelType.values()) {
 			SmartDashboard.putNumber("Wheel Voltage  ( " + w.toString() + " )   :", w.getWheel().getBusVoltage());
 		}
-	}
+	}*/
 
 	public void logTalonMotorOutputPercent() {
 		for (WheelType w : WheelType.values()) {
