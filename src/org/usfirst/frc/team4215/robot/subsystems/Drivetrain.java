@@ -5,6 +5,7 @@ import org.usfirst.frc.team4215.robot.commands.teleopDrive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,11 +36,15 @@ public class Drivetrain extends Subsystem {
 			return this.wheel;
 		}
 	}
-		
+	
+	PigeonIMU pigeon1 = new PigeonIMU(WheelType.frontrightwheel.getWheel());
+
 	public Drivetrain() {
 				
 		WheelType.frontleftwheel.getWheel().setInverted(true);
-		WheelType.frontrightwheel.getWheel().setInverted(true);		
+		WheelType.frontrightwheel.getWheel().setInverted(true);
+		
+		
 	}
 	
 	/**
@@ -102,6 +107,14 @@ public class Drivetrain extends Subsystem {
 			w.getWheel().getSensorCollection().setQuadraturePosition(0, 0);
 		}
 		return;
+	}
+	
+	double [] ypr = new double[3];
+	public void getPigeonYawPitchRoll() {
+		pigeon1.getYawPitchRoll(ypr);
+		SmartDashboard.putNumber("Yaw", ypr[0]);
+		SmartDashboard.putNumber("Pitch", ypr[1]);
+		SmartDashboard.putNumber("Roll", ypr[2]);
 	}
 
 	public double getDistance()

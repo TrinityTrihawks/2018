@@ -27,6 +27,8 @@ import org.usfirst.frc.team4215.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4215.robot.subsystems.Intake;
 import org.usfirst.frc.team4215.robot.subsystems.Lift;
 
+import com.ctre.phoenix.sensors.PigeonIMU;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -94,16 +96,12 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		// m_chooser.addDefault("Cross Auto Line", new DriveForward());
-
 		
-		
-
 		SmartDashboard.putData("Auto mode", m_chooser);
 
 		posChooser.addObject("Left", RobotPositions.Left);
 		posChooser.addDefault("Middle", RobotPositions.Middle);
 		posChooser.addObject("Right", RobotPositions.Right);
-
 		
 		teamChooser.addObject("Red", TeamColor.Red);
 		teamChooser.addObject("Blue", TeamColor.Blue);
@@ -135,9 +133,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Gyro Angle", m_oi.getGyroAngle());
 		SmartDashboard.putNumber("Slider", m_oi.getSlider());
 		SmartDashboard.putNumber("Lift : Ultrasonic", lift.liftHeight());
-
-		drivetrain.logTalonMotorOutputPercent();
 		
+		drivetrain.getPigeonYawPitchRoll();
 		
 	}
 
