@@ -57,7 +57,11 @@ public class Drivetrain extends Subsystem {
 	public void Drive(double magnitude, double theta, double rotation, double slider_power) {
 		
 		//System.out.println("Enter Drive Train");
-		rotation *= -.5;
+		
+		
+		//rotation *= -.5;
+		rotation *= -1; //doing this one for a test
+		
 		if (magnitude <= .08 && magnitude >= -.08) {
 			theta = 0;
 			magnitude = 0;
@@ -116,7 +120,13 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putNumber("Pitch", ypr[1]);
 		SmartDashboard.putNumber("Roll", ypr[2]);
 	}
-
+	
+	public double getPigeonYaw() {
+		double[] ypr = new double[3];
+		pigeon1.getYawPitchRoll(ypr);
+		return ypr[0];
+	}
+	
 	public double getDistance()
 	{
 		int ticks = Math.abs(WheelType.frontleftwheel.getWheel().getSensorCollection().getQuadraturePosition());

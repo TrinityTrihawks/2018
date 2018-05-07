@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -64,7 +65,7 @@ public class Robot extends TimedRobot {
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final Intake intake = new Intake();
 	public static final Lift lift = new Lift();
-	
+		
 	AxisCamera camera;
 
 	final int IMG_WIDTH = 320;
@@ -87,6 +88,8 @@ public class Robot extends TimedRobot {
 	SendableChooser<Complexity> complex_chooser = new SendableChooser<>();
 
 	SendableChooser<TeamColor> teamChooser = new SendableChooser<>();
+	
+	Timer timer = new Timer();
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -115,13 +118,13 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Team Chooser", teamChooser);
 		SmartDashboard.putData("Position", posChooser);
 
-		m_oi.gyro.reset();
-		m_oi.gyro.calibrate();
+		//m_oi.gyro.reset();
+		//m_oi.gyro.calibrate();
 
 		// TODO: check if camera defined before adding to CameraServer
-		camera = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
-		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		System.out.println("Camera initialized properly");
+		//camera = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
+		//camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		//System.out.println("Camera initialized properly");
 		
 	}
 
@@ -170,7 +173,7 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		
 		try {
-			
+/*			
 			if (gameData != null) {
 				gameData = DriverStation.getInstance().getGameSpecificMessage();	
 				
@@ -189,29 +192,29 @@ public class Robot extends TimedRobot {
 				System.out.println("Robot Position: " + robotPos);
 				System.out.println("Robot Team: " + robotTeam);
 				
-				m_autonomousCommand = chooseAutonomousRoutine(complexity, robotPos, switchPosition, scalePosition, robotTeam);
+				//m_autonomousCommand = chooseAutonomousRoutine(complexity, robotPos, switchPosition, scalePosition, robotTeam);
 	
 			}
 			else {
-				m_autonomousCommand = new DriveForward();
+				//m_autonomousCommand = new DriveForward();
 			}
+*/			
+			m_autonomousCommand = new TurnForever();
+
 		}
 		catch (Exception e) {
-			m_autonomousCommand = new DriveForward();			
+			//m_autonomousCommand = new DriveForward();			
 		}
 		finally {
 			System.out.print("Choosing autonomous mode: " + m_autonomousCommand.getName());
 
 			Scheduler.getInstance().add(m_autonomousCommand);
-
 			m_autonomousCommand.start();
 		}
 		
+		timer.start();
 		
 		//m_autonomousCommand = new GoFowardCollisionWait();
-		
-
-
 	}
 
 	/**
@@ -220,6 +223,13 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		
+		double[] log = new double[2];
+		log[0] = timer.get();
+		log[1] = Robot.drivetrain.getPigeonYaw();
+
+		logger.writeData(log);
+
 	}
 
 	@Override

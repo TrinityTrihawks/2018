@@ -19,7 +19,8 @@ public class Lift extends Subsystem {
 	AnalogInput liftSonic;
 	
 	double height;
-		
+	boolean enabled = false;
+	
 	public Lift() {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -28,17 +29,21 @@ public class Lift extends Subsystem {
 	this.liftSonic = new AnalogInput(RobotMap.liftUltrasonicChannel);
 	}
 	
+	
 	/**
 	 * 
 	 */
 	public void lift(double magnitude, double theta) {
 		
-		if (Math.abs(theta)>(Math.PI/2)) {
-			magnitude *= -1;
+		if (enabled)
+		{
+			if (Math.abs(theta)>(Math.PI/2)) {
+				magnitude *= -1;
+			}
+	
+			victor1.set(magnitude);
+			victor2.set(magnitude);
 		}
-
-		victor1.set(magnitude);
-		victor2.set(magnitude);
 	}
 	
 	public double liftHeight() {
