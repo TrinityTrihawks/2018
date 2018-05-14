@@ -7,11 +7,13 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends PIDSubsystem {
+	
 	
 	//the port numbers of each of the wheels
 	//also used as the index for the wheels array
@@ -40,7 +42,10 @@ public class Drivetrain extends Subsystem {
 	PigeonIMU pigeon1 = new PigeonIMU(WheelType.frontrightwheel.getWheel());
 
 	public Drivetrain() {
-				
+		super("Drivetrain", 2, 0, 0);
+		setAbsoluteTolerance(0.05);
+		getPIDController().setContinuous();
+		
 		WheelType.frontleftwheel.getWheel().setInverted(true);
 		WheelType.frontrightwheel.getWheel().setInverted(true);
 		
@@ -148,6 +153,20 @@ public class Drivetrain extends Subsystem {
 		for (WheelType w : WheelType.values()) {
 			SmartDashboard.putNumber("Wheel Power  ( " + w.toString() + " )   :", w.getWheel().getMotorOutputPercent());
 		}
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		return getPigeonYaw();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		WheelType.backrightwheel.getWheel().set(ControlMode.PercentOutput, -1 * output);
+		WheelType.frontrightwheel.getWheel().set(ControlMode.PercentOutput, -1 * output);
+		WheelType.backleftwheel.getWheel().set(ControlMode.PercentOutput, output);
+		WheelType.frontleftwheel.getWheel().set(ControlMode.PercentOutput, output);
+		
 	}
 
 	//	public double[] getMotorOutputPercents() {
