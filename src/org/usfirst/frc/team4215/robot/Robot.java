@@ -241,6 +241,8 @@ public class Robot extends TimedRobot {
 
 		// System.out.println("Autonomous command is canceled: " +
 		// m_autonomousCommand.isCanceled());
+		
+		logger.close();
 
 		Scheduler.getInstance().removeAll();
 
