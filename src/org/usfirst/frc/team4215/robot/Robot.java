@@ -148,6 +148,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		logger.close();
+
 		Scheduler.getInstance().removeAll();
 	}
 
@@ -199,7 +201,7 @@ public class Robot extends TimedRobot {
 				//m_autonomousCommand = new DriveForward();
 			}
 */			
-			m_autonomousCommand = new TurnForever();
+			m_autonomousCommand = new TurnwithPigeon(90, .25);
 
 		}
 		catch (Exception e) {
@@ -215,6 +217,8 @@ public class Robot extends TimedRobot {
 		timer.start();
 		
 		//m_autonomousCommand = new GoFowardCollisionWait();
+		String[] ls = new String[] { "1", "1", "1", "1", "1"};
+		logger.init(ls, ls);
 	}
 
 	/**
@@ -242,7 +246,6 @@ public class Robot extends TimedRobot {
 		// System.out.println("Autonomous command is canceled: " +
 		// m_autonomousCommand.isCanceled());
 		
-		logger.close();
 
 		Scheduler.getInstance().removeAll();
 
