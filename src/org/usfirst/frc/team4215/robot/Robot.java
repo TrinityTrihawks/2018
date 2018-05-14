@@ -201,7 +201,7 @@ public class Robot extends TimedRobot {
 				//m_autonomousCommand = new DriveForward();
 			}
 */			
-			m_autonomousCommand = new TurnwithPigeon(90, .25);
+			m_autonomousCommand = new TurnWithPID(90);
 
 		}
 		catch (Exception e) {

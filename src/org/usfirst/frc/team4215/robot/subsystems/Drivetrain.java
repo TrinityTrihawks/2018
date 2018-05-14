@@ -42,9 +42,9 @@ public class Drivetrain extends PIDSubsystem {
 	PigeonIMU pigeon1 = new PigeonIMU(WheelType.frontrightwheel.getWheel());
 
 	public Drivetrain() {
-		super("Drivetrain", 2, 0, 0);
+		super("Drivetrain", .1, 0, 0);
 		setAbsoluteTolerance(0.05);
-		getPIDController().setContinuous();
+		getPIDController().setContinuous(false);
 		
 		WheelType.frontleftwheel.getWheel().setInverted(true);
 		WheelType.frontrightwheel.getWheel().setInverted(true);
@@ -162,6 +162,8 @@ public class Drivetrain extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
+		System.out.println("PID motor output: " + output);
+		
 		WheelType.backrightwheel.getWheel().set(ControlMode.PercentOutput, -1 * output);
 		WheelType.frontrightwheel.getWheel().set(ControlMode.PercentOutput, -1 * output);
 		WheelType.backleftwheel.getWheel().set(ControlMode.PercentOutput, output);
