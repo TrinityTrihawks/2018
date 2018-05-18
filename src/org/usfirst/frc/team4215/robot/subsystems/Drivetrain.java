@@ -42,13 +42,17 @@ public class Drivetrain extends PIDSubsystem {
 	PigeonIMU pigeon1 = new PigeonIMU(WheelType.frontrightwheel.getWheel());
 
 	public Drivetrain() {
-		super("Drivetrain", .1, 0, 0);
+		super("Drivetrain", .01, 0, 0);
 		setAbsoluteTolerance(0.05);
 		getPIDController().setContinuous(false);
 		
-		WheelType.frontleftwheel.getWheel().setInverted(true);
 		WheelType.frontrightwheel.getWheel().setInverted(true);
+		WheelType.backrightwheel.getWheel().setInverted(true);
 		
+		/*
+		 * WheelType.backleftwheel.getWheel().setInverted(true);
+		WheelType.frontleftwheel.getWheel().setInverted(true);
+		*/
 		
 	}
 	
@@ -64,8 +68,8 @@ public class Drivetrain extends PIDSubsystem {
 		//System.out.println("Enter Drive Train");
 		
 		
-		//rotation *= -.5;
-		rotation *= -1; //doing this one for a test
+		rotation *= .5;
+		//rotation *= 1; //doing this one for a test
 		
 		if (magnitude <= .08 && magnitude >= -.08) {
 			theta = 0;
@@ -81,8 +85,8 @@ public class Drivetrain extends PIDSubsystem {
 				
 		//takes values from above doubles and corresponds them with each wheel 		
 		WheelType.backrightwheel.getWheel().set(ControlMode.PercentOutput, xPower - rotation);
-		WheelType.frontrightwheel.getWheel().set(ControlMode.PercentOutput, yPower + rotation);
-		WheelType.backleftwheel.getWheel().set(ControlMode.PercentOutput, yPower - rotation);
+		WheelType.frontrightwheel.getWheel().set(ControlMode.PercentOutput, yPower - rotation);
+		WheelType.backleftwheel.getWheel().set(ControlMode.PercentOutput, yPower + rotation);
 		WheelType.frontleftwheel.getWheel().set(ControlMode.PercentOutput, xPower + rotation);
 		
 	}
@@ -164,10 +168,12 @@ public class Drivetrain extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		System.out.println("PID motor output: " + output);
 		
-		WheelType.backrightwheel.getWheel().set(ControlMode.PercentOutput, -1 * output);
+		Drive(.5, 0, output, 1);
+		
+		/*WheelType.backrightwheel.getWheel().set(ControlMode.PercentOutput, -1 * output);
 		WheelType.frontrightwheel.getWheel().set(ControlMode.PercentOutput, -1 * output);
 		WheelType.backleftwheel.getWheel().set(ControlMode.PercentOutput, output);
-		WheelType.frontleftwheel.getWheel().set(ControlMode.PercentOutput, output);
+		WheelType.frontleftwheel.getWheel().set(ControlMode.PercentOutput, output);*/
 		
 	}
 

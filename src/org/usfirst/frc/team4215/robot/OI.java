@@ -74,7 +74,7 @@ public class OI {
 	 * {-1 to 1}
 	 */
 	public double getRotation() {
-		return joystick.getTwist(); 
+		return -1*joystick.getTwist(); 
 		}
 	/**
 	 * Slider value from the drive Joystick
